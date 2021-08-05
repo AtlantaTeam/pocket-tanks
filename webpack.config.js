@@ -53,9 +53,18 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg|ico)$/i,
                 loader: 'file-loader',
                 options: {
-                    outputPath: 'img',
+                    outputPath: 'images',
+                    name: '[name].[ext]',
                 }
-            }
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                loader: 'file-loader',
+                options: {
+                    outputPath: 'fonts',
+                    name: '[name].[ext]',
+                },
+            },
         ],
     },
     plugins: [

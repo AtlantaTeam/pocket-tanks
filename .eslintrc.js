@@ -35,6 +35,7 @@ module.exports = {
         "react/jsx-filename-extension": "off",
         // https://stackoverflow.com/questions/63818415/react-was-used-before-it-was-defined/64024916#64024916
         "no-use-before-define": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
         // Allow most functions to rely on type inference. If the function is exported, then `@typescript-eslint/explicit-module-boundary-types` will ensure it's typed.
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
