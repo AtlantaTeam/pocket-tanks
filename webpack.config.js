@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
+    devtool: 'source-map',  // generate source map
     entry: {
         app: path.join(__dirname, 'src', 'index.tsx')
     },
@@ -28,7 +29,7 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
+                loader: 'babel-loader',
                 exclude: /node_modules/,
             },
             {
@@ -52,19 +53,17 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|svg|ico)$/i,
-                loader: 'file-loader',
-                options: {
-                    outputPath: 'images',
-                    name: '[name].[ext]',
+                type: 'asset/resource',
+                generator: {
+                    filename: 'images/[name][ext]'
                 }
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
-                loader: 'file-loader',
-                options: {
-                    outputPath: 'fonts',
-                    name: '[name].[ext]',
-                },
+                type: 'asset/resource',
+                generator: {
+                    filename: 'fonts/[name][ext]'
+                }
             },
         ],
     },

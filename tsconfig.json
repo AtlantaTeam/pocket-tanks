@@ -5,11 +5,22 @@
         "suppressImplicitAnyIndexErrors": true,
         // will issue an error if a program tries to include a file by a casing different from the casing on disk.
         "forceConsistentCasingInFileNames": true,
-        // Basic Options
+
+        /* Project */
+        // TypeScript is not used for building, allow all modern features
         // Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
-        "target": "es5",
+        "target": "ESNext",
         // Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
-        "module": "es2015",
+        "module": "ESNext",
+
+        /* Build */
+        // Generates corresponding '.d.ts' file.
+        "declaration": true,
+        // Generates a sourcemap for each corresponding '.d.ts' file, allowing jumping to source file instead of 'd.ts' file
+        "declarationMap": true,
+        // Generates corresponding '.map' file.
+        "sourceMap": true,
+
         // Specify library files to be included in the compilation.
         "lib": [
             "esnext",
@@ -22,18 +33,12 @@
 
         // Specify JSX code generation: 'preserve', 'react-native', or 'react'.
         "jsx": "react",
-        // Generates corresponding '.d.ts' file.
-        "declaration": true,
-        // Generates a sourcemap for each corresponding '.d.ts' file.
-        // "declarationMap": true,
 
-        // Generates corresponding '.map' file.
-        "sourceMap": true,
         // Concatenate and emit output to single file.
         // "outFile": "./",
         // Redirect output structure to the directory.
         "outDir": "./dist/types",
-        // Specify the root directory of input files. Use to control the output directory structure with --outDir.
+        // Specify the root directory of input files. Use this to control the output directory structure with --outDir.
         // "rootDir": "./",
 
         // Enable project compilation
