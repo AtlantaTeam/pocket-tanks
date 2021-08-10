@@ -1,0 +1,15 @@
+{
+    "extends": "stylelint-config-recommended",
+    "rules": {
+        "color-hex-case": "lower",
+        "max-nesting-depth": 3,
+        "indentation": 4,
+        "color-named": "never",
+        "color-no-invalid-hex": true,
+        "block-no-empty": true,
+        "no-duplicate-selectors": true
+    },
+    "ignoreFiles": [
+        "dist/*"
+    ]
+}

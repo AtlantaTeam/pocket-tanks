@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Play';
+    src: url('./fonts/Play-Bold.eot');
+    src: local('Play-Bold'),
+        url('./fonts/Play-Bold.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Play-Bold.woff') format('woff'),
+        url('./fonts/Play-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Play';
+    src: url('./fonts/Play.eot');
+    src: local('Play'),
+        url('./fonts/Play.eot?#iefix') format('embedded-opentype'),
+        url('./fonts/Play.woff') format('woff'),
+        url('./fonts/Play.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
