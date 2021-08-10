@@ -45,5 +45,5 @@ module.exports = {
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
     },
-    ignorePatterns: ['*.config.js', '.*.js']
+    ignorePatterns: ['*.config.js', '.*.js', '**/*/stories']
 };
