@@ -31,7 +31,7 @@ ErrorBoundaryState
   });
 
   render() {
-    if (this.state as ErrorBoundaryProps) {
+    if (this.state) {
       const { hasError, errorInChildren } = this.state;
       if (hasError) {
         if (errorInChildren !== null) {
