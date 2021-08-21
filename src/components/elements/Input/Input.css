@@ -1,0 +1,29 @@
+.input {
+    width: calc(100% - 40px);
+    height: 45px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+}
+
+.input::placeholder {
+    color: #aaa9ad;
+}
+
+.input_white {
+    color: #121210;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.input_transparent {
+    color: #fff;
+    background-color: transparent;
+    border: 1px solid #fff;
+}

@@ -1,7 +1,12 @@
 h1 {
     color: #27aedb;
     text-align: center;
-    font-family: 'Play', sans-serif;
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+:root {
+    --orange: #f9a600;
+    --light-orange: #f3bd15;
 }
 canvas {
     /* вечер */
