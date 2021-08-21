@@ -29,7 +29,6 @@ module.exports = {
         "no-prototype-builtins": "off",
         // https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html
         "import/prefer-default-export": "off",
-        //"import/no-default-export": "error",
         // Too restrictive: https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/destructuring-assignment.md
         "react/destructuring-assignment": "off",
         // No jsx extension: https://github.com/facebook/create-react-app/issues/87#issuecomment-234627904
@@ -44,6 +43,14 @@ module.exports = {
             "error",
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
+        "quotes": ["error", "single"],
+        // Indent with 4 spaces
+        "indent": ["error", 4],
+        "@typescript-eslint/indent": ["error", 4],
+        // Indent JSX with 4 spaces
+        "react/jsx-indent": ["error", 4],
+        // Indent props with 4 spaces
+        "react/jsx-indent-props": ["error", 4],
     },
     ignorePatterns: ['*.config.js', '.*.js', '**/*/stories']
 };

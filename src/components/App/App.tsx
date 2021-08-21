@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
 } from 'react-router-dom';
 
 import ErrorBoundary from 'utils/classes/ErrorBoundary/ErrorBoundary';
@@ -23,75 +23,75 @@ import '../../styles/fonts.css';
 import './App.css';
 
 export class App extends PureComponent {
-  public render() {
-    return (
-      <div className="app">
-        <Router>
-          <div>
-            <nav>
-              <ul>
-                <li>
-                  <Link
-                    to="/"
-                    style={{ fontFamily: 'Play' }}
-                  >
-                    Главаная страница
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/login">Вход</Link>
-                </li>
-                <li>
-                  <Link to="/signup">Регистрация</Link>
-                </li>
-                <li>
-                  <Link to="/game">Игра</Link>
-                </li>
-                <li>
-                  <Link to="/profile">Профиль</Link>
-                </li>
-                <li>
-                  <Link to="/leaderboard">
-                    Таблица результатов
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/forum">Форум</Link>
-                </li>
-              </ul>
-            </nav>
-            <div>
-              <h1>Крутые ПокеТанчики.</h1>
-              <img src={img} alt="Tank" />
+    public render() {
+        return (
+            <div className="app">
+                <Router>
+                    <div>
+                        <nav>
+                            <ul>
+                                <li>
+                                    <Link
+                                        to="/"
+                                        style={{ fontFamily: 'Play' }}
+                                    >
+                                        Главаная страница
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/login">Вход</Link>
+                                </li>
+                                <li>
+                                    <Link to="/signup">Регистрация</Link>
+                                </li>
+                                <li>
+                                    <Link to="/game">Игра</Link>
+                                </li>
+                                <li>
+                                    <Link to="/profile">Профиль</Link>
+                                </li>
+                                <li>
+                                    <Link to="/leaderboard">
+                                        Таблица результатов
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/forum">Форум</Link>
+                                </li>
+                            </ul>
+                        </nav>
+                        <div>
+                            <h1>Крутые ПокеТанчики.</h1>
+                            <img src={img} alt="Tank" />
+                        </div>
+                        <Switch>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/signup">
+                                <SignUp />
+                            </Route>
+                            <Route path="/game">
+                                <Game />
+                            </Route>
+                            <Route path="/profile">
+                                <Profile />
+                            </Route>
+                            <Route path="/leaderboard">
+                                <LeaderBoard />
+                            </Route>
+                            <Route path="/forum">
+                                <Forum />
+                            </Route>
+                            <Route path="/">
+                                <ErrorBoundary>
+                                    <Main />
+                                </ErrorBoundary>
+                            </Route>
+                        </Switch>
+                    </div>
+                </Router>
             </div>
-            <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/signup">
-                <SignUp />
-              </Route>
-              <Route path="/game">
-                <Game />
-              </Route>
-              <Route path="/profile">
-                <Profile />
-              </Route>
-              <Route path="/leaderboard">
-                <LeaderBoard />
-              </Route>
-              <Route path="/forum">
-                <Forum />
-              </Route>
-              <Route path="/">
-                <ErrorBoundary>
-                  <Main />
-                </ErrorBoundary>
-              </Route>
-            </Switch>
-          </div>
-        </Router>
-      </div>
-    );
-  }
+        );
+    }
 }
