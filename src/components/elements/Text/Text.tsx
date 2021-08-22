@@ -1,19 +1,19 @@
 import React from 'react';
 
-import './Title.css';
+import './Text.css';
 
-export interface TitleProps {
-    className?: string;
+export interface TextProps {
+    className: string;
     text: string;
     onClick?: () => void;
 }
 
-export const Title = (props: TitleProps) => (
-    <h1
+export const Text = (props: TextProps) => (
+    <p
         onClick={props.onClick}
         className={props.className}
         aria-hidden="true"
     >
         {props.text}
-    </h1>
+    </p>
 );

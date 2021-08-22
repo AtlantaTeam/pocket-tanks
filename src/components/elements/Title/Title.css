@@ -1,10 +1,12 @@
 .title {
     font-family: 'Press Start 2P', sans-serif;
     color: #fff;
-    white-space: nowrap;
+    margin: 0px;
+    padding: 0px;
 }
 
 .title_middle {
+    font-family: 'Play', sans-serif;
     font-size: 24px;
     padding-bottom: 3px;
     border-bottom: 1px solid #f9a600;

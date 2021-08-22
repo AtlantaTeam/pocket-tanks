@@ -26,31 +26,20 @@ export class App extends PureComponent {
             <div className="app">
                 <Router>
                     <div>
-<<<<<<< HEAD
                         <div>
                             <Game />
                         </div>
-=======
->>>>>>> основные элементы дизайн системы
                         <nav>
                             <ul>
                                 <li>
                                     <Link
                                         to="/"
-<<<<<<< HEAD
                                         style={{ fontFamily: 'Play' }}
-=======
-                                        style={{
-                                            fontFamily:
-                                                'Play',
-                                        }}
->>>>>>> основные элементы дизайн системы
                                     >
                                         Главаная страница
                                     </Link>
                                 </li>
                                 <li>
-<<<<<<< HEAD
                                     <Link to="/login">Вход</Link>
                                 </li>
                                 <li>
@@ -61,26 +50,6 @@ export class App extends PureComponent {
                                 </li>
                                 <li>
                                     <Link to="/profile">Профиль</Link>
-=======
-                                    <Link to="/login">
-                                        Вход
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/signup">
-                                        Регистрация
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/game">
-                                        Игра
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/profile">
-                                        Профиль
-                                    </Link>
->>>>>>> основные элементы дизайн системы
                                 </li>
                                 <li>
                                     <Link to="/leaderboard">
@@ -88,23 +57,10 @@ export class App extends PureComponent {
                                     </Link>
                                 </li>
                                 <li>
-<<<<<<< HEAD
                                     <Link to="/forum">Форум</Link>
                                 </li>
                             </ul>
                         </nav>
-=======
-                                    <Link to="/forum">
-                                        Форум
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
-                        <div>
-                            <h1>Крутые ПокеТанчики.</h1>
-                            <img src={img} alt="Tank" />
-                        </div>
->>>>>>> основные элементы дизайн системы
                         <Switch>
                             <Route path="/login">
                                 <Login />

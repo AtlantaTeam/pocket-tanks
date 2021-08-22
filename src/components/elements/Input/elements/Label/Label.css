@@ -4,13 +4,8 @@
     color: #fff;
     display: block;
     width: 100%;
-    margin-top: 40px;
+    position: absolute;
+    top: 6px;
+    left: 0px;
 }
 
-.label:first-of-type {
-    margin-top: 20px;
-}
-
-.label_active {
-    color: #f9a600;
-}

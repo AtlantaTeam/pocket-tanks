@@ -58,7 +58,6 @@ const TemplateWithLabel: ComponentStory<typeof Input> = (
         <ErrorLabel
             className="error-label"
             text="Ошибка"
-            visible="true"
         />
     </WrapperCenter>
 );
