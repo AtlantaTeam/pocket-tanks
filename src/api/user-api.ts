@@ -6,7 +6,7 @@ class UserAPI extends BaseAPI {
     }
 
     changeProfile(formData: FormData) {
-        return this.http.put('/profile', this.configureFormAsJSON(formData));
+        return this.http.put('/profile', formData, this.configureFormAsJSON());
     }
 
     changeAvatar(formData: FormData) {
@@ -14,7 +14,7 @@ class UserAPI extends BaseAPI {
     }
 
     changePassword(formData: FormData) {
-        return this.http.put('/password', this.configureFormAsJSON(formData));
+        return this.http.put('/password', formData, this.configureFormAsJSON());
     }
 }
 

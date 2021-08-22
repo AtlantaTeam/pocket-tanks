@@ -10,11 +10,11 @@ class AuthAPI extends BaseAPI {
     }
 
     login(formData: FormData) {
-        return this.http.post('/signin', this.configureFormAsJSON(formData));
+        return this.http.post('/signin', formData, this.configureFormAsJSON());
     }
 
     signup(formData: FormData) {
-        return this.http.post('/signup', this.configureFormAsJSON(formData));
+        return this.http.post('/signup', formData, this.configureFormAsJSON());
     }
 
     logout() {

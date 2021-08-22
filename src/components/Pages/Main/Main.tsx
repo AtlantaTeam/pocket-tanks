@@ -1,8 +1,6 @@
 import React from 'react';
 import { Nullable } from 'types/Nullabel';
 import '../../App/App.css';
-import { AuthController } from '../../../controllers/auth-controller';
-import { UserController } from '../../../controllers/user-controller';
 
 interface ErrorButtonProps {
     caption?: string;

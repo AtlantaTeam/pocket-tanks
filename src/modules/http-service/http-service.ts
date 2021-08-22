@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosTransformer } from 'axios';
 import qs from 'qs';
 
 const BASE_URL = 'https://ya-praktikum.tech/api/v2';
@@ -19,9 +19,12 @@ export class HTTPService {
         return this.httpTransport;
     }
 
-    public static configureFormAsJSON(formData: FormData) {
+    public static configureFormAsJSON(): AxiosRequestConfig {
         return {
-            data: JSON.stringify(Object.fromEntries(formData.entries())),
+            transformRequest: [
+                ...axios.defaults.transformRequest as AxiosTransformer[],
+                (formData: FormData) => JSON.stringify(Object.fromEntries(formData.entries())),
+            ],
             headers: {
                 'Content-type': 'application/json; charset=utf-8',
             },

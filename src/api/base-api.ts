@@ -14,7 +14,7 @@ export abstract class BaseAPI {
         return this.httpServiceInstance.request;
     }
 
-    protected configureFormAsJSON(formData: FormData) {
-        return this.HTTPService.configureFormAsJSON(formData);
+    protected configureFormAsJSON() {
+        return this.HTTPService.configureFormAsJSON();
     }
 }
