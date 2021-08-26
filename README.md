@@ -1,7 +1,8 @@
 # Игра Pocket Tanks
+### [Открыть игру на Heroku](https://pocketanks.herokuapp.com/)
 
 ## Дизайн
-Здесь будет ссылка на дизайн в Фигме
+### [Дизайн в Фигме](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
 
 ## Установка
 <a name="install"></a>
@@ -14,7 +15,7 @@ npm install
 npm run start
 ```
 
-Затем идем на http://localhost:9000
+Игра откроется автоматически на http://localhost:9000
 
 ## Тестирование
 <a name="install"></a>

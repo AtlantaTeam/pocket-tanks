@@ -18,8 +18,6 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
 import { Test } from 'components/Pages/Test/Test';
 
-import img from '../../../static/images/tank.png';
-
 import '../../styles/fonts.css';
 import './App.css';
 
@@ -29,6 +27,9 @@ export class App extends PureComponent {
             <div className="app">
                 <Router>
                     <div>
+                        <div>
+                            <Game />
+                        </div>
                         <nav>
                             <ul>
                                 <li>
@@ -66,7 +67,6 @@ export class App extends PureComponent {
                         </nav>
                         <div>
                             <h1>Крутые ПокеТанчики.</h1>
-                            <img src={img} alt="Tank" />
                         </div>
                         <Switch>
                             <Route path="/login">
