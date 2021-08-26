@@ -10,7 +10,13 @@ export class Ground {
 
     private heightMax: number;
 
+    private heightMin: number;
+
     private color: string;
+
+    private sandImage: HTMLImageElement;
+
+    private sandImagePattern: CanvasPattern | null;
 
     heights: number[];
 
@@ -20,13 +26,18 @@ export class Ground {
 
     private innerHeight: number;
 
-    constructor(innerWidth: number, innerHeight: number) {
+    isFalling = false;
+
+    constructor(innerWidth: number, innerHeight: number, sandImage: HTMLImageElement) {
         this.stepMax = 3;
         this.stepChange = 0.3;
         this.innerWidth = innerWidth;
         this.innerHeight = innerHeight;
-        this.heightMax = Math.floor((innerHeight * 2) / 3);
+        this.heightMax = Math.floor(innerHeight / 2);
+        this.heightMin = this.heightMax / 4;
         this.color = 'orange';
+        this.sandImage = sandImage;
+        this.sandImagePattern = null;
 
         this.heights = [];
         this.explosionHeights = [];
@@ -39,6 +50,10 @@ export class Ground {
         let slope = (Math.random() * this.stepMax) * 2 - this.stepMax;
 
         for (let x = 0; x < this.innerWidth; x++) {
+            const isTooHigh = this.heightMax / height < 1.3;
+            const isTooLow = height / this.heightMin < 1.3;
+            this.stepMax = isTooHigh || isTooLow ? 0.9 : 3;
+
             // меняем наклон
             height += slope;
             slope += (Math.random() * this.stepChange) * 2 - this.stepChange;
@@ -52,8 +67,8 @@ export class Ground {
                 height = this.heightMax;
                 slope *= -1;
             }
-            if (height < 0) {
-                height = 0;
+            if (height < this.heightMin) {
+                height = this.heightMin;
                 slope *= -1;
             }
             this.heights[x] = Math.floor(height);
@@ -84,12 +99,15 @@ export class Ground {
         }
     };
 
-    draw = (ctx: CanvasRenderingContext2D) => {
+    draw = (ctx: CanvasRenderingContext2D, xStart = 0, xEnd = this.innerWidth) => {
+        this.isFalling = false;
         ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
         ctx.translate(0, this.innerHeight);
-        for (let x = 0; x < this.innerWidth; x++) {
+        for (let x = xStart; x <= xEnd; x += 1) {
             ctx.beginPath();
             if (typeof this.explosionHeights[x] === 'object') {
+                this.isFalling = true;
                 const { bulletY, delta } = <Explosion> this.explosionHeights[x];
                 const bottomY = this.innerHeight - bulletY - delta / 2;
                 if (delta) {
@@ -117,5 +135,21 @@ export class Ground {
             ctx.stroke();
         }
         ctx.translate(0, -this.innerHeight);
+        this.decorateWithSand(ctx, xStart, xEnd);
     };
+
+    decorateWithSand(ctx: CanvasRenderingContext2D, xStart: number, xEnd: number) {
+        if (!this.sandImagePattern) {
+            this.sandImagePattern = ctx.createPattern(this.sandImage, 'repeat');
+        }
+        ctx.save();
+        ctx.globalCompositeOperation = 'source-atop';
+        ctx.globalAlpha = 0.6;
+        if (this.sandImagePattern) {
+            ctx.fillStyle = this.sandImagePattern;
+            ctx.rect(xStart - 1, this.innerHeight - this.heightMax, xEnd - xStart + 2, this.heightMax);
+            ctx.fill('evenodd');
+        }
+        ctx.restore();
+    }
 }

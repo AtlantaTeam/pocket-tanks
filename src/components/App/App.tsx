@@ -26,6 +26,9 @@ export class App extends PureComponent {
             <div className="app">
                 <Router>
                     <div>
+                        <div>
+                            <Game />
+                        </div>
                         <nav>
                             <ul>
                                 <li>
@@ -58,10 +61,6 @@ export class App extends PureComponent {
                                 </li>
                             </ul>
                         </nav>
-                        <div>
-                            <h1>Крутые ПокеТанчики.</h1>
-                            <Game />
-                        </div>
                         <Switch>
                             <Route path="/login">
                                 <Login />

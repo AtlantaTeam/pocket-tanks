@@ -25,7 +25,7 @@ module.exports = {
     },
     rules: {
         // Indent with 4 spaces
-        "indent": ["error", 4],
+        "indent": ["error", 4, {"SwitchCase": 1}],
         'max-len': ['error', {
             code: 120,
             comments: 120,
@@ -58,5 +58,5 @@ module.exports = {
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
     },
-    ignorePatterns: ['*.config.js', '.*.js', '**/*/stories']
+    ignorePatterns: ['*.config.js', '*.js', '**/*/stories']
 };
