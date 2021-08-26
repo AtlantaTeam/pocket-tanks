@@ -3,12 +3,12 @@ import qs from 'qs';
 
 const BASE_URL = 'https://ya-praktikum.tech/api/v2';
 
-export class HTTPService {
+class HTTPService {
     private httpTransport: AxiosInstance;
 
-    constructor(endpoint: string) {
+    constructor() {
         this.httpTransport = axios.create({
-            baseURL: BASE_URL + endpoint,
+            baseURL: BASE_URL,
             timeout: 5000,
             withCredentials: true,
             paramsSerializer: (params) => qs.stringify(params),
@@ -19,7 +19,7 @@ export class HTTPService {
         return this.httpTransport;
     }
 
-    public static configureFormAsJSON(): AxiosRequestConfig {
+    get configFormDataAsJSON(): AxiosRequestConfig {
         return {
             transformRequest: [
                 ...axios.defaults.transformRequest as AxiosTransformer[],
@@ -31,3 +31,5 @@ export class HTTPService {
         };
     }
 }
+
+export const http = new HTTPService();

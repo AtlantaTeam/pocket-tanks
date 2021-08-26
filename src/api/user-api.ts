@@ -1,20 +1,29 @@
-import { BaseAPI } from './base-api';
+import { http } from '../modules/http-service/http-service';
+import { USER_ROUTES } from '../constants/api-routes';
+import type { UserInfoResponse, EmptyResponse } from './types';
 
-class UserAPI extends BaseAPI {
-    constructor() {
-        super('/user');
-    }
-
+class UserAPI {
     changeProfile(formData: FormData) {
-        return this.http.put('/profile', formData, this.configureFormAsJSON());
+        return http.request.put<UserInfoResponse>(
+            USER_ROUTES.CHANGE_PROFILE,
+            formData,
+            http.configFormDataAsJSON,
+        );
     }
 
     changeAvatar(formData: FormData) {
-        return this.http.put('/profile/avatar', { data: formData });
+        return http.request.put<UserInfoResponse>(
+            USER_ROUTES.CHANGE_AVATAR,
+            { data: formData },
+        );
     }
 
     changePassword(formData: FormData) {
-        return this.http.put('/password', formData, this.configureFormAsJSON());
+        return http.request.put<EmptyResponse>(
+            USER_ROUTES.CHANGE_PASSWORD,
+            formData,
+            http.configFormDataAsJSON,
+        );
     }
 }
 
