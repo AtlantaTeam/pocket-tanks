@@ -8,7 +8,7 @@ import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import '../Forms.css';
 import { Title } from '../../Title/Title';
-import { Button } from '../../Button/Button';
+import { Button, ButtonSubmit } from '../../Button/Button';
 
 export const SignUpSchema = Yup.object().shape({
     email: Yup.string()
@@ -131,7 +131,7 @@ export const FormSignUp = () => (
                             viewError={errors.password_again && touched.password_again}
                         />
                         <div className="form__button-wrapper">
-                            <Button
+                            <ButtonSubmit
                                 type="submit"
                                 text="Зарегистрироваться"
                                 className="button button_orange"

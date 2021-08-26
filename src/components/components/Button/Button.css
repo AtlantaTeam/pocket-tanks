@@ -41,10 +41,6 @@
     transition: background 0.5s;
 }
 
-.button:hover {
-    animation: pulse 1.2s infinite;
-}
-
 .button_orange {
     background-color: #f9a600;
     z-index: 100;
@@ -157,4 +153,8 @@
 
 .button-link:hover {
     transform: scale(1.1);
+}
+
+.button:hover {
+    animation: pulse 1.2s infinite;
 }

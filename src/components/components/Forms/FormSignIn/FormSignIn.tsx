@@ -8,7 +8,7 @@ import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import '../Forms.css';
 import { Title } from '../../Title/Title';
-import { Button } from '../../Button/Button';
+import { Button, ButtonSubmit } from '../../Button/Button';
 
 export const SignInSchema = Yup.object().shape({
     login: Yup.string()
@@ -61,7 +61,7 @@ export const FormSignIn = () => (
                             viewError={errors.password && touched.password}
                         />
                         <div className="form__button-wrapper">
-                            <Button
+                            <ButtonSubmit
                                 type="submit"
                                 text="Войти"
                                 className="button button_orange"
