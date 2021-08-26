@@ -9,7 +9,7 @@ export type UserInfoResponse = {
     avatar: string;
 };
 
-export type UserIDResponse = {
+export type IDResponse = {
     id: number;
 };
 

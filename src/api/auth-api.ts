@@ -1,6 +1,6 @@
 import { http } from '../modules/http-service/http-service';
 import { AUTH_ROUTES } from '../constants/api-routes';
-import type { UserInfoResponse, UserIDResponse, EmptyResponse } from './types';
+import type { UserInfoResponse, IDResponse, EmptyResponse } from './types';
 
 class AuthAPI {
     getUserInfo() {
@@ -18,7 +18,7 @@ class AuthAPI {
     }
 
     signup(formData: FormData) {
-        return http.request.post<UserIDResponse>(
+        return http.request.post<IDResponse>(
             AUTH_ROUTES.SIGNUP,
             formData,
             http.configFormDataAsJSON,

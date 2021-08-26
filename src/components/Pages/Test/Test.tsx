@@ -27,11 +27,21 @@ export const Test = () => {
         }
     };
 
+    const getUserInfo = async () => {
+        try {
+            const responce = await AuthController.getUserInfo();
+            console.log(responce);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <div>
             <h2 style={{ fontFamily: 'Press Start 2P' }}>Тест API (Результаты запросов в консоли)</h2>
             <button type="button" onClick={login}>Login</button>
             <button type="button" onClick={logout}>Logout</button>
+            <button type="button" onClick={getUserInfo}>Get User Info</button>
         </div>
     );
 };
