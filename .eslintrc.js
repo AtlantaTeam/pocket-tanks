@@ -24,6 +24,19 @@ module.exports = {
         project: "./tsconfig.json",
     },
     rules: {
+        // Indent with 4 spaces
+        "indent": ["error", 4, {"SwitchCase": 1}],
+        'max-len': ['error', {
+            code: 120,
+            comments: 120,
+        }],
+        '@typescript-eslint/indent': ["error", 4],
+        // Indent JSX with 4 spaces
+        "react/jsx-indent": ["error", 4],
+        // Indent props with 4 spaces
+        "react/jsx-indent-props": ["error", 4],
+        "quotes": ["error", "single"],
+        "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
         "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
         // Too restrictive, writing ugly code to defend against a very unlikely scenario: https://eslint.org/docs/rules/no-prototype-builtins
         "no-prototype-builtins": "off",
@@ -45,5 +58,5 @@ module.exports = {
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
     },
-    ignorePatterns: ['*.config.js', '.*.js', '**/*/stories']
+    ignorePatterns: ['*.config.js', '*.js', '**/*/stories']
 };

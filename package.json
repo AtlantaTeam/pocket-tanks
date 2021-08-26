@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest --passWithNoTests",
-    "eslint": "eslint .",
+    "eslint": "eslint . --fix",
     "stylelint": "stylelint **/*.css",
     "lint:all": "npm run stylelint && npm run eslint",
     "compile": "tsc --noEmit",

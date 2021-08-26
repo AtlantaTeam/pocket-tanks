@@ -1,5 +1,14 @@
 declare module '*.png' {
-  const value: string | undefined;
-  // eslint-disable-next-line import/no-default-export
-  export default value;
+    const value: string | undefined;
+    export default value;
+}
+
+declare module '*.jpg' {
+    const value: string | undefined;
+    export default value;
+}
+
+declare module '*.svg' {
+    const value: string | undefined;
+    export default value;
 }
