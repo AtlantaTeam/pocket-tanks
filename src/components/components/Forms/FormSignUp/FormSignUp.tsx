@@ -68,6 +68,7 @@ export const FormSignUp = () => (
                 {({ errors, touched }) => (
                     <Form name="signup" className="form">
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваш e-mail"
                             name="email"
                             type="email"
@@ -75,8 +76,8 @@ export const FormSignUp = () => (
                             errorText={errors.email}
                             viewError={errors.email && touched.email}
                         />
-
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваш логин"
                             name="login"
                             type="text"
@@ -85,6 +86,7 @@ export const FormSignUp = () => (
                             viewError={errors.login && touched.login}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваше имя"
                             name="first_name"
                             type="text"
@@ -93,6 +95,7 @@ export const FormSignUp = () => (
                             viewError={errors.first_name && touched.first_name}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваша фамилия"
                             name="second_name"
                             type="text"
@@ -101,6 +104,7 @@ export const FormSignUp = () => (
                             viewError={errors.second_name && touched.second_name}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваш телефон"
                             name="phone"
                             type="phone"
@@ -109,6 +113,7 @@ export const FormSignUp = () => (
                             viewError={errors.phone && touched.phone}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Придумайте пароль"
                             name="password"
                             type="password"
@@ -117,6 +122,7 @@ export const FormSignUp = () => (
                             viewError={errors.password && touched.password}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Введите пароль еще раз"
                             name="password_again"
                             type="password"

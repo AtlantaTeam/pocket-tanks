@@ -21,7 +21,7 @@ export const FieldSet = (props: FieldSetProps) => (
     <>
         <div className="form__fields-group">
             <Field
-                className="input input_white"
+                className={props.className}
                 placeholder={props.placeholder}
                 name={props.name}
                 type={props.type}

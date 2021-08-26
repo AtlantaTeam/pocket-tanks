@@ -43,6 +43,7 @@ export const FormSignIn = () => (
                 {({ errors, touched }) => (
                     <Form name="signin" className="form">
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваш логин"
                             name="login"
                             type="text"
@@ -51,6 +52,7 @@ export const FormSignIn = () => (
                             viewError={errors.login && touched.login}
                         />
                         <FieldSet
+                            className="input input_white"
                             placeholder="Ваш пароль"
                             name="password"
                             type="password"
