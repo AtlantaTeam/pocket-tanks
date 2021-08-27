@@ -15,6 +15,7 @@ import { Login } from 'components/Pages/Login/Login';
 import { Main } from 'components/Pages/Main/Main';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
+import { Test } from 'components/Pages/Test/Test';
 
 import '../../styles/fonts.css';
 
@@ -59,8 +60,14 @@ export class App extends PureComponent {
                                 <li>
                                     <Link to="/forum">Форум</Link>
                                 </li>
+                                <li style={{ color: 'red' }}>
+                                    <Link to="/test">Тест API</Link>
+                                </li>
                             </ul>
                         </nav>
+                        <div>
+                            <h1>Крутые ПокеТанчики.</h1>
+                        </div>
                         <Switch>
                             <Route path="/login">
                                 <Login />
@@ -79,6 +86,9 @@ export class App extends PureComponent {
                             </Route>
                             <Route path="/forum">
                                 <Forum />
+                            </Route>
+                            <Route path="/test">
+                                <Test />
                             </Route>
                             <Route path="/">
                                 <ErrorBoundary>

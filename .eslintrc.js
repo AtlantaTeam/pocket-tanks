@@ -56,6 +56,7 @@ module.exports = {
             "error",
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
+        "class-methods-use-this": "off"
     },
     ignorePatterns: ['*.config.js', '*.js', '**/*/stories']
 };
