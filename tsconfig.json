@@ -137,6 +137,7 @@
     "exclude": [
         "dist",
         "node_modules",
-        "./*.js"
+        "./*.js",
+        "*/**/stories"
     ]
 }

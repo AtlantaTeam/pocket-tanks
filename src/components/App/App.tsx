@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,7 +6,7 @@ import {
     Link,
 } from 'react-router-dom';
 
-import ErrorBoundary from 'utils/classes/ErrorBoundary/ErrorBoundary';
+import { ErrorBoundary } from 'utils/classes/ErrorBoundary/ErrorBoundary';
 
 import { Forum } from 'components/Pages/Forum/Forum';
 import { Game } from 'components/Pages/Game/Game';
@@ -18,6 +17,7 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
 
 import '../../styles/fonts.css';
+
 import './App.css';
 
 export class App extends PureComponent {

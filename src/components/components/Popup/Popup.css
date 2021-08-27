@@ -1,0 +1,27 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding-left: 50px;
+    padding-right: 50px;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, .01);
+}
+
+.dialog {
+    width: calc(700px - 100px);
+    height: calc(500px - 100px);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    background-color: #121210;
+    margin: 10vh auto;
+    justify-content: space-between;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
