@@ -4,6 +4,7 @@ import { Field } from 'formik';
 import { Label } from '../Input/components/Label/Label';
 import { ErrorLabel } from '../Input/components/ErrorLabel/ErrorLabel';
 
+import '../Input/Input.css';
 import '../../Forms.css';
 
 export interface FieldSetProps{

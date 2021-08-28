@@ -1,3 +1,9 @@
+import { FormSignUp } from 'components/components/Forms/FormSignUp/FormSignUp';
 import React from 'react';
+import { Page } from '../components/Page/Page';
 
-export const SignUp = () => <h2>Регистрация</h2>;
+export const SignUp = () => (
+    <Page>
+        <FormSignUp />
+    </Page>
+);
