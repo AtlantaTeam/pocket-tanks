@@ -13,7 +13,7 @@ export default {
 } as ComponentMeta<typeof FormSignIn>;
 
 const Template: ComponentStory<typeof FormSignIn> = () => (
-    <WrapperCenter className="wrapper-center wrapper-center_full-screeen-black">
+    <WrapperCenter className="wrapper-center wrapper-center_full-screen-black">
         <FormSignIn />
     </WrapperCenter>
 );

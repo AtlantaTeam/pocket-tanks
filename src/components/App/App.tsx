@@ -17,78 +17,45 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
 
 import '../../styles/fonts.css';
+import '../../../static/index.css';
 
 import './App.css';
+import { MenuComponent } from 'components/components/Menu/Menu';
 
-export class App extends PureComponent {
-    public render() {
-        return (
-            <div className="app">
-                <Router>
-                    <div>
-                        <div>
-                            <Game />
-                        </div>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <Link
-                                        to="/"
-                                        style={{ fontFamily: 'Play' }}
-                                    >
-                                        Главаная страница
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/login">Вход</Link>
-                                </li>
-                                <li>
-                                    <Link to="/signup">Регистрация</Link>
-                                </li>
-                                <li>
-                                    <Link to="/game">Игра</Link>
-                                </li>
-                                <li>
-                                    <Link to="/profile">Профиль</Link>
-                                </li>
-                                <li>
-                                    <Link to="/leaderboard">
-                                        Таблица результатов
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="/forum">Форум</Link>
-                                </li>
-                            </ul>
-                        </nav>
-                        <Switch>
-                            <Route path="/login">
-                                <Login />
-                            </Route>
-                            <Route path="/signup">
-                                <SignUp />
-                            </Route>
-                            <Route path="/game">
-                                <Game />
-                            </Route>
-                            <Route path="/profile">
-                                <Profile />
-                            </Route>
-                            <Route path="/leaderboard">
-                                <LeaderBoard />
-                            </Route>
-                            <Route path="/forum">
-                                <Forum />
-                            </Route>
-                            <Route path="/">
-                                <ErrorBoundary>
-                                    <Main />
-                                </ErrorBoundary>
-                            </Route>
-                        </Switch>
-                    </div>
-                </Router>
+export const App = () => (
+    <div className="app">
+        <Router>
+            <MenuComponent />
+            <div>
+                <div>
+                    <Game />
+                </div>
+                <Switch>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/signup">
+                        <SignUp />
+                    </Route>
+                    <Route path="/game">
+                        <Game />
+                    </Route>
+                    <Route path="/profile">
+                        <Profile />
+                    </Route>
+                    <Route path="/leaderboard">
+                        <LeaderBoard />
+                    </Route>
+                    <Route path="/forum">
+                        <Forum />
+                    </Route>
+                    <Route path="/">
+                        <ErrorBoundary>
+                            <Main />
+                        </ErrorBoundary>
+                    </Route>
+                </Switch>
             </div>
-        );
-    }
-}
+        </Router>
+    </div>
+);
