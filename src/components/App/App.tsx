@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
 } from 'react-router-dom';
 
 import { ErrorBoundary } from 'utils/classes/ErrorBoundary/ErrorBoundary';
@@ -27,9 +26,6 @@ export const App = () => (
         <Router>
             <MenuComponent />
             <div>
-                <div>
-                    <Game />
-                </div>
                 <Switch>
                     <Route path="/login">
                         <Login />
