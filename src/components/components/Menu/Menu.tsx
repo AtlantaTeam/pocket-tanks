@@ -17,7 +17,7 @@ export const MenuComponent = () => (
         </Menu.Button>
         <Menu.Items className="menu-items">
             {ROUTES.map((item) => (
-                <Menu.Item>
+                <Menu.Item key={item.name}>
                     {({ active }) => (
                         <Link
                             to={item.link}
