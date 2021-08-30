@@ -20,6 +20,7 @@ module.exports = {
         alias: {
             components: path.join(__dirname, 'src/components'),
             types: path.join(__dirname, 'src/types'),
+            fonts: path.join(__dirname, 'src/styles/fonts'),
             utils: path.join(__dirname, 'src/utils'),
             assets: path.join(__dirname, 'static/assets'),
         },

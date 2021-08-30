@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nullable } from 'types/Nullabel';
+import { Nullable } from 'types/Nullable';
 import '../../App/App.css';
 
 interface ErrorButtonProps {
