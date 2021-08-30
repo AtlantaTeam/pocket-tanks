@@ -1,0 +1,10 @@
+.leader-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+}
+
+.leader-board-container:first-of-type {
+    margin-bottom: 25px;
+}

@@ -33,6 +33,7 @@
     color: #aaa9ad;
     opacity: .3;
 }
+
 .input-avatar {
     position: absolute;
     top: 0;
@@ -40,4 +41,12 @@
     width: 0;
     height: 0;
     opacity: 0;
+}
+
+.input_leader-board {
+    margin-bottom: 25px;
+}
+
+.input_leader-board:focus {
+    border: 1px solid var(--main);
 }
