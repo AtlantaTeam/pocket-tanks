@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosTransformer } from 'axios';
 import qs from 'qs';
-
-const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+import { BASE_URL } from '../../constants/api-routes';
 
 class HTTPService {
     private httpTransport: AxiosInstance;
