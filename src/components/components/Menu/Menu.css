@@ -10,6 +10,7 @@
     position: absolute;
     left: 20px;
     top: 80px;
+    z-index: 1000;
 }
 
 .menu-item {
@@ -28,6 +29,7 @@
     cursor: pointer;
     margin-top: 5px;
     text-decoration: none;
+    z-index: 1000;
 }
 
 .menu-item:first-of-type {
@@ -40,6 +42,7 @@
     left: 20px;
     width: 318px;
     margin-bottom: 16px;
+    z-index: 1000;
 }
 
 .menu-item_active {

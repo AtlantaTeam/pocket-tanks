@@ -9,25 +9,30 @@
     font-size: 24px;
     padding-left: 20px;
     padding-right: 20px;
+    background-color: transparent;
     cursor: pointer;
-}
-
-.input::placeholder {
-    color: #aaa9ad;
 }
 
 .input_white {
     color: #121210;
     margin-top: 5px;
     margin-bottom: 5px;
+    background-color: var(--white);
 }
 
-.input_transparent {
+.input_white::placeholder {
+    color: #aaa9ad;
+}
+
+.input_black {
     color: #fff;
-    background-color: transparent;
     border: 1px solid #fff;
 }
 
+.input_black::placeholder {
+    color: #aaa9ad;
+    opacity: .3;
+}
 .input-avatar {
     position: absolute;
     top: 0;

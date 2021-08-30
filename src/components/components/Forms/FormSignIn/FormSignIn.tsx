@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link, Route } from 'react-router-dom';
+
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { ERRORS } from 'utils/constants/errorsForms';
 
+import { SignUp } from 'components/Pages/SignUp/SignUp';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import '../Forms.css';
@@ -68,11 +71,19 @@ export const FormSignIn = () => (
                                 text="Войти"
                                 className="button button_orange"
                             />
-                            <Button
-                                type="button"
-                                text="Нет аккаунта? Зарегистрироваться"
+                            <Link
+                                to="/signup"
                                 className="button-link"
-                            />
+                            >
+                                <Route path="/signup">
+                                    <SignUp />
+                                </Route>
+                                <Button
+                                    type="button"
+                                    text="Нет аккаунта? Зарегистрироваться"
+                                    className="button-link button-link_margin"
+                                />
+                            </Link>
                         </div>
                     </Form>
                 )}

@@ -20,6 +20,7 @@ export const MenuComponent = () => (
                 <Menu.Item key={item.name}>
                     {({ active }) => (
                         <Link
+                            key={`${item.name}-link`}
                             to={item.link}
                             className={(() => {
                                 if (active) {

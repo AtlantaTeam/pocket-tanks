@@ -20,9 +20,9 @@ export const App = () => (
             <MenuComponent />
             <Switch>
                 {ROUTES.map((item) => (
-                    <Route path={item.link}>
-                        <ErrorBoundary>
-                            <item.component />
+                    <Route path={item.link} key={`${item.name}-route`}>
+                        <ErrorBoundary key={`${item.name}-errror`}>
+                            <item.component key={`${item.name}-component`} />
                         </ErrorBoundary>
                     </Route>
                 ))}

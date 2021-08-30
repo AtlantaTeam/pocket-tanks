@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import {
     ComponentStory,
     ComponentMeta,
@@ -14,7 +15,9 @@ export default {
 
 const Template: ComponentStory<typeof FormSignUp> = () => (
     <WrapperCenter className="wrapper-center wrapper-center_full-screen-big">
-        <FormSignUp />
+        <Router>
+            <FormSignUp />
+        </Router>
     </WrapperCenter>
 );
 
