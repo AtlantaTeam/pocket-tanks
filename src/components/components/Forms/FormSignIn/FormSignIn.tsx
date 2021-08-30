@@ -46,6 +46,7 @@ export const FormSignIn = () => (
                             className="input input_white"
                             placeholder="Ваш логин"
                             name="login"
+                            id="login"
                             type="text"
                             labelText="Логин"
                             errorText={errors.login}
@@ -55,6 +56,7 @@ export const FormSignIn = () => (
                             className="input input_white"
                             placeholder="Ваш пароль"
                             name="password"
+                            id="password"
                             type="password"
                             labelText="Пароль"
                             errorText={errors.password}

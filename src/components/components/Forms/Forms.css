@@ -38,3 +38,32 @@
 input:focus ~ label {
     color: var(--main);
 }
+
+.form-tab {
+    position: relative;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-tab__container {
+    width: 100%;
+    height: 650px;
+    border: 3px solid var(--white);
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    padding: 50px;
+}
+
+.form-tab__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}

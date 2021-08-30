@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Tab } from '@headlessui/react';
 
 import './Tabs.css';
-import { Button } from '../Button/Button';
+import { FormLoadAvatar } from '../Forms/FormLoadAvatar/FormLoadAvatar';
 
 export interface TabsProps {
     tabs: string[];
@@ -10,30 +10,34 @@ export interface TabsProps {
 }
 
 export const Tabs = (props: TabsProps) => (
-    <Tab.Group>
+    <Tab.Group defaultIndex={0}>
         <Tab.List className="tab-list">
             {props.tabs.map((item) => (
                 <Tab as={Fragment}>
                     {({ selected }) => (
-                        <Button
-                            type="button"
+                        <span
                             className={
                                 selected ? (
-                                    'button-tab button-tab_selected'
+                                    'tab tab_selected'
                                 ) : (
-                                    'button-tab'
+                                    'tab'
                                 )
                             }
-                            text={item}
-                        />
+                        >
+                            {item}
+                        </span>
                     )}
                 </Tab>
             ))}
         </Tab.List>
         <Tab.Panels className="tab-panels">
-            <Tab.Panel>Content 1</Tab.Panel>
-            <Tab.Panel>Content 2</Tab.Panel>
-            <Tab.Panel>Content 3</Tab.Panel>
+            <Tab.Panel>
+            </Tab.Panel>
+            <Tab.Panel>
+                <FormLoadAvatar />
+            </Tab.Panel>
+            <Tab.Panel>
+            </Tab.Panel>
         </Tab.Panels>
     </Tab.Group>
 );

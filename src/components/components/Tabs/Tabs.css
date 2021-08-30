@@ -1,9 +1,11 @@
 .tab-panels {
     color: #fff;
+    margin-top: 30px;
+    width: 600px;
 }
 
 .tab-list {
-    width: 500px;
+    width: 600px;
     height: 50px;
     border: 3px solid #ffffff;
     box-sizing: border-box;
@@ -12,8 +14,26 @@
     align-items: center;
     justify-content: space-around;
 }
+
 .tab {
-    width: 33%;
-    height: 100%;
-    margin: 0;
+    background-color: transparent;
+    color: #fff;
+    line-height: 40px;
+    border-radius: 1px;
+    border: none;
+    outline: none;
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    cursor: pointer;
+    align-items: center;
+    flex-grow: 1;
+    margin: 3px;
+    padding: 0;
+    text-align: center;
+}
+
+.tab_selected {
+    background-color: var(--white);
+    color: var(--black);
 }

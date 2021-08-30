@@ -71,6 +71,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Ваш e-mail"
                             name="email"
+                            id="email"
                             type="email"
                             labelText="Почта"
                             errorText={errors.email}
@@ -80,6 +81,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Ваш логин"
                             name="login"
+                            id="login"
                             type="text"
                             labelText="Логин"
                             errorText={errors.login}
@@ -89,6 +91,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Ваше имя"
                             name="first_name"
+                            id="first_name"
                             type="text"
                             labelText="Имя"
                             errorText={errors.first_name}
@@ -98,6 +101,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Ваша фамилия"
                             name="second_name"
+                            id="second_name"
                             type="text"
                             labelText="Фамилия"
                             errorText={errors.second_name}
@@ -107,6 +111,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Ваш телефон"
                             name="phone"
+                            id="phone"
                             type="phone"
                             labelText="Телефон"
                             errorText={errors.phone}
@@ -116,6 +121,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Придумайте пароль"
                             name="password"
+                            id="password"
                             type="password"
                             labelText="Пароль"
                             errorText={errors.password}
@@ -125,6 +131,7 @@ export const FormSignUp = () => (
                             className="input input_white"
                             placeholder="Введите пароль еще раз"
                             name="password_again"
+                            id="password_again"
                             type="password"
                             labelText="Пароль (еще раз)"
                             errorText={errors.password_again}

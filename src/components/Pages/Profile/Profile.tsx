@@ -1,3 +1,14 @@
 import React from 'react';
 
-export const Profile = () => <h2>Личный кабинет</h2>;
+import { Tabs } from 'components/components/Tabs/Tabs';
+import { Page } from '../components/Page/Page';
+
+const tabs = ['Данные', 'Аватар', 'Пароль'];
+
+export const Profile = () => (
+    <Page>
+        <div>
+            <Tabs tabs={tabs} />
+        </div>
+    </Page>
+);

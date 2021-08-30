@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Field } from 'formik';
 
 import { Label } from '../Input/components/Label/Label';
@@ -11,6 +11,7 @@ export interface FieldSetProps{
     className?: string;
     placeholder?: string;
     name: string;
+    id: string;
     type: 'text' | 'password' | 'phone' | 'file' | 'email'
     classNameLabel?: string;
     labelText?: string;
@@ -25,6 +26,7 @@ export const FieldSet = (props: FieldSetProps) => (
                 className={props.className}
                 placeholder={props.placeholder}
                 name={props.name}
+                id={props.name}
                 type={props.type}
             />
             <Label
