@@ -277,7 +277,6 @@ export class GamePlay {
             const isFireMissRight = step > 0 && hitX > tank.x + tank.tankWidth;
             return isFireMissLeft || isFireMissRight;
         };
-        let closestToHit = { angle: startAngle, power: startPower, minDiff: this.innerWidth };
 
         // Пристреливаемся
         for (let curPower = startPower; curPower < 18; curPower += 1) {
@@ -288,11 +287,15 @@ export class GamePlay {
 
                 if (isTankHit || isOverMissing(hitX, this.leftTank)) {
                     if (!isTankHit) {
-                        if (Math.abs(hitX - this.leftTank.x) < closestToHit.minDiff) {
-                            closestToHit = {
+                        if (!this.rightTank.closestToHit
+                            || Math.abs(hitX - this.leftTank.x) < this.rightTank.closestToHit.minDiff
+                        ) {
+                            const count = this.rightTank.closestToHit?.count || 0;
+                            this.rightTank.closestToHit = {
                                 angle: currentAngle,
                                 power: curPower,
                                 minDiff: Math.abs(hitX - this.leftTank.x),
+                                count,
                             };
                         }
                         // Перебор с силой - уменьшаем. И возвращаем угол на 2 шага назад
@@ -305,13 +308,19 @@ export class GamePlay {
                         * (step / 10);
                     this.rightTank.isReadyToFire = true;
                     this.rightTank.canHarmYourself = true;
+                    this.rightTank.closestToHit = null;
                     return;
                 }
             }
         }
         // В случае, если не удалось попасть наверняка - стреляем лучшим вариантом
-        this.rightTank.gunpointAngle = closestToHit.angle;
-        this.rightTank.power = closestToHit.power;
+        if (this.rightTank.closestToHit) {
+            this.rightTank.gunpointAngle = this.rightTank.closestToHit.angle;
+            this.rightTank.power = this.rightTank.closestToHit.power;
+            const delta = this.rightTank.x > this.innerWidth / 2 ? -10 : 10;
+            this.rightTank.x += this.rightTank.closestToHit.count > 1 ? delta : 0;
+            this.rightTank.closestToHit.count += 1;
+        }
         this.rightTank.isReadyToFire = true;
         this.rightTank.canHarmYourself = true;
     };

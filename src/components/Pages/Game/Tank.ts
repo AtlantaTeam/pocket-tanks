@@ -58,6 +58,8 @@ export class Tank {
 
     isReadyToFire = true;
 
+    closestToHit: { minDiff: number; angle: number; power: number, count: number } | null;
+
     constructor(
         x: number,
         y: number,
@@ -85,6 +87,7 @@ export class Tank {
         this.y = y;
         this.gunpointX = this.x + this.gunpointDeltaX;
         this.gunpointY = this.y - this.gunpointDeltaY;
+        this.closestToHit = null;
     }
 
     // Вычисляем координаты старта снаряда

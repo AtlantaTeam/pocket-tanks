@@ -29,7 +29,7 @@ export const Game = () => {
                 }
             }}
             onMouseLeave={() => (game.isAngleMode && game.activateMode(GameModes.IDLE))}
-            onClick={() => (game.onFire())}
+            onClick={() => (game.leftTank?.isActive && !game.isFireMode && game.onFire())}
             onWheel={(e) => (game.changeTankPower(e.deltaY > 0 ? -1 : 1))}
         />
     );
