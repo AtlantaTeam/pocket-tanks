@@ -68,7 +68,7 @@ export class Bullet {
         this.wind = 0;
         this.explosionRadius = 0;
         this.explosionMaxRadius = 50;
-        this.color = 'black';
+        this.color = '#000000';
         this.innerWidth = innerWidth;
         this.innerHeight = innerHeight;
         this.ground = ground;
