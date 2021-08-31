@@ -149,16 +149,9 @@ export const FormSignUp = () => (
 
                             <Link
                                 to="/login"
-                                className="button-link"
+                                className="button-link button-link_margin"
                             >
-                                <Route path="/login">
-                                    <Login />
-                                </Route>
-                                <Button
-                                    type="button"
-                                    text="Уже есть аккаунт? Авторизироваться"
-                                    className="button-link button-link_margin"
-                                />
+                                Уже есть аккаунт? Авторизироваться
                             </Link>
                         </div>
                     </Form>

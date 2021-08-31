@@ -23,6 +23,7 @@ module.exports = {
             fonts: path.join(__dirname, 'src/styles/fonts'),
             utils: path.join(__dirname, 'src/utils'),
             assets: path.join(__dirname, 'static/assets'),
+            images: path.join(__dirname, 'static/images'),
         },
     },
     output: {

@@ -49,12 +49,12 @@ export const LeaderBoard = () => (
             </div>
             {
                 players.map((item, index) => (
-                    <Input
+                    <div
                         key={item.display_name}
-                        placeholder=""
-                        className="input input_black input_leader-board"
-                        value={`${String(index + 1)}   ${item.display_name}`}
-                    />
+                        className="leader-name"
+                    >
+                        {`${String(index + 1)}   ${item.display_name}`}
+                    </div>
                 ))
             }
         </div>

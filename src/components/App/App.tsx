@@ -21,7 +21,7 @@ export const App = () => (
             <Switch>
                 {ROUTES.map((item) => (
                     <Route path={item.link} key={`${item.name}-route`}>
-                        <ErrorBoundary key={`${item.name}-errror`}>
+                        <ErrorBoundary key={`${item.name}-error`}>
                             <item.component key={`${item.name}-component`} />
                         </ErrorBoundary>
                     </Route>
@@ -30,4 +30,3 @@ export const App = () => (
         </Router>
     </div>
 );
-
