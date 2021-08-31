@@ -7,7 +7,7 @@ export const Game = () => {
 
     useEffect(() => {
         game.loadImages();
-        window.addEventListener('keydown', game.onKeyDown, true);
+        window.addEventListener('keydown', game.onKeyDown);
 
         return () => {
             window.removeEventListener('keydown', game.onKeyDown);
