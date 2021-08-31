@@ -189,10 +189,10 @@ export class Bullet {
                 this.radius * 2,
             );
 
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.fillRect(this.x, this.y, this.radius * 2, this.radius * 2); // 0, Math.PI * 2
-            ctx.fill();
+            if (ctx.fillStyle !== this.color) {
+                ctx.fillStyle = this.color;
+            }
+            ctx.fillRect(this.x, this.y, this.radius * 2, this.radius * 2);
             this.lastX = this.x;
             this.lastY = this.y;
         }
