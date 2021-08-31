@@ -39,7 +39,7 @@ export class GamePlay {
 
     maxGameDifficulty = 5;
 
-    gameDifficulty = 5; // 1 - легко; 5 - сложно
+    gameDifficulty = 3; // 1 - легко; 5 - сложно
 
     private ground: Ground | undefined;
 
@@ -302,7 +302,7 @@ export class GamePlay {
                     // Добавляем случайности в выстрел, в зависимости от сложности игры
                     this.rightTank.gunpointAngle += Math.random()
                         * (this.maxGameDifficulty - this.gameDifficulty)
-                        * step;
+                        * 0.001;
                     this.rightTank.isReadyToFire = true;
                     this.rightTank.canHarmYourself = true;
                     return;
