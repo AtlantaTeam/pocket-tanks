@@ -26,6 +26,6 @@
     margin-bottom: 25px;
 }
 
-.leader-name_self:focus {
+.leader-name_self {
     border: 1px solid var(--main);
 }
