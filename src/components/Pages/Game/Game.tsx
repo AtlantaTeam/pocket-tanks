@@ -20,7 +20,7 @@ export const Game = () => {
             width={window.innerWidth}
             height={window.innerHeight - 300}
             onMouseMove={(e) => {
-                if (game.leftTank?.isActive) {
+                if (game.leftTank?.isActive && !game.isFireMode) {
                     game.activateMode(GameModes.ANGLE);
                     game.mousePos = {
                         x: e.clientX - e.currentTarget.offsetLeft,
