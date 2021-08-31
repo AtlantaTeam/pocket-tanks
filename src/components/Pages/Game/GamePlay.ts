@@ -70,10 +70,10 @@ export class GamePlay {
     }
 
     onKeyDown = (e: KeyboardEvent) => {
-        e.preventDefault();
         if ((e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') || !this.leftTank || !this.rightTank) {
             return;
         }
+        e.preventDefault();
         this.activateMode(GameModes.MOVE);
         const [activeTank] = this.getActiveAndTargetTanks(this.leftTank, this.rightTank);
         const step = 5;
