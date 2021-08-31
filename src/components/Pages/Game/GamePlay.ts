@@ -302,7 +302,7 @@ export class GamePlay {
                     // Добавляем случайности в выстрел, в зависимости от сложности игры
                     this.rightTank.gunpointAngle += Math.random()
                         * (this.maxGameDifficulty - this.gameDifficulty)
-                        * 0.001;
+                        * (step / 10);
                     this.rightTank.isReadyToFire = true;
                     this.rightTank.canHarmYourself = true;
                     return;
