@@ -12,7 +12,7 @@ export const Game = () => {
         return () => {
             window.removeEventListener('keydown', game.onKeyDown);
         };
-    });
+    }, []);
 
     return (
         <canvas
@@ -20,11 +20,13 @@ export const Game = () => {
             width={window.innerWidth}
             height={window.innerHeight - 300}
             onMouseMove={(e) => {
-                game.activateMode(GameModes.ANGLE);
-                game.mousePos = {
-                    x: e.clientX - e.currentTarget.offsetLeft,
-                    y: e.clientY - e.currentTarget.offsetTop,
-                };
+                if (game.leftTank?.isActive) {
+                    game.activateMode(GameModes.ANGLE);
+                    game.mousePos = {
+                        x: e.clientX - e.currentTarget.offsetLeft,
+                        y: e.clientY - e.currentTarget.offsetTop,
+                    };
+                }
             }}
             onMouseLeave={() => (game.isAngleMode && game.activateMode(GameModes.IDLE))}
             onClick={() => (game.onFire())}

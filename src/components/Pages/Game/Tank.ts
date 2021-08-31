@@ -48,13 +48,15 @@ export class Tank {
 
     innerHeight: number;
 
-    private dx = 0;
+    dx = 0;
 
     dy = 0;
 
     power = 10;
 
-    private gravity = 0;
+    gravity = 0;
+
+    isReadyToFire = true;
 
     constructor(
         x: number,
@@ -122,11 +124,13 @@ export class Tank {
     }
 
     jumpOnHit(hitPower: number, gravity: number, dx: number) {
-        this.gravity = gravity;
-        // TODO: когда появится разное по мощности оружие, в зависимости от hitPower изменять dx и dy,
-        // а пока сила отскока танка будет зависеть от силы выстрела
-        this.dx = Math.floor(dx / 5);
-        this.dy = -Math.abs(Math.floor(dx / 3));
+        if (!this.dx && !this.dy) {
+            this.gravity = gravity;
+            // TODO: когда появится разное по мощности оружие, в зависимости от hitPower изменять dx и dy,
+            // а пока сила отскока танка будет зависеть от силы выстрела
+            this.dx = Math.floor(dx / 5);
+            this.dy = -Math.abs(Math.floor(dx / 3));
+        }
     }
 
     slopeTank(
@@ -231,7 +235,7 @@ export class Tank {
         }
     }
 
-    draw(ctx: CanvasRenderingContext2D, mousePos: Coords, ground: Ground) {
+    draw(ctx: CanvasRenderingContext2D, mousePos: Coords | null, ground: Ground) {
         this.recalcPosition(ctx, ground);
         // Рисуем танк
         ctx.drawImage(this.tankBodyImg, Math.floor(this.x), Math.floor(this.y - 30), this.tankWidth, this.tankHeight);

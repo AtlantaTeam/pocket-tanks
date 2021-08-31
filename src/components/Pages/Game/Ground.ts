@@ -50,8 +50,8 @@ export class Ground {
         let slope = (Math.random() * this.stepMax) * 2 - this.stepMax;
 
         for (let x = 0; x < this.innerWidth; x++) {
-            const isTooHigh = this.heightMax / height < 1.3;
-            const isTooLow = height / this.heightMin < 1.3;
+            const isTooHigh = this.heightMax / height < 1.1;
+            const isTooLow = height / this.heightMin < 1.1;
             this.stepMax = isTooHigh || isTooLow ? 0.9 : 3;
 
             // меняем наклон

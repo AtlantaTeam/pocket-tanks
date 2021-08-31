@@ -17,15 +17,6 @@ const allGameImages: Record<string, string>[] = [
     { name: 'sand', fileName: 'sand.jpg' },
 ];
 
-// TODO: пока определяю пустые, потом буду заполнять
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface GameProps {
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface GameState {
-}
-
 export const GameModes = {
     IDLE: 'idle',
     FIRE: 'fire',
@@ -44,11 +35,15 @@ export class GamePlay {
 
     private innerHeight: number;
 
-    mousePos: Coords;
+    mousePos: Coords | null;
+
+    maxGameDifficulty = 5;
+
+    gameDifficulty = 5; // 1 - легко; 5 - сложно
 
     private ground: Ground | undefined;
 
-    private leftTank: Tank | undefined;
+    leftTank: Tank | undefined;
 
     private rightTank: Tank | undefined;
 
@@ -61,6 +56,8 @@ export class GamePlay {
     isMoveMode = false;
 
     private lastAnimationTime: number;
+
+    private isImagesLoaded = false;
 
     constructor(canvasRef: RefObject<HTMLCanvasElement>) {
         this.canvasRef = canvasRef; // React.createRef<HTMLCanvasElement>();
@@ -101,12 +98,17 @@ export class GamePlay {
     };
 
     loadImages = () => {
+        if (this.ctx) {
+            this.animate();
+            return;
+        }
         let assetCount = 0;
         allGameImages.forEach(({ name, fileName }) => {
             const img = new Image();
             img.onload = () => {
                 assetCount += 1;
                 if (assetCount === allGameImages.length) {
+                    this.isImagesLoaded = true;
                     this.initPaint();
                 }
             };
@@ -143,6 +145,9 @@ export class GamePlay {
             canvas.width = this.innerWidth;
             canvas.height = this.innerHeight;
             this.ctx = canvas.getContext('2d');
+            if (this.ctx) {
+                this.ground.draw(this.ctx);
+            }
             this.animate();
         }
     };
@@ -164,41 +169,78 @@ export class GamePlay {
         if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground || this.isIdleMode()) {
             return;
         }
-        // Рисуем землю
-        if (this.isFireMode) {
-            // Во время выстрела перерисовываем всю землю
-            this.ctx.clearRect(0, 0, this.innerWidth, this.innerHeight);
-            this.ground.draw(this.ctx);
-        } else {
-            // В остальное время только землю под танками +-40px
-            this.ctx.clearRect(this.leftTank.x - 40, 0, this.leftTank.tankWidth + 40 * 2, this.innerHeight);
-            this.ground.draw(this.ctx, this.leftTank.x - 40, this.leftTank.x + this.leftTank.tankWidth + 40);
-            this.ctx.clearRect(this.rightTank.x - 40, 0, this.rightTank.tankWidth + 40 * 2, this.innerHeight);
-            this.ground.draw(this.ctx, this.rightTank.x - 40, this.rightTank.x + this.rightTank.tankWidth + 40);
-        }
 
-        // Рисуем танки
-        this.leftTank.draw(this.ctx, this.mousePos, this.ground);
-        this.rightTank.draw(this.ctx, this.mousePos, this.ground);
+        if ((this.isFireMode && (!this.bullet || this.bullet.explosionRadius)) || this.ground.isFalling) {
+            this.fullRedraw();
+        } else if (!this.bullet) {
+            this.tankAreaRedraw([this.leftTank, this.rightTank]);
+        }
 
         // Выходим из режима разворота дула
         this.isAngleMode = false;
         // Если выстрел, взрыв, осыпание земли завершены и танки не движутся,
         // то переходим в режим ожидания, т.е. прекращаем перерисовку
         if (this.isFireMode && !this.bullet && !this.ground.isFalling && !this.leftTank.dy && !this.rightTank.dy) {
-            this.activateMode(GameModes.IDLE);
+            if (this.rightTank.isActive) {
+                this.botAiming();
+                if (this.rightTank.isReadyToFire) {
+                    this.tankAreaRedraw([this.leftTank, this.rightTank]);
+                    this.botFire();
+                }
+            } else {
+                this.activateMode(GameModes.IDLE);
+            }
         }
 
         // Передвигаем снаряд
         this.moveBullet(this.ctx);
     };
 
+    private tankAreaRedraw(tanks: Tank[]) {
+        // перерисовываем только землю под танком
+        this.redrawGroundUnderTanks(tanks);
+        tanks.forEach((tank) => {
+            // Рисуем танк
+            if (this.ctx && this.ground) {
+                tank.draw(this.ctx, this.mousePos, this.ground);
+            }
+        });
+    }
+
+    private fullRedraw() {
+        if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground) {
+            return;
+        }
+        // перерисовываем всю землю
+        this.ctx.clearRect(0, 0, this.innerWidth, this.innerHeight);
+        this.ground.draw(this.ctx);
+        // Рисуем танки
+        this.leftTank.draw(this.ctx, this.mousePos, this.ground);
+        this.rightTank.draw(this.ctx, this.mousePos, this.ground);
+    }
+
+    private redrawGroundUnderTanks(tanks: Tank[]) {
+        tanks.forEach((tank) => {
+            // Перерисовываем землю под танками +- padding
+            const padding = 50;
+            if (this.ctx && this.ground) {
+                this.ctx.clearRect(tank.x - padding, 0, tank.tankWidth + padding * 2, this.innerHeight);
+                this.ground.draw(this.ctx, tank.x - padding, tank.x + tank.tankWidth + padding);
+            }
+        });
+    }
+
     moveBullet = (ctx: CanvasRenderingContext2D) => {
         if (!this.isFireMode || !this.bullet) {
             return;
         }
         this.bullet.move();
-        this.bullet.hit(ctx);
+        if (this.bullet.isHit(ctx)) {
+            if (this.bullet.isTankHit) {
+                this.bullet.targetTank.jumpOnHit(this.bullet.power, this.bullet.gravity, this.bullet.dx);
+            }
+            this.bullet.drawExplosion(ctx);
+        }
 
         if (!this.bullet.isFinished) {
             // Рисуем снаряд
@@ -209,19 +251,104 @@ export class GamePlay {
         this.changeActiveTank();
     };
 
+    botFire = () => {
+        console.log('fire');
+        if (!this.leftTank || !this.rightTank || !this.ground) {
+            return;
+        }
+        this.fire(this.rightTank, this.leftTank, this.ground);
+        this.rightTank.isReadyToFire = false;
+    };
+
+    botAiming = () => {
+        if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground) {
+            return;
+        }
+        this.mousePos = null;
+        const angleStep = 0.01;
+        let startAngle = (3 * Math.PI) / 2;
+        const startPower = 2;
+        const [step, stopCondition] = this.leftTank.x < this.rightTank.x
+            ? [-angleStep, (curAngle: number) => (curAngle > Math.PI)]
+            : [angleStep, (curAngle: number) => (curAngle < 2 * Math.PI)];
+
+        const isOverMissing = (hitX: number, tank: Tank) => {
+            const isFireMissLeft = step < 0 && hitX < tank.x;
+            const isFireMissRight = step > 0 && hitX > tank.x + tank.tankWidth;
+            return isFireMissLeft || isFireMissRight;
+        };
+        let closestToHit = { angle: startAngle, power: startPower, minDiff: this.innerWidth };
+
+        // Пристреливаемся
+        for (let curPower = startPower; curPower < 18; curPower += 1) {
+            for (let currentAngle = startAngle; stopCondition(currentAngle); currentAngle += step) {
+                this.rightTank.canHarmYourself = false;
+
+                const { hitX, isTankHit } = this.virtualFire(currentAngle, curPower);
+
+                if (isTankHit || isOverMissing(hitX, this.leftTank)) {
+                    if (!isTankHit) {
+                        if (Math.abs(hitX - this.leftTank.x) < closestToHit.minDiff) {
+                            closestToHit = {
+                                angle: currentAngle,
+                                power: curPower,
+                                minDiff: Math.abs(hitX - this.leftTank.x),
+                            };
+                        }
+                        // Перебор с силой - уменьшаем. И возвращаем угол на 2 шага назад
+                        startAngle = currentAngle - 2 * step;
+                        break;
+                    }
+                    // Добавляем случайности в выстрел, в зависимости от сложности игры
+                    this.rightTank.gunpointAngle += Math.random()
+                        * (this.maxGameDifficulty - this.gameDifficulty)
+                        * step;
+                    this.rightTank.isReadyToFire = true;
+                    this.rightTank.canHarmYourself = true;
+                    return;
+                }
+            }
+        }
+        // В случае, если не удалось попасть наверняка - стреляем лучшим вариантом
+        this.rightTank.gunpointAngle = closestToHit.angle;
+        this.rightTank.power = closestToHit.power;
+        this.rightTank.isReadyToFire = true;
+        this.rightTank.canHarmYourself = true;
+    };
+
+    private virtualFire(angle: number, power: number): { hitX: number, isTankHit: boolean } {
+        if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground) {
+            return { hitX: 0, isTankHit: false };
+        }
+        this.rightTank.gunpointAngle = angle;
+        this.rightTank.power = power;
+        const virtualBullet = new Bullet(
+            this.innerWidth,
+            this.innerHeight,
+            this.ground,
+            this.rightTank,
+            this.leftTank,
+        );
+        virtualBullet.move();
+        while (!virtualBullet.isHit(this.ctx)) {
+            virtualBullet.move();
+        }
+        return { hitX: virtualBullet.x, isTankHit: virtualBullet.isTankHit };
+    }
+
     onFire = () => {
         if (!this.leftTank || !this.rightTank || !this.ground) {
             return;
         }
-        const [activeTank, targetTank] = this.getActiveAndTargetTanks(this.leftTank, this.rightTank);
-        const bulletPos = activeTank.calcBulletStartPos();
+        this.fire(this.leftTank, this.rightTank, this.ground);
+    };
+
+    fire = (activeTank: Tank, targetTank: Tank, ground: Ground) => {
         this.activateMode(GameModes.FIRE);
         this.bullet = new Bullet(
-            bulletPos.x,
-            bulletPos.y,
             this.innerWidth,
             this.innerHeight,
-            this.ground,
+            ground,
             activeTank,
             targetTank,
         );
