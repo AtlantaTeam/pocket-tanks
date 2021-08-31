@@ -24,7 +24,8 @@
         // Specify library files to be included in the compilation.
         "lib": [
             "esnext",
-            "dom"
+            "DOM",
+            "DOM.Iterable"
         ],
         // Allow javascript files to be compiled.
         "allowJs": false,
@@ -128,8 +129,7 @@
         "emitDecoratorMetadata": true,
         "paths": {
             "*": ["./src/*"]
-          },
-
+        },
     },
     "include": [
         "src"
