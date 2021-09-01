@@ -1,17 +1,16 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
 import { PATTERNS } from 'utils/constants/regex';
 import { ERRORS } from 'utils/constants/errorsForms';
-import { Login } from 'components/Pages/Login/Login';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import '../Forms.css';
 import { Title } from '../../Title/Title';
-import { Button, ButtonSubmit } from '../../Button/Button';
+import { ButtonSubmit } from '../../Button/Button';
 
 export const SignUpSchema = Yup.object().shape({
     email: Yup.string()

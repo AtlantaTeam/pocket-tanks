@@ -34,6 +34,11 @@
     z-index: 100;
 }
 
+.button_orange_link {
+    max-width: 140px;
+    text-decoration: none;
+}
+
 .button_orange:hover {
     animation: none;
     background: var(--main)
