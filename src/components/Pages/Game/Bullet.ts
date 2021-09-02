@@ -2,17 +2,21 @@ import { Ground } from './Ground';
 import { Tank } from './Tank';
 
 export class Bullet {
-    private radius: number;
+    radius: number;
 
     private mass: number;
 
-    private x: number;
+    x: number;
 
-    private y: number;
+    lastX = 0;
+
+    y: number;
+
+    lastY = 0;
 
     power: number;
 
-    private dx: number;
+    dx: number;
 
     private dy: number;
 
@@ -22,7 +26,7 @@ export class Bullet {
 
     private wind: number;
 
-    private explosionRadius: number;
+    explosionRadius: number;
 
     private explosionMaxRadius: number;
 
@@ -38,13 +42,11 @@ export class Bullet {
 
     private ground: Ground;
 
-    private targetTank: Tank;
+    targetTank: Tank;
 
     private activeTank: Tank;
 
     constructor(
-        x: number,
-        y: number,
         innerWidth: number,
         innerHeight: number,
         ground: Ground,
@@ -53,8 +55,9 @@ export class Bullet {
     ) {
         this.activeTank = activeTank;
         this.targetTank = targetTank;
-        this.radius = 3;
+        this.radius = 2;
         this.mass = this.radius;
+        const { x, y } = activeTank.calcBulletStartPos();
         this.x = x;
         this.y = y;
         this.power = activeTank.power;
@@ -65,7 +68,7 @@ export class Bullet {
         this.wind = 0;
         this.explosionRadius = 0;
         this.explosionMaxRadius = 50;
-        this.color = 'black';
+        this.color = '#000000';
         this.innerWidth = innerWidth;
         this.innerHeight = innerHeight;
         this.ground = ground;
@@ -80,66 +83,67 @@ export class Bullet {
         // Учитываем сопротивление ветра
         this.dx -= (this.dx * this.wind);
 
-        this.x += this.dx;
-        this.y += this.dy;
+        this.x = Math.floor(this.x + this.dx);
+        this.y = Math.floor(this.y + this.dy);
     }
 
-    hit = (ctx: CanvasRenderingContext2D) => {
+    isHit = (ctx: CanvasRenderingContext2D) => {
         if (this.isTankHit) {
-            this.explosion(ctx);
-        } else {
-            // Попадание в танк противника
-            this.checkTankHit(ctx, this.targetTank);
-            // Попали в себя
-            if (this.activeTank.canHarmYourself) {
-                this.checkTankHit(ctx, this.activeTank);
-            }
+            return true;
+        }
 
-            if (!this.isTankHit) {
-                // Удар о стены или пол
-                if (this.x + this.radius > this.innerWidth
+        // Проверим попадание в танк противника
+        this.checkTankHit(ctx, this.targetTank);
+
+        // Проверим попадание в себя
+        if (this.activeTank.canHarmYourself) {
+            this.checkTankHit(ctx, this.activeTank);
+        }
+
+        if (!this.isTankHit) {
+            // Удар о стены или пол
+            if (this.x + this.radius > this.innerWidth
                     || this.x - this.radius < 0
                     || this.y + this.radius > this.innerHeight
                     || this.y - this.radius < 0) {
-                    // elasticity - коэффициент потери силы при столкновении о стену
-                    this.dy *= this.elasticity;
+                // elasticity - коэффициент потери силы при столкновении о стену
+                this.dy *= this.elasticity;
 
-                    // Удар о правую стену
-                    if (this.x + this.radius > this.innerWidth) {
-                        this.x = this.innerWidth - this.radius;
-                        this.dx *= -1;
-                    } else if (this.x - this.radius < 0) {
-                        // Удар о левую стену
-                        this.x = this.radius;
-                        this.dx *= -1;
-                    } else if (this.y > this.innerHeight) {
-                        this.explosion(ctx);
-                    }
-                }
-
-                // Удар о землю
-                if (this.innerHeight - this.y - this.radius <= this.ground.heights[Math.floor(this.x)]) {
-                    this.explosion(ctx);
+                // Удар о правую стену
+                if (this.x + this.radius > this.innerWidth) {
+                    this.x = this.innerWidth - this.radius;
+                    this.dx *= -1;
+                } else if (this.x - this.radius < 0) {
+                    // Удар о левую стену
+                    this.x = this.radius;
+                    this.dx *= -1;
+                } else if (this.y > this.innerHeight) {
+                    return true;
                 }
             }
+
+            // Удар о землю
+            if (this.innerHeight - this.y - this.radius <= this.ground.heights[Math.floor(this.x)]) {
+                return true;
+            }
+        } else {
+            return true;
         }
+
+        return false;
     };
 
     checkTankHit = (ctx: CanvasRenderingContext2D, tank: Tank) => {
         ctx.save();
         ctx.setTransform(tank.currentTransformer);
         if (ctx.isPointInPath(tank.tankHitArea, this.x, this.y)) {
-            ctx.restore();
             this.isTankHit = true;
-            tank.jumpOnHit(this.power, this.gravity, this.dx);
-            this.explosion(ctx);
             console.log('HIT!!!');
-        } else {
-            ctx.restore();
         }
+        ctx.restore();
     };
 
-    explosion = (ctx: CanvasRenderingContext2D) => {
+    drawExplosion = (ctx: CanvasRenderingContext2D) => {
         this.dx = 0;
         this.dy = 0;
         this.radius = 0;
@@ -158,10 +162,8 @@ export class Bullet {
 
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.explosionRadius, 0, 2 * Math.PI, true);
-        ctx.globalAlpha = 1;
         ctx.fill();
         ctx.closePath();
-        ctx.globalAlpha = 1;
         this.explosionRadius += 1;
         if (this.explosionRadius >= this.explosionMaxRadius) {
             // Создаем провал земли в пределах взрыва
@@ -170,12 +172,29 @@ export class Bullet {
             this.isFinished = true;
             this.explosionRadius = 0;
         }
+
+        return true;
     };
 
+    isPositionChanged() {
+        return this.lastX !== this.x || this.lastY !== this.y;
+    }
+
     draw(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fill();
+        if (this.isPositionChanged()) {
+            ctx.clearRect(
+                this.lastX,
+                this.lastY,
+                this.radius * 2,
+                this.radius * 2,
+            );
+
+            if (ctx.fillStyle !== this.color) {
+                ctx.fillStyle = this.color;
+            }
+            ctx.fillRect(this.x, this.y, this.radius * 2, this.radius * 2);
+            this.lastX = this.x;
+            this.lastY = this.y;
+        }
     }
 }

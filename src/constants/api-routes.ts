@@ -1,3 +1,5 @@
+export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+
 export const AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',
     LOGIN: '/auth/signin',

@@ -1,15 +1,3 @@
-@-webkit-keyframes pulse {
-    0% {
-        -webkit-box-shadow: 0 0 0 0 #fff;
-    }
-    50% {
-        -webkit-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
-    }
-    100% {
-        -webkit-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
-    }
-}
-
 @keyframes pulse {
     0% {
         -moz-box-shadow: 0 0 0 0 #fff;
@@ -44,6 +32,11 @@
 .button_orange {
     background-color: #f9a600;
     z-index: 100;
+}
+
+.button_orange_link {
+    max-width: 140px;
+    text-decoration: none;
 }
 
 .button_orange:hover {
@@ -111,28 +104,6 @@
     transition: background 0s;
 }
 
-.button-tab {
-    background-color: transparent;
-    color: #fff;
-    height: 40px;
-    border-radius: 1px;
-    border: none;
-    outline: none;
-    font-family: "Play", sans-serif;
-    font-style: normal;
-    font-size: 24px;
-    cursor: pointer;
-    align-items: center;
-    flex-grow: 1;
-    margin: 2px;
-    padding: 0;
-}
-
-.button-tab_selected {
-    background-color: #fff;
-    color: var(--black);
-}
-
 .button-link {
     font-family: 'Play', sans-serif;
     font-size: 16px;
@@ -147,8 +118,12 @@
     cursor: pointer;
     margin: 0px;
     max-width: 120px;
-    margin-top: 35px;
     transition: transform .3s ease;
+    text-decoration: none;
+}
+
+.button-link_margin {
+    margin-top: 35px;
 }
 
 .button-link:hover {

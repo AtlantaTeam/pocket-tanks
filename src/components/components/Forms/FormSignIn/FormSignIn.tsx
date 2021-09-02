@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -8,7 +10,7 @@ import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import '../Forms.css';
 import { Title } from '../../Title/Title';
-import { Button, ButtonSubmit } from '../../Button/Button';
+import { ButtonSubmit } from '../../Button/Button';
 
 export const SignInSchema = Yup.object().shape({
     login: Yup.string()
@@ -46,6 +48,7 @@ export const FormSignIn = () => (
                             className="input input_white"
                             placeholder="Ваш логин"
                             name="login"
+                            id="login"
                             type="text"
                             labelText="Логин"
                             errorText={errors.login}
@@ -55,6 +58,7 @@ export const FormSignIn = () => (
                             className="input input_white"
                             placeholder="Ваш пароль"
                             name="password"
+                            id="password"
                             type="password"
                             labelText="Пароль"
                             errorText={errors.password}
@@ -66,11 +70,12 @@ export const FormSignIn = () => (
                                 text="Войти"
                                 className="button button_orange"
                             />
-                            <Button
-                                type="button"
-                                text="Нет аккаунта? Зарегистрироваться"
-                                className="button-link"
-                            />
+                            <Link
+                                to="/signup"
+                                className="button-link button-link_margin"
+                            >
+                                Нет аккаунта? Зарегистрироваться
+                            </Link>
                         </div>
                     </Form>
                 )}
