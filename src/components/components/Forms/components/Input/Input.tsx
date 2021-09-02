@@ -8,8 +8,11 @@ export interface InputProps {
     className?: string;
     value?: string | number;
     defaultValue?: string | number;
-    placeholder: string;
+    placeholder?: string;
     name?: string;
+    min?: string;
+    max?: string;
+    id?: string;
     labelText?: string;
     onClick?: () => void;
     onFocus?: () => void;
@@ -23,6 +26,8 @@ export const Input = (props: InputProps) => (
         type={props.type}
         name={props.name}
         value={props.value}
+        min={String(props.min)}
+        max={String(props.max)}
         defaultValue={props.defaultValue}
         aria-hidden="true"
         onClick={props.onClick}

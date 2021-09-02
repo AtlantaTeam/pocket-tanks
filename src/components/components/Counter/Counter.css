@@ -1,0 +1,87 @@
+.field-counter {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.field-counter__wrap {
+    border: 3px solid var(--white);
+    border-radius: 5px;
+    display: flex;
+    height: 50%;
+    width: 100%;
+}
+
+.field-counter__parameter {
+    font-family: "Play", sans-serif;
+    font-size: 24px;
+    color: var(--main);
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.field-counter__input {
+    width: 40%;
+    height: 100%;
+    border: none;
+    border-right: 3px solid var(--white);
+    border-left: 3px solid var(--white);
+    outline: none;
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: var(--main);
+    text-align: center;
+}
+
+.triangle-right,
+.triangle-left {
+    height: 100%;
+    width: 30%;
+    background: transparent;
+    position: relative;
+    border: transparent;
+    cursor: pointer;
+}
+
+.triangle-right::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    bottom: 11px;
+    border: 12px solid transparent;
+    border-right: 16px solid var(--white);
+}
+
+.triangle-left::after {
+    content: '';
+    position: absolute;
+    bottom: 11px;
+    right: 6px;
+    border: 12px solid transparent;
+    border-left: 16px solid var(--white);
+}
+
+input[type="number"].field-counter__input {
+    -moz-appearance: textfield;
+}
+
+input[type="number"].field-counter__input::-webkit-outer-spin-button,
+input[type="number"].field-counter__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"].field-counter__input:hover,
+input[type="number"]:focus {
+    -moz-appearance: number-input;
+}
+
