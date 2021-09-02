@@ -1,0 +1,31 @@
+.leader-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+}
+
+.leader-board-container:first-of-type {
+    margin-bottom: 25px;
+}
+
+.leader-name {
+    width: calc(100% - 40px);
+    border-radius: 5px;
+    outline: none;
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 45px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: transparent;
+    cursor: pointer;
+    color: #fff;
+    border: 1px solid #fff;
+    margin-bottom: 25px;
+}
+
+.leader-name_self {
+    border: 1px solid var(--main);
+}

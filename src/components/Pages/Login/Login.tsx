@@ -1,3 +1,13 @@
 import React from 'react';
+import { FormSignIn } from 'components/components/Forms/FormSignIn/FormSignIn';
+import { FormOAuth } from 'components/components/Forms/FormOAth/FormOAuth';
+import { Page } from '../components/Page/Page';
 
-export const Login = () => <h2>Вход</h2>;
+export const Login = () => (
+    <Page>
+        <div>
+            <FormSignIn />
+            <FormOAuth />
+        </div>
+    </Page>
+);

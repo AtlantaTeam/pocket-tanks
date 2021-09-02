@@ -13,7 +13,7 @@ export default {
 } as ComponentMeta<typeof FormOAuth>;
 
 const Template: ComponentStory<typeof FormOAuth> = () => (
-    <WrapperCenter className="wrapper-center wrapper-center_full-screeen-black">
+    <WrapperCenter className="wrapper-center wrapper-center_full-screen-black">
         <FormOAuth />
     </WrapperCenter>
 );

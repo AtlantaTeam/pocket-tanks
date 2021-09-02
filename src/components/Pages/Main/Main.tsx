@@ -1,51 +1,56 @@
 import React from 'react';
-import { Nullable } from 'types/Nullable';
-import '../../App/App.css';
+import { Link } from 'react-router-dom';
 
-interface ErrorButtonProps {
-    caption?: string;
-}
+import imgLogo from 'images/logo.svg';
+import './Main.css';
 
-interface ErrorButtonState {
-    caption: string;
-    errorChildren: Nullable<Error>;
-}
-
-class ErrorButton extends React.Component<
-ErrorButtonProps,
-ErrorButtonState
-> {
-    constructor(props: ErrorButtonProps) {
-        super(props);
-        this.state = {
-            caption: 'Нажми на меня',
-            errorChildren: null,
-        };
-    }
-
-    handleClick = () => {
-        try {
-            throw new Error('Тест работы ErrorBoundary');
-        } catch (error) {
-            this.setState({ errorChildren: error });
-        }
-    };
-
-    render = () => {
-        if (this.state.errorChildren !== null) {
-            throw new Error(this.state.errorChildren.message);
-        }
-        return (
-            <button type="button" onClick={this.handleClick}>
-                {this.state.caption}
-            </button>
-        );
-    };
-}
+import { Title } from 'components/components/Title/Title';
+import { Text } from 'components/components/Text/Text';
+import { Image } from 'components/components/Image/Image';
+import { Page } from '../components/Page/Page';
 
 export const Main = () => (
-    <div>
-        <h2 style={{ fontFamily: 'Press Start 2P' }}>Main</h2>
-        <ErrorButton />
-    </div>
+    <Page>
+        <div className="main-content">
+            <div className="main-content__left-container">
+                <Title className="title title_big" text="Pocket Tanks" />
+                <div className="main-text">
+                    <div>
+                        <Text
+                            className="text text_main"
+                            text="Проектная работа студентов курса"
+                        />
+                        <Text
+                            className="text text_main"
+                            text="Yandex Praktikum Middle Frontend Developer"
+                        />
+                    </div>
+                    <div>
+                        <Text
+                            className="text text_main"
+                            text="Битва двух танков в жаркой пустыне!"
+                        />
+                        <Text
+                            className="text text_main"
+                            text="Победи своего противника!"
+                        />
+                        <Text
+                            className="text text_main"
+                            text="Целься точнее!"
+                        />
+                    </div>
+                </div>
+                <Link
+                    to="/game"
+                    className="button button_orange button_orange_link"
+                >
+                    Поехали!
+                </Link>
+            </div>
+            <Image
+                className="image_logo"
+                imagePath={imgLogo}
+            />
+        </div>
+    </Page>
 );

@@ -11,26 +11,26 @@
 }
 
 .wrapper-center_tabs {
-    height: 400px;
+    height: 700px;
     width: 600px;
     display: block;
     background-color: #121210;
-    padding-top: 50px;
+    padding: 0;
 }
 
-.wrapper-center_full-screeen {
+.wrapper-center_full-screen {
     width: 100%;
     height: 100vh;
     background-color: rgba(0, 0, 0, .05);
 }
 
-.wrapper-center_full-screeen-black {
+.wrapper-center_full-screen-black {
     width: 100%;
     height: 100vh;
     background-color: #121210;
 }
 
-.wrapper-center_full-screeen-big {
+.wrapper-center_full-screen-big {
     width: 100%;
     height: 150vh;
     background-color: #121210;
