@@ -42,13 +42,13 @@ export const WeaponSelect = (props: WeaponSelectProps) => {
                                         let strClass = '';
                                         switch (props.listPosition) {
                                             case 'top':
-                                                strClass = 'options-top';
+                                                strClass = 'options options_top';
                                                 break;
                                             case 'bottom':
-                                                strClass = 'options-bottom';
+                                                strClass = 'options options_bottom';
                                                 break;
                                             default:
-                                                strClass = 'options-bottom';
+                                                strClass = 'options options_bottom';
                                                 break;
                                         }
                                         return strClass;
