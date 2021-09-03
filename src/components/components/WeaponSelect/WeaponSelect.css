@@ -1,0 +1,114 @@
+.field-select {
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.field-select__wrap {
+    border: 3px solid var(--white);
+    color: var(--white);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    background-color: var(--black);
+    cursor: pointer;
+}
+
+.field-select__parameter {
+    font-family: "Play", sans-serif;
+    font-size: 24px;
+    color: var(--main);
+    width: 100%;
+    line-height: 50px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.field-select__name {
+    width: 70%;
+    border: none;
+    outline: none;
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-size: 24px;
+    align-items: center;
+    background-color: transparent;
+    color: var(--main);
+    text-align: center;
+    display: block;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--black);
+    border: 3px solid var(--white);
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    z-index: 1001;
+}
+
+.option {
+    font-family: 'Play', sans-serif;
+    font-size: 24px;
+    width: 188px;
+    background-color: var(--black);
+    border: 3px solid var(--white);
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: var(--white);
+    text-align: center;
+    cursor: pointer;
+    margin-top: 3px;
+    margin-bottom: 0px;
+    text-decoration: none;
+    z-index: 1001;
+    list-style-type: none;
+}
+
+.option:last-of-type {
+    margin-bottom: 3px;
+}
+
+.option:hover {
+    background-color: var(--main);
+}
+
+.triangle-to-bottom,
+.triangle-to-top {
+    height: 46px;
+    width: 30%;
+    background: transparent;
+    position: relative;
+    border: transparent;
+    cursor: pointer;
+    border-left: 3px solid var(--white);
+}
+
+.triangle-to-bottom::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    bottom: 0px;
+    border: 12px solid transparent;
+    border-top: 16px solid var(--white);
+}
+
+.triangle-to-top::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0px;
+    border: 12px solid transparent;
+    border-bottom: 16px solid var(--white);
+}

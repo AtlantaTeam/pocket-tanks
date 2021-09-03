@@ -1,4 +1,3 @@
-import { Input } from 'components/components/Forms/components/Input/Input';
 import { Title } from 'components/components/Title/Title';
 import React from 'react';
 import { Page } from '../components/Page/Page';
