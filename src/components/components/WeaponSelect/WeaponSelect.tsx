@@ -12,19 +12,19 @@ export interface Weapon{
 export interface WeaponSelectProps {
     weapon: Weapon[];
     label: string;
+    listPosition?: 'top' | 'bottom'
 }
 
 export const WeaponSelect = (props: WeaponSelectProps) => {
     const [selectedWeapon, setSelectedWeapon] = useState(props.weapon[0]);
-
     return (
-        <Listbox value={selectedWeapon} onChange={setSelectedWeapon}>
-            {({ open }) => (
-                <>
-                    <div className="field-select">
-                        <p className="field-select__parameter">
-                            {props.label}
-                        </p>
+        <div className="field-select">
+            <p className="field-select__parameter">
+                {props.label}
+            </p>
+            <Listbox value={selectedWeapon} onChange={setSelectedWeapon}>
+                {({ open }) => (
+                    <>
                         <Listbox.Button className="field-select__wrap">
                             <div className="field-select__name">
                                 {selectedWeapon.name}
@@ -37,7 +37,24 @@ export const WeaponSelect = (props: WeaponSelectProps) => {
                                 Using `static`, `Listbox.Options` is always rendered and
                                 ignores the `open` state.
                                 */}
-                                <Listbox.Options className="options" static>
+                                <Listbox.Options
+                                    className={(() => {
+                                        let strClass = '';
+                                        switch (props.listPosition) {
+                                            case 'top':
+                                                strClass = 'options-top';
+                                                break;
+                                            case 'bottom':
+                                                strClass = 'options-bottom';
+                                                break;
+                                            default:
+                                                strClass = 'options-bottom';
+                                                break;
+                                        }
+                                        return strClass;
+                                    })()}
+                                    static
+                                >
                                     {props.weapon.map((gun) => (
                                         <Listbox.Option className="option" key={gun.id} value={gun}>
                                             {gun.name}
@@ -46,9 +63,9 @@ export const WeaponSelect = (props: WeaponSelectProps) => {
                                 </Listbox.Options>
                             </div>
                         )}
-                    </div>
-                </>
-            )}
-        </Listbox>
+                    </>
+                )}
+            </Listbox>
+        </div>
     );
 };
