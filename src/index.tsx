@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import { App } from 'components/App/App';
-import { initializeStore } from 'redux/store';
+import { initializeStore } from './redux/store';
 
 // eslint-disable-next-line no-underscore-dangle
 const initialState = window.__INITIAL_STATE__ || {};

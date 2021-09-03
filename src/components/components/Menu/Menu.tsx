@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import {
     Link,
 } from 'react-router-dom';
@@ -22,12 +23,7 @@ export const MenuComponent = () => (
                         <Link
                             key={`${item.name}-link`}
                             to={item.link}
-                            className={(() => {
-                                if (active) {
-                                    return 'menu-item menu-item_active';
-                                }
-                                return 'menu-item';
-                            })()}
+                            className={cn('menu-item', { 'menu-item_active': active })}
                         >
                             {item.name}
                         </Link>

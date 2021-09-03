@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import { rootReducer } from './reducers';
 import type { State } from './reducers';
 
-// import { rootSaga } from 'sagas';
+import { rootSaga } from './sagas';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -18,7 +18,7 @@ export const initializeStore = (initialState: State) => {
         composeEnhancers(applyMiddleware(sagaMiddleware, logger)),
     );
 
-    // sagaMiddleware.run(rootSaga);
+    sagaMiddleware.run(rootSaga);
 
     return { store };
 };

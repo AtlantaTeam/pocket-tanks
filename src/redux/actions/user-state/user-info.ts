@@ -1,9 +1,9 @@
-import type { UserInfoResponse } from '../../../api/types';
+import type { EmptyRequest, UserInfoResponse, ErrorResponse } from '../../../api/types';
 import type { Action } from '..';
 
-export type FetchUserInfoRequestedAction = Action<typeof FETCH_USER_INFO_REQUESTED>;
+export type FetchUserInfoRequestedAction = Action<typeof FETCH_USER_INFO_REQUESTED, EmptyRequest>;
 export type FetchUserInfoFulfilledAction = Action<typeof FETCH_USER_INFO_FULFILLED, UserInfoResponse>;
-export type FetchUserInfoFailedAction = Action<typeof FETCH_USER_INFO_FAILED>;
+export type FetchUserInfoFailedAction = Action<typeof FETCH_USER_INFO_FAILED, ErrorResponse>;
 
 export type FetchUserInfoAction =
     | FetchUserInfoRequestedAction
@@ -23,6 +23,7 @@ export const fetchUserInfoFulfilled = (payload: UserInfoResponse) => ({
     payload,
 } as FetchUserInfoFulfilledAction);
 
-export const fetchUserInfoFailed = () => ({
+export const fetchUserInfoFailed = (payload: ErrorResponse) => ({
     type: FETCH_USER_INFO_FAILED,
+    payload,
 } as FetchUserInfoFailedAction);

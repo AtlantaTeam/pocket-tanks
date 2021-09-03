@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
@@ -12,6 +13,8 @@ import '../Forms.css';
 import { Title } from '../../Title/Title';
 import { ButtonSubmit } from '../../Button/Button';
 
+import { loginRequested } from '../../../../redux/actions/user-state/login';
+
 export const SignInSchema = Yup.object().shape({
     login: Yup.string()
         .min(4, ERRORS.ERROR_TEXT)
@@ -23,8 +26,10 @@ export const SignInSchema = Yup.object().shape({
         .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
-export const FormSignIn = () => (
-    <>
+export const FormSignIn = () => {
+    const dispatch = useDispatch();
+
+    return (
         <div className="form-wrapper">
             <Title
                 className="title title_middle-form"
@@ -37,9 +42,9 @@ export const FormSignIn = () => (
                 }}
                 validationSchema={SignInSchema}
                 onSubmit={(values) => {
-                    // same shape as initial values
-                    // eslint-disable-next-line no-console
-                    console.log(values);
+                    const formData = new FormData();
+                    Object.keys(values).forEach((key) => formData.append(key, values[key]));
+                    dispatch(loginRequested(formData));
                 }}
             >
                 {({ errors, touched }) => (
@@ -81,5 +86,5 @@ export const FormSignIn = () => (
                 )}
             </Formik>
         </div>
-    </>
-);
+    );
+};

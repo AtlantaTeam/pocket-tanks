@@ -1,9 +1,9 @@
-import type { UserInfoResponse } from '../../../api/types';
+import type { UserInfoResponse, ErrorResponse } from '../../../api/types';
 import type { Action } from '..';
 
-export type ChangeAvatarRequestedAction = Action<typeof CHANGE_AVATAR_REQUESTED>;
+export type ChangeAvatarRequestedAction = Action<typeof CHANGE_AVATAR_REQUESTED, FormData>;
 export type ChangeAvatarFulfilledAction = Action<typeof CHANGE_AVATAR_FULFILLED, UserInfoResponse>;
-export type ChangeAvatarFailedAction = Action<typeof CHANGE_AVATAR_FAILED>;
+export type ChangeAvatarFailedAction = Action<typeof CHANGE_AVATAR_FAILED, ErrorResponse>;
 
 export type ChangeAvatarAction =
     | ChangeAvatarRequestedAction
@@ -14,8 +14,9 @@ export const CHANGE_AVATAR_REQUESTED = 'CHANGE_AVATAR_REQUESTED';
 export const CHANGE_AVATAR_FULFILLED = 'CHANGE_AVATAR_FULFILLED';
 export const CHANGE_AVATAR_FAILED = 'CHANGE_AVATAR_FAILED';
 
-export const changeAvatarRequested = () => ({
+export const changeAvatarRequested = (payload: FormData) => ({
     type: CHANGE_AVATAR_REQUESTED,
+    payload,
 } as ChangeAvatarRequestedAction);
 
 export const changeAvatarFulfilled = (payload: UserInfoResponse) => ({
@@ -23,6 +24,7 @@ export const changeAvatarFulfilled = (payload: UserInfoResponse) => ({
     payload,
 } as ChangeAvatarFulfilledAction);
 
-export const changeAvatarFailed = () => ({
+export const changeAvatarFailed = (payload: ErrorResponse) => ({
     type: CHANGE_AVATAR_FAILED,
+    payload,
 } as ChangeAvatarFailedAction);

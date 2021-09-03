@@ -1,8 +1,9 @@
+import type { EmptyRequest, EmptyResponse, ErrorResponse } from '../../../api/types';
 import type { Action } from '..';
 
-export type LogoutRequestedAction = Action<typeof LOGOUT_REQUESTED>;
-export type LogoutFulfilledAction = Action<typeof LOGOUT_FULFILLED>;
-export type LogoutFailedAction = Action<typeof LOGOUT_FAILED>;
+export type LogoutRequestedAction = Action<typeof LOGOUT_REQUESTED, EmptyRequest>;
+export type LogoutFulfilledAction = Action<typeof LOGOUT_FULFILLED, EmptyResponse>;
+export type LogoutFailedAction = Action<typeof LOGOUT_FAILED, ErrorResponse>;
 
 export type LogoutAction =
     | LogoutRequestedAction
@@ -21,6 +22,7 @@ export const logoutFulfilled = () => ({
     type: LOGOUT_FULFILLED,
 } as LogoutFulfilledAction);
 
-export const logoutFailed = () => ({
+export const logoutFailed = (payload: ErrorResponse) => ({
     type: LOGOUT_FAILED,
+    payload,
 } as LogoutFailedAction);

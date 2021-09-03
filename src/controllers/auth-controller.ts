@@ -1,23 +1,24 @@
+import { objectToCamel } from 'ts-case-convert';
 import { authAPI } from '../api/auth-api';
 
 export class AuthController {
-    public static async login(formData: FormData) {
+    public static async login(this: void, formData: FormData) {
         const response = await authAPI.login(formData);
-        return response;
+        return response.data;
     }
 
-    public static async signup(formData: FormData) {
+    public static async signup(this: void, formData: FormData) {
         const response = await authAPI.signup(formData);
-        return response;
+        return response.data;
     }
 
-    public static async getUserInfo() {
+    public static async getUserInfo(this: void) {
         const response = await authAPI.getUserInfo();
-        return response;
+        return objectToCamel(response.data);
     }
 
-    public static async logout() {
+    public static async logout(this: void) {
         const response = await authAPI.logout();
-        return response;
+        return response.data;
     }
 }
