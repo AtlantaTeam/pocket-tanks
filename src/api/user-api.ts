@@ -14,7 +14,7 @@ class UserAPI {
     changeAvatar(formData: FormData) {
         return http.request.put<UserInfoResponse>(
             USER_ROUTES.CHANGE_AVATAR,
-            { data: formData },
+            formData,
         );
     }
 

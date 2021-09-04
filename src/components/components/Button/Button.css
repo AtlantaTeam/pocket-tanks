@@ -118,7 +118,7 @@
     cursor: pointer;
     margin: 0px;
     max-width: 120px;
-    transition: transform .3s ease;
+    transition: transform .2s linear;
     text-decoration: none;
 }
 
@@ -142,4 +142,12 @@
 
 .button:hover {
     animation: pulse 1.2s infinite;
+}
+
+.button:disabled {
+    opacity: 0.5;
+}
+
+.button:disabled:hover {
+    animation: none;
 }

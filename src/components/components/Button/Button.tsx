@@ -8,6 +8,7 @@ export interface ButtonProps {
     className?: string;
     children?: JSX.Element[] | JSX.Element;
     imagePath?: string;
+    isLoading?: boolean;
     onClick?: () => void;
     onSubmit?: () => void;
 }
@@ -30,6 +31,7 @@ export const ButtonSubmit = (props: ButtonProps) => (
         onClick={props.onClick}
         onSubmit={props.onSubmit}
         className={props.className}
+        disabled={props.isLoading}
     >
         {props.text}
         {props.children}

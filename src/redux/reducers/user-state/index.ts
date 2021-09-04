@@ -77,6 +77,11 @@ export const userState = (state: UserState = initialState, action: UserStateActi
             break;
 
         case FETCH_USER_INFO_FULFILLED:
+            state.isLoggedIn = true;
+            state.isLoading = false;
+            state.userInfo = action.payload;
+            break;
+
         case CHANGE_PROFILE_FULFILLED:
         case CHANGE_AVATAR_FULFILLED:
             state.isLoading = false;

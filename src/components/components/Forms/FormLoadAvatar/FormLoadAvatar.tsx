@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './FormLoadAvatar.css';
 import '../Forms.css';
@@ -9,13 +10,24 @@ import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
 
+import { RESOURCES_BASE_URL } from '../../../../constants/api-routes';
+import { getUserLoaderState, getUserAvatar } from '../../../../redux/selectors/user-state';
+import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
+
 export const FormLoadAvatar = () => {
-    const fileInput = useRef(null);
+    const fileInput = useRef<HTMLInputElement>(null);
+
+    const isLoading = useSelector(getUserLoaderState);
+    const avatar = useSelector(getUserAvatar);
+    const initialStateAvatar = avatar ? `${RESOURCES_BASE_URL}${avatar}` : imgAvatarPlaceHolder;
+
     const [state, setState] = useState({
-        message: 'Аватар еще не выбран',
+        message: avatar ? 'Новый аватар не выбран' : 'Аватар еще не выбран',
         className: 'load-message',
-        img: imgAvatarPlaceHolder,
+        img: initialStateAvatar,
     });
+
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -26,6 +38,17 @@ export const FormLoadAvatar = () => {
                 onSubmit={
                     (event) => {
                         event.preventDefault();
+                        if (fileInput && fileInput.current?.files?.length === 0) {
+                            setState({
+                                message: 'Нужно выбрать файл',
+                                className: 'load-message load-message_error',
+                                img: initialStateAvatar,
+                            });
+                            return;
+                        }
+                        const form = event.target as HTMLFormElement;
+                        const formData = new FormData(form);
+                        dispatch(changeAvatarRequested(formData));
                     }
                 }
             >
@@ -36,7 +59,7 @@ export const FormLoadAvatar = () => {
                             <input
                                 ref={fileInput}
                                 id="input_file"
-                                name="inputFile"
+                                name="avatar"
                                 type="file"
                                 className="input-avatar"
                                 onChange={
@@ -44,17 +67,16 @@ export const FormLoadAvatar = () => {
                                         if (event.currentTarget !== null) {
                                             if (event.currentTarget.files !== null) {
                                                 if (event.currentTarget.files[0] !== undefined) {
-                                                    // здесь запрос на отправку аватара и в случае успеха, новый аватар
                                                     setState({
                                                         message: `Файл загружен: ${event.currentTarget.files[0].name}`,
                                                         className: 'load-message',
-                                                        img: imgAvatarPlaceHolder,
+                                                        img: URL.createObjectURL(event.currentTarget.files[0]),
                                                     });
                                                 } else {
                                                     setState({
                                                         message: 'Ошибка, попробуйте еще раз',
                                                         className: 'load-message load-message_error',
-                                                        img: imgAvatarPlaceHolder,
+                                                        img: initialStateAvatar,
                                                     });
                                                 }
                                             }
@@ -71,6 +93,7 @@ export const FormLoadAvatar = () => {
                         className="button button_orange"
                         type="submit"
                         text="Изменить"
+                        isLoading={isLoading}
                     />
                 </div>
             </form>

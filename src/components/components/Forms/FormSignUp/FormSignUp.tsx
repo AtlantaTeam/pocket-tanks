@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
@@ -13,6 +13,7 @@ import '../Forms.css';
 import { Title } from '../../Title/Title';
 import { ButtonSubmit } from '../../Button/Button';
 
+import { getUserLoaderState } from '../../../../redux/selectors/user-state';
 import { signupRequested } from '../../../../redux/actions/user-state/signup';
 
 export const SignUpSchema = Yup.object().shape({
@@ -47,6 +48,8 @@ export const SignUpSchema = Yup.object().shape({
 });
 
 export const FormSignUp = () => {
+    const isLoading = useSelector(getUserLoaderState);
+
     const dispatch = useDispatch();
 
     return (
@@ -149,6 +152,7 @@ export const FormSignUp = () => {
                                 type="submit"
                                 text="Зарегистрироваться"
                                 className="button button_orange"
+                                isLoading={isLoading}
                             />
 
                             <Link

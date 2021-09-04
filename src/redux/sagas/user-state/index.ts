@@ -21,14 +21,15 @@ import { changePasswordFulfilled, changePasswordFailed, CHANGE_PASSWORD_REQUESTE
 import { AuthController } from '../../../controllers/auth-controller';
 import { UserController } from '../../../controllers/user-controller';
 
-import { IDResponse, UserInfoResponse } from '../../../api/types';
+import { IDResponse, UserInfoResponse, ErrorResponse } from '../../../api/types';
 
 export function* loginRequest({ payload }: LoginRequestedAction) {
     try {
         yield call(AuthController.login, payload);
         yield put(loginFulfilled());
+        yield call(fetchUserInfoRequest);
     } catch (err) {
-        yield put(loginFailed(err));
+        yield put(loginFailed(err as ErrorResponse));
     }
 }
 
@@ -37,8 +38,9 @@ export function* signupRequest({ payload }: SignupRequestedAction) {
         // @ts-expect-error redux-saga types
         const userId = yield call(AuthController.signup, payload);
         yield put(signupFulfilled(userId as IDResponse));
+        yield call(fetchUserInfoRequest);
     } catch (err) {
-        yield put(signupFailed(err));
+        yield put(signupFailed(err as ErrorResponse));
     }
 }
 
@@ -47,7 +49,7 @@ export function* logoutRequest() {
         yield call(AuthController.logout);
         yield put(logoutFulfilled());
     } catch (err) {
-        yield put(logoutFailed(err));
+        yield put(logoutFailed(err as ErrorResponse));
     }
 }
 
@@ -57,7 +59,7 @@ export function* fetchUserInfoRequest() {
         const userInfo = yield call(AuthController.getUserInfo);
         yield put(fetchUserInfoFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
-        yield put(fetchUserInfoFailed(err));
+        yield put(fetchUserInfoFailed(err as ErrorResponse));
     }
 }
 
@@ -67,7 +69,7 @@ export function* changeProfileRequest({ payload }: ChangeProfileRequestedAction)
         const userInfo = yield call(UserController.changeProfile, payload);
         yield put(changeProfileFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
-        yield put(changeProfileFailed(err));
+        yield put(changeProfileFailed(err as ErrorResponse));
     }
 }
 
@@ -77,7 +79,7 @@ export function* changeAvatarRequest({ payload }: ChangeAvatarRequestedAction) {
         const userInfo = yield call(UserController.changeAvatar, payload);
         yield put(changeAvatarFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
-        yield put(changeAvatarFailed(err));
+        yield put(changeAvatarFailed(err as ErrorResponse));
     }
 }
 
@@ -86,7 +88,7 @@ export function* changePasswordRequest({ payload }: ChangePasswordRequestedActio
         yield call(UserController.changePassword, payload);
         yield put(changePasswordFulfilled());
     } catch (err) {
-        yield put(changePasswordFailed(err));
+        yield put(changePasswordFailed(err as ErrorResponse));
     }
 }
 
