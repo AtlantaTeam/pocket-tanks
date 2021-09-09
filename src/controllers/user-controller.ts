@@ -1,18 +1,17 @@
+import { objectToCamel } from 'ts-case-convert';
 import { userAPI } from '../api/user-api';
 
-export class UserController {
-    public static async changeProfile(formData: FormData) {
-        const response = await userAPI.changeProfile(formData);
-        return response;
-    }
+export const changeProfile = async (formData: FormData) => {
+    const response = await userAPI.changeProfile(formData);
+    return objectToCamel(response.data);
+};
 
-    public static async changeAvatar(formData: FormData) {
-        const response = await userAPI.changeAvatar(formData);
-        return response;
-    }
+export const changeAvatar = async (formData: FormData) => {
+    const response = await userAPI.changeAvatar(formData);
+    return objectToCamel(response.data);
+};
 
-    public static async changePassword(formData: FormData) {
-        const response = await userAPI.changePassword(formData);
-        return response;
-    }
-}
+export const changePassword = async (formData: FormData) => {
+    const response = await userAPI.changePassword(formData);
+    return response.data;
+};

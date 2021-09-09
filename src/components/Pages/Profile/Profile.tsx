@@ -1,18 +1,42 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
+import Loader from 'react-loader-spinner';
 import { Title } from 'components/components/Title/Title';
 import { Tabs } from 'components/components/Tabs/Tabs';
 import { Page } from '../components/Page/Page';
+import { Button } from '../../components/Button/Button';
+
+import { logoutRequested } from '../../../redux/actions/user-state/logout';
+import { getUserNickname } from '../../../redux/selectors/user-state';
 
 import './Profile.css';
 
 const tabs = ['Данные', 'Аватар', 'Пароль'];
 
-export const Profile = () => (
-    <Page>
-        <div className="profile-wrapper">
-            <Title className="title title_middle" text="Player 1" />
-            <Tabs tabs={tabs} />
-        </div>
-    </Page>
+const Spinner = () => (
+    <div className="profile-spinner">
+        <Loader type="BallTriangle" color="#f9a600" width="200" height="200" />
+    </div>
 );
+
+export const Profile = () => {
+    const dispatch = useDispatch();
+
+    const userName = useSelector(getUserNickname);
+
+    return (
+        <Page>
+            <div className="profile-wrapper">
+                <Title className="title title_middle" text={userName ?? 'Загрузка...'} />
+                {userName ? <Tabs tabs={tabs} /> : <Spinner />}
+                <Button
+                    type="button"
+                    text="Выйти"
+                    className="button-link button-logout"
+                    onClick={() => dispatch(logoutRequested())}
+                />
+            </div>
+        </Page>
+    );
+};

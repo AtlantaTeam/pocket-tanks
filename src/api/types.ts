@@ -1,8 +1,10 @@
+import type { AxiosError } from 'axios';
+
 export type UserInfoResponse = {
     id: number;
-    first_name: string;
-    second_name: string;
-    display_name: string;
+    firstName: string;
+    secondName: string;
+    displayName: string;
     login: string;
     email: string;
     phone: string;
@@ -14,3 +16,7 @@ export type IDResponse = {
 };
 
 export type EmptyResponse = undefined;
+
+export type ErrorResponse = AxiosError;
+
+export type EmptyRequest = undefined;

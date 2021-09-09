@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,19 +15,29 @@ import './App.css';
 import { MenuComponent } from 'components/components/Menu/Menu';
 import { ROUTES } from 'utils/constants/routes';
 
-export const App = () => (
-    <div className="app">
-        <Router>
-            <MenuComponent />
-            <Switch>
-                {ROUTES.map((item) => (
-                    <Route path={item.link} key={`${item.name}-route`}>
-                        <ErrorBoundary key={`${item.name}-error`}>
-                            <item.component key={`${item.name}-component`} />
-                        </ErrorBoundary>
-                    </Route>
-                ))}
-            </Switch>
-        </Router>
-    </div>
-);
+import { fetchUserInfoRequested } from '../../redux/actions/user-state/user-info';
+
+export const App = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchUserInfoRequested());
+    });
+
+    return (
+        <div className="app">
+            <Router>
+                <MenuComponent />
+                <Switch>
+                    {ROUTES.map((item) => (
+                        <Route path={item.link} key={`${item.name}-route`}>
+                            <ErrorBoundary key={`${item.name}-error`}>
+                                <item.component key={`${item.name}-component`} />
+                            </ErrorBoundary>
+                        </Route>
+                    ))}
+                </Switch>
+            </Router>
+        </div>
+    );
+};

@@ -1,6 +1,14 @@
-.profile-wrapper{
+.profile-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+
+.profile-spinner {
+    width: 600px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    padding-top: 125px;
 }

@@ -94,7 +94,7 @@
         // List of folders to include type definitions from.
         "typeRoots": [
             "node_modules/@types",
-            "src/typings.d.ts"
+            "src/types.ts"
             // for custom type declarations
         ],
         // Type declaration files to be included in compilation.

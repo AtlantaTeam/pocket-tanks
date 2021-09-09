@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Formik, Form } from 'formik';
@@ -11,6 +12,9 @@ import { FieldSet } from '../components/FieldSet/FieldSet';
 import '../Forms.css';
 import { Title } from '../../Title/Title';
 import { ButtonSubmit } from '../../Button/Button';
+
+import { getUserLoaderState } from '../../../../redux/selectors/user-state';
+import { signupRequested } from '../../../../redux/actions/user-state/signup';
 
 export const SignUpSchema = Yup.object().shape({
     email: Yup.string()
@@ -43,8 +47,12 @@ export const SignUpSchema = Yup.object().shape({
         .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
-export const FormSignUp = () => (
-    <>
+export const FormSignUp = () => {
+    const isLoading = useSelector(getUserLoaderState);
+
+    const dispatch = useDispatch();
+
+    return (
         <div className="form-wrapper">
             <Title
                 className="title title_middle-form"
@@ -62,9 +70,9 @@ export const FormSignUp = () => (
                 }}
                 validationSchema={SignUpSchema}
                 onSubmit={(values) => {
-                    // same shape as initial values
-                    // eslint-disable-next-line no-console
-                    console.log(values);
+                    const formData = new FormData();
+                    Object.keys(values).forEach((key) => formData.append(key, values[key]));
+                    dispatch(signupRequested(formData));
                 }}
             >
                 {({ errors, touched }) => (
@@ -144,6 +152,7 @@ export const FormSignUp = () => (
                                 type="submit"
                                 text="Зарегистрироваться"
                                 className="button button_orange"
+                                isLoading={isLoading}
                             />
 
                             <Link
@@ -157,5 +166,5 @@ export const FormSignUp = () => (
                 )}
             </Formik>
         </div>
-    </>
-);
+    );
+};

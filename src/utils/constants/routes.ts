@@ -6,41 +6,43 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
 
+import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
+
 export const ROUTES = [
     {
         name: 'Вход',
         link: '/login',
-        component: Login,
+        component: withAuthState(false, '/profile', Login),
 
     },
     {
         name: 'Регистрация',
         link: '/signup',
-        component: SignUp,
+        component: withAuthState(false, '/profile', SignUp),
 
     },
     {
         name: 'Игра',
         link: '/game',
-        component: Game,
+        component: withAuthState(true, '/login', Game),
 
     },
     {
         name: 'Профиль',
         link: '/profile',
-        component: Profile,
+        component: withAuthState(true, '/login', Profile),
 
     },
     {
         name: 'Таблица результатов',
         link: '/leaderboard',
-        component: LeaderBoard,
+        component: withAuthState(true, '/login', LeaderBoard),
 
     },
     {
         name: 'Форум',
         link: '/forum',
-        component: Forum,
+        component: withAuthState(true, '/login', Forum),
     },
     // Должен быть последним для Switch
     {

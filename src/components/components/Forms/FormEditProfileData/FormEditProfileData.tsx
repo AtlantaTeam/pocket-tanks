@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -9,6 +10,11 @@ import { PATTERNS } from 'utils/constants/regex';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
+
+import { getUserProfile, getUserLoaderState } from '../../../../redux/selectors/user-state';
+import { changeProfileRequested } from '../../../../redux/actions/user-state/change-profile';
+
+import type { UserInfoResponse } from '../../../../api/types';
 
 import '../Forms.css';
 
@@ -39,22 +45,27 @@ export const FormEditDataSchema = Yup.object().shape({
         .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
-export const FormEditProfileData = () => (
-    <>
+export const FormEditProfileData = () => {
+    const userProfile = useSelector(getUserProfile) as UserInfoResponse;
+    const isLoading = useSelector(getUserLoaderState);
+
+    const dispatch = useDispatch();
+
+    return (
         <Formik
             initialValues={{
-                display_name: '',
-                email: '',
-                login: '',
-                first_name: '',
-                second_name: '',
-                phone: '',
+                display_name: userProfile.displayName ?? '',
+                email: userProfile.email ?? '',
+                login: userProfile.login ?? '',
+                first_name: userProfile.firstName ?? '',
+                second_name: userProfile.secondName ?? '',
+                phone: userProfile.phone ?? '',
             }}
             validationSchema={FormEditDataSchema}
             onSubmit={(values) => {
-                // same shape as initial values
-                // eslint-disable-next-line no-console
-                console.log(values);
+                const formData = new FormData();
+                Object.keys(values).forEach((key) => formData.append(key, values[key]));
+                dispatch(changeProfileRequested(formData));
             }}
         >
             {({ errors, touched }) => (
@@ -130,10 +141,11 @@ export const FormEditProfileData = () => (
                             className="button button_orange"
                             type="submit"
                             text="Изменить"
+                            isLoading={isLoading}
                         />
                     </div>
                 </Form>
             )}
         </Formik>
-    </>
-);
+    );
+};

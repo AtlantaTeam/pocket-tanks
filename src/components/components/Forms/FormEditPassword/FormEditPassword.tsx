@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
@@ -7,6 +8,9 @@ import { ERRORS } from 'utils/constants/errorsForms';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
+
+import { getUserLoaderState } from '../../../../redux/selectors/user-state';
+import { changePasswordRequested } from '../../../../redux/actions/user-state/change-password';
 
 import '../Forms.css';
 
@@ -25,8 +29,12 @@ export const FormEditPasswordSchema = Yup.object().shape({
         .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
-export const FormEditPassword = () => (
-    <>
+export const FormEditPassword = () => {
+    const isLoading = useSelector(getUserLoaderState);
+
+    const dispatch = useDispatch();
+
+    return (
         <Formik
             initialValues={{
                 oldPassword: '',
@@ -35,9 +43,9 @@ export const FormEditPassword = () => (
             }}
             validationSchema={FormEditPasswordSchema}
             onSubmit={(values) => {
-                // same shape as initial values
-                // eslint-disable-next-line no-console
-                console.log(values);
+                const formData = new FormData();
+                Object.keys(values).forEach((key) => formData.append(key, values[key]));
+                dispatch(changePasswordRequested(formData));
             }}
         >
             {({ errors, touched }) => (
@@ -83,10 +91,11 @@ export const FormEditPassword = () => (
                             className="button button_orange"
                             type="submit"
                             text="Изменить"
+                            isLoading={isLoading}
                         />
                     </div>
                 </Form>
             )}
         </Formik>
-    </>
-);
+    );
+};
