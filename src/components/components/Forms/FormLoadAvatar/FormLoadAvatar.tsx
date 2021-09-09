@@ -55,10 +55,10 @@ export const FormLoadAvatar = () => {
                 <div className="form-tab__container">
                     <div className="form-tab__wrap">
                         <Image className="image_avatar" imagePath={state.img} />
-                        <Label className="label label_avatar" text="Загрузите аватар" inputName="input_file">
+                        <Label className="label label_avatar" text="Загрузите аватар" inputName="avatar">
                             <input
                                 ref={fileInput}
-                                id="input_file"
+                                id="avatar"
                                 name="avatar"
                                 type="file"
                                 className="input-avatar"

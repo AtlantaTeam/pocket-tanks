@@ -18,14 +18,14 @@ import { changeAvatarFulfilled, changeAvatarFailed, CHANGE_AVATAR_REQUESTED }
 import { changePasswordFulfilled, changePasswordFailed, CHANGE_PASSWORD_REQUESTED }
     from '../../actions/user-state/change-password';
 
-import { AuthController } from '../../../controllers/auth-controller';
-import { UserController } from '../../../controllers/user-controller';
+import * as authController from '../../../controllers/auth-controller';
+import * as userController from '../../../controllers/user-controller';
 
 import { IDResponse, UserInfoResponse, ErrorResponse } from '../../../api/types';
 
 export function* loginRequest({ payload }: LoginRequestedAction) {
     try {
-        yield call(AuthController.login, payload);
+        yield call(authController.login, payload);
         yield put(loginFulfilled());
         yield call(fetchUserInfoRequest);
     } catch (err) {
@@ -36,7 +36,7 @@ export function* loginRequest({ payload }: LoginRequestedAction) {
 export function* signupRequest({ payload }: SignupRequestedAction) {
     try {
         // @ts-expect-error redux-saga types
-        const userId = yield call(AuthController.signup, payload);
+        const userId = yield call(authController.signup, payload);
         yield put(signupFulfilled(userId as IDResponse));
         yield call(fetchUserInfoRequest);
     } catch (err) {
@@ -46,7 +46,7 @@ export function* signupRequest({ payload }: SignupRequestedAction) {
 
 export function* logoutRequest() {
     try {
-        yield call(AuthController.logout);
+        yield call(authController.logout);
         yield put(logoutFulfilled());
     } catch (err) {
         yield put(logoutFailed(err as ErrorResponse));
@@ -56,7 +56,7 @@ export function* logoutRequest() {
 export function* fetchUserInfoRequest() {
     try {
         // @ts-expect-error redux-saga types
-        const userInfo = yield call(AuthController.getUserInfo);
+        const userInfo = yield call(authController.getUserInfo);
         yield put(fetchUserInfoFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
         yield put(fetchUserInfoFailed(err as ErrorResponse));
@@ -66,7 +66,7 @@ export function* fetchUserInfoRequest() {
 export function* changeProfileRequest({ payload }: ChangeProfileRequestedAction) {
     try {
         // @ts-expect-error redux-saga types
-        const userInfo = yield call(UserController.changeProfile, payload);
+        const userInfo = yield call(userController.changeProfile, payload);
         yield put(changeProfileFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
         yield put(changeProfileFailed(err as ErrorResponse));
@@ -76,7 +76,7 @@ export function* changeProfileRequest({ payload }: ChangeProfileRequestedAction)
 export function* changeAvatarRequest({ payload }: ChangeAvatarRequestedAction) {
     try {
         // @ts-expect-error redux-saga types
-        const userInfo = yield call(UserController.changeAvatar, payload);
+        const userInfo = yield call(userController.changeAvatar, payload);
         yield put(changeAvatarFulfilled(userInfo as UserInfoResponse));
     } catch (err) {
         yield put(changeAvatarFailed(err as ErrorResponse));
@@ -85,7 +85,7 @@ export function* changeAvatarRequest({ payload }: ChangeAvatarRequestedAction) {
 
 export function* changePasswordRequest({ payload }: ChangePasswordRequestedAction) {
     try {
-        yield call(UserController.changePassword, payload);
+        yield call(userController.changePassword, payload);
         yield put(changePasswordFulfilled());
     } catch (err) {
         yield put(changePasswordFailed(err as ErrorResponse));
