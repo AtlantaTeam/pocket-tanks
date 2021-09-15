@@ -1,21 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { ErrorBoundary } from 'utils/classes/ErrorBoundary/ErrorBoundary';
 
 import '../../styles/fonts.css';
 import '../../../static/index.css';
-
 import './App.css';
-import { MenuComponent } from 'components/components/Menu/Menu';
-import { ROUTES } from 'utils/constants/routes';
 
+import { MenuComponent } from 'components/components/Menu/Menu';
+
+import { ROUTES } from 'utils/constants/routes';
 import { fetchUserInfoRequested } from '../../redux/actions/user-state/user-info';
+import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 
 export const App = () => {
     const dispatch = useDispatch();
@@ -37,6 +34,7 @@ export const App = () => {
                         </Route>
                     ))}
                 </Switch>
+                <FullscreenButton />
             </Router>
         </div>
     );

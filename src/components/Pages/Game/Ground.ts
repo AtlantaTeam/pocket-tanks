@@ -1,3 +1,5 @@
+import { floor } from '../../../utils/canvas';
+
 interface Explosion {
     bulletY: number,
     delta: number,
@@ -33,7 +35,7 @@ export class Ground {
         this.stepChange = 0.3;
         this.innerWidth = innerWidth;
         this.innerHeight = innerHeight;
-        this.heightMax = Math.floor(innerHeight / 2);
+        this.heightMax = floor(innerHeight / 2);
         this.heightMin = this.heightMax / 4;
         this.color = 'orange';
         this.sandImage = sandImage;
@@ -71,7 +73,7 @@ export class Ground {
                 height = this.heightMin;
                 slope *= -1;
             }
-            this.heights[x] = Math.floor(height);
+            this.heights[x] = floor(height);
             this.explosionHeights[x] = 0;
         }
     };
@@ -87,7 +89,7 @@ export class Ground {
         // Остальные определяем по теореме Пифагора
         for (let i = 1; i <= radius; i++) {
             const katetNear = radius - i;
-            const katetOpposite = Math.floor(Math.sqrt(radius * radius - katetNear * katetNear));
+            const katetOpposite = floor(Math.sqrt(radius * radius - katetNear * katetNear));
             this.explosionHeights[x - radius + i] = {
                 bulletY: y,
                 delta: katetOpposite * 2,
@@ -104,8 +106,9 @@ export class Ground {
         ctx.strokeStyle = this.color;
         ctx.lineWidth = 2;
         ctx.translate(0, this.innerHeight);
+        ctx.beginPath();
         for (let x = xStart; x <= xEnd; x += 1) {
-            ctx.beginPath();
+            // Если этот x был затронут взрывом
             if (typeof this.explosionHeights[x] === 'object') {
                 this.isFalling = true;
                 const { bulletY, delta } = <Explosion> this.explosionHeights[x];
@@ -131,9 +134,8 @@ export class Ground {
                 ctx.moveTo(x, 0);
                 ctx.lineTo(x, -this.heights[x]);
             }
-
-            ctx.stroke();
         }
+        ctx.stroke();
         ctx.translate(0, -this.innerHeight);
         this.decorateWithSand(ctx, xStart, xEnd);
     };
@@ -143,7 +145,9 @@ export class Ground {
             this.sandImagePattern = ctx.createPattern(this.sandImage, 'repeat');
         }
         ctx.save();
-        ctx.globalCompositeOperation = 'source-atop';
+        if (ctx.globalCompositeOperation !== 'source-atop') {
+            ctx.globalCompositeOperation = 'source-atop';
+        }
         ctx.globalAlpha = 0.6;
         if (this.sandImagePattern) {
             ctx.fillStyle = this.sandImagePattern;
