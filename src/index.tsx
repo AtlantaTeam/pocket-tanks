@@ -1,19 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 
 import { App } from 'components/App/App';
-import { initializeStore } from './redux/store';
+
+import type { History } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 
 // eslint-disable-next-line no-underscore-dangle
-const initialState = window.__INITIAL_STATE__ || {};
-
-const { store } = initializeStore(initialState);
 
 const Root = () => (
-    <Provider store={store}>
+    <BrowserRouter>
         <App />
-    </Provider>
+    </BrowserRouter>
 );
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.hydrate(<Root />, document.getElementById('root'));

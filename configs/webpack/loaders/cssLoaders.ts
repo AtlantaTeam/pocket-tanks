@@ -31,5 +31,5 @@ export const cssLoaders = {
     server: {
         test: /\.css$/,
         loader: 'null-loader',
-    },
+    } as RuleSetRule,
 };

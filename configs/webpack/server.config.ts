@@ -6,21 +6,23 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import { IS_DEV, DIST_DIR, SRC_DIR } from './env';
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
-import { jsLoaders } from './loaders/jsLoaders';
+import { tsLoaders } from './loaders/tsLoaders';
+
+const rootDir = process.cwd();
 
 export const serverConfig: Configuration = {
     name: 'server',
     target: 'node',
     node: { __dirname: false },
-    entry: path.join(SRC_DIR, 'server'),
+    entry: path.join(rootDir, 'src/server'),
     module: {
-        rules: [fileLoaders.server, cssLoaders.server, jsLoaders.server],
+        rules: [...fileLoaders.server, cssLoaders.server, tsLoaders.server],
     },
     output: {
         filename: 'server.js',
-        libraryTarget: 'commonjs2',
-        path: DIST_DIR,
-        publicPath: '/static/',
+        libraryTarget: 'commonjs-module',
+        path: path.join(rootDir, 'dist'),
+        publicPath: '/',
     },
     resolve: {
         modules: ['src', 'node_modules'],

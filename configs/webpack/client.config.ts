@@ -3,7 +3,6 @@ import webpack, { Configuration, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import {
@@ -12,7 +11,9 @@ import {
 
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
-import { jsLoaders } from './loaders/jsLoaders';
+import { tsLoaders } from './loaders/tsLoaders';
+
+const rootDir = process.cwd();
 
 export const clientConfig: Configuration = {
     target: 'web',
@@ -21,14 +22,14 @@ export const clientConfig: Configuration = {
         // Entry для работы HMR
         IS_DEV && 'webpack-hot-middleware/client',
         IS_DEV && 'css-hot-loader/hotModuleReplacement',
-        path.join(SRC_DIR, 'index'),
+        path.resolve(rootDir, 'src/index'),
     ].filter(Boolean) as unknown) as Entry,
     module: {
-        rules: [...fileLoaders.client, jsLoaders.client, cssLoaders.client],
+        rules: [...fileLoaders.client, cssLoaders.client, tsLoaders.client],
     },
     output: {
-        path: DIST_DIR,
-        filename: 'bundle.[fullhash].js',
+        path: path.join(rootDir, 'dist'),
+        publicPath: '/',
     },
     resolve: {
         modules: [SRC_DIR, 'node_modules'],
@@ -45,21 +46,8 @@ export const clientConfig: Configuration = {
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
     },
     plugins: [
-        new CleanWebpackPlugin(),
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: '**/*',
-                    context: path.resolve(STATIC_DIR, 'assets'),
-                    to: '.',
-                },
-            ],
-        }),
-        new HtmlWebpackPlugin({
-            template: path.join(STATIC_DIR, 'index.html'),
-        }),
         new MiniCssExtractPlugin({
-            filename: 'css/style.[fullhash].css',
+            filename: 'css/style.css',
         }),
         // Plugin для HMR
         new webpack.HotModuleReplacementPlugin(),

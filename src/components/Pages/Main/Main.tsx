@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import imgLogo from 'images/logo.svg';
 import './Main.css';
 
 import { Title } from 'components/components/Title/Title';
 import { Text } from 'components/components/Text/Text';
 import { Image } from 'components/components/Image/Image';
 import { Page } from '../components/Page/Page';
+import imgLogo from '../../../../static/images/logo.svg';
 
 export const Main = () => (
     <Page>
@@ -41,7 +41,7 @@ export const Main = () => (
                     </div>
                 </div>
                 <Link
-                    to="/game"
+                    to="/leaderboard"
                     className="button button_orange button_orange_link"
                 >
                     Поехали!
