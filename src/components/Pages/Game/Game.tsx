@@ -217,8 +217,6 @@ export const Game = () => {
                 <canvas
                     className="canvas canvas_light"
                     ref={canvasRef}
-                    // width={window.innerWidth}
-                    // height={window.innerHeight}
                     onMouseMove={(e) => {
                         if (game.leftTank?.isActive && !game.isFireMode && game.ctx) {
                             const { angle: curAngle } = rotateFigure(
@@ -281,10 +279,14 @@ export const Game = () => {
                                 label="Движение"
                                 value={moves}
                                 leftStepHandler={() => {
-                                    game.changeTankPosition(-150, dispatch);
+                                    if (moves > 0) {
+                                        game.changeTankPosition(-150, dispatch);
+                                    }
                                 }}
                                 rightStepHandler={() => {
-                                    game.changeTankPosition(150, dispatch);
+                                    if (moves > 0) {
+                                        game.changeTankPosition(150, dispatch);
+                                    }
                                 }}
                             />
 
