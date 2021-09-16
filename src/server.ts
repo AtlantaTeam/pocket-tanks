@@ -5,7 +5,7 @@ import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 
-import serverRenderMiddleware from './server-render-middleware';
+import { serverRenderMiddleware } from './serverRenderMiddleware';
 
 import { clientConfig } from '../configs/webpack/client.config';
 

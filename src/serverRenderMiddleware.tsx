@@ -5,11 +5,9 @@ import { StaticRouterContext } from 'react-router';
 
 import { App } from 'components/App/App';
 
-// В этой middleware мы формируем первичное состояние приложения на стороне сервера
-// Попробуйте её подебажить, чтобы лучше разобраться, как она работает
 let jsx: JSX.Element;
 
-export default (req: Request, res: Response) => {
+export const serverRenderMiddleware = (req: Request, res: Response) => {
     const location = req.url;
     const context: StaticRouterContext = {};
 
