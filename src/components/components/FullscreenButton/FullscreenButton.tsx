@@ -13,6 +13,9 @@ export const FullscreenButton = () => {
             type="button"
             className="button_fullscreen"
             onClick={() => {
+                if (!document) {
+                    return;
+                }
                 const { documentElement } = document;
                 if (!document.fullscreenElement) {
                     if (documentElement.requestFullscreen) {

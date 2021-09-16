@@ -95,9 +95,9 @@ export const Game = () => {
             dispatch(changeMoves(4));
             dispatch(changePlayerPoints(0));
             dispatch(changeEnemyPoints(0));
-            const { width, height } = document.body.getBoundingClientRect();
             const canvas = canvasRef.current;
             if (canvas) {
+                const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
                 canvas.width = width - 2 * canvas.offsetLeft;
                 canvas.height = height - (canvas.nextSibling as HTMLBaseElement)?.offsetHeight;
             }
@@ -109,13 +109,15 @@ export const Game = () => {
                         return;
                     }
                     if (game.leftTank === game.bullet.hittedTank) {
-                        dispatch(
-                            increaseEnemyPoints(game.leftTank.isActive ? -game.bullet.power : game.bullet.power),
-                        );
+                        if (game.leftTank.isActive) {
+                            dispatch(increasePlayerPoints(-game.bullet.power));
+                        } else {
+                            dispatch(increaseEnemyPoints(game.bullet.power));
+                        }
+                    } else if (game.rightTank.isActive) {
+                        dispatch(increaseEnemyPoints(-game.bullet.power));
                     } else {
-                        dispatch(
-                            increasePlayerPoints(game.rightTank.isActive ? -game.bullet.power : game.bullet.power),
-                        );
+                        dispatch(increasePlayerPoints(game.bullet.power));
                     }
                 },
                 () => {

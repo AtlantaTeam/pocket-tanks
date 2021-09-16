@@ -84,12 +84,12 @@ export class GamePlay {
         this.isGameOver = isGameOver;
         this.calcPoints = calcPoints;
 
-        const { width, height } = document.body.getBoundingClientRect();
         const canvas = canvasRef.current;
         if (canvas) {
             this.innerWidth = canvas.width;
             this.innerHeight = canvas.height;
         } else {
+            const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
             this.innerWidth = width - 150;
             this.innerHeight = height - 300;
         }
@@ -313,7 +313,7 @@ export class GamePlay {
     };
 
     botAiming = () => {
-        if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground) {
+        if (!this.leftTank || !this.rightTank || !this.ground) {
             return;
         }
         this.mousePos = null;

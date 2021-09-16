@@ -102,7 +102,7 @@ export const gameState = (state: GameState = initialState, action: GameStateActi
             break;
         }
         case INCREASE_PLAYER_POINTS: {
-            state.playerPoints += action.payload;
+            state.playerPoints = state.playerPoints + action.payload < 0 ? 0 : state.playerPoints + action.payload;
             break;
         }
         case CHANGE_PLAYER_POINTS: {
@@ -110,7 +110,7 @@ export const gameState = (state: GameState = initialState, action: GameStateActi
             break;
         }
         case INCREASE_ENEMY_POINTS: {
-            state.enemyPoints += action.payload;
+            state.enemyPoints = state.enemyPoints + action.payload < 0 ? 0 : state.enemyPoints + action.payload;
             break;
         }
         case CHANGE_ENEMY_POINTS: {
