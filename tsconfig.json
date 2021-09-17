@@ -23,6 +23,7 @@
 
         // Specify library files to be included in the compilation.
         "lib": [
+            "WebWorker",
             "esnext",
             "DOM",
             "DOM.Iterable"

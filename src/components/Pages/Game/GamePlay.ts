@@ -1,5 +1,6 @@
 import { RefObject } from 'react';
 import { Dispatch } from 'redux';
+import { wrap } from 'comlink';
 import { Coords, Weapon } from './types';
 import { Ground } from './Ground';
 import { Tank } from './Tank';
@@ -11,6 +12,7 @@ import '../../../../static/images/right-tank.svg';
 import '../../../../static/images/gunpoint.svg';
 import '../../../../static/images/sand.jpg';
 import { increaseMoves, increasePower } from '../../../redux/actions/game-state';
+import { BotAimingAsyncWorker } from './Worker';
 
 export type TanksWeapons = {
     leftTankWeapons: Weapon[],
@@ -31,6 +33,8 @@ export const GameModes = {
     MOVE: 'move',
 };
 
+const worker = new Worker(new URL('./Worker', import.meta.url));
+
 export class GamePlay {
     private prevTimestamp = 0;
 
@@ -50,7 +54,7 @@ export class GamePlay {
 
     gameDifficulty = 3; // 1 - легко; 5 - сложно
 
-    private ground: Ground | undefined;
+    ground: Ground | undefined;
 
     leftTank: Tank | undefined;
 
@@ -150,10 +154,10 @@ export class GamePlay {
             leftTankY,
             this.innerWidth,
             this.innerHeight,
-            leftTank,
-            leftGunpoint,
             0,
             leftTankWeapons,
+            leftTank,
+            leftGunpoint,
         );
         this.leftTank.isActive = true;
 
@@ -165,10 +169,10 @@ export class GamePlay {
             rightTankY,
             this.innerWidth,
             this.innerHeight,
-            rightTank,
-            rightGunpoint,
             Math.PI,
             rightTankWeapons,
+            rightTank,
+            rightGunpoint,
         );
 
         const canvas = this.canvasRef.current;
@@ -222,10 +226,46 @@ export class GamePlay {
         // то переходим в режим ожидания, т.е. прекращаем перерисовку
         if (this.isFireMode && !this.bullet && !this.ground.isFalling && !this.leftTank.dy && !this.rightTank.dy) {
             if (this.rightTank.isActive) {
-                this.botAiming();
-                if (this.rightTank.isReadyToFire) {
-                    this.tankAreaRedraw([this.leftTank, this.rightTank]);
-                    this.botFire();
+                this.rightTank.isActive = false;
+                if (worker) {
+                    const { botAimingAsync } = wrap<BotAimingAsyncWorker>(worker);
+                    botAimingAsync(
+                        JSON.stringify(this.leftTank),
+                        JSON.stringify(this.rightTank),
+                        JSON.stringify(this.ground),
+                        this.innerWidth,
+                        this.innerHeight,
+                        this.maxGameDifficulty,
+                        this.gameDifficulty,
+                    ).then((resultStr) => {
+                        const result = JSON.parse(resultStr);
+                        if (this.leftTank && this.rightTank) {
+                            const {
+                                gunpointAngle, power, closestToHit, x,
+                            } = result;
+                            this.rightTank.gunpointAngle = gunpointAngle;
+                            this.rightTank.power = power;
+                            this.rightTank.closestToHit = closestToHit;
+                            this.rightTank.x = x;
+                            this.tankAreaRedraw([this.leftTank, this.rightTank]);
+                            this.botFire();
+                        }
+                        return 'GOOD';
+                    }).catch((error) => {
+                        console.log('Bot failed to aim in Worker', error);
+                        console.log('Start aiming in sync');
+                        this.botAiming();
+                        if (this.leftTank && this.rightTank && this.rightTank.isReadyToFire) {
+                            this.tankAreaRedraw([this.leftTank, this.rightTank]);
+                            this.botFire();
+                        }
+                    });
+                } else {
+                    this.botAiming();
+                    if (this.leftTank && this.rightTank && this.rightTank.isReadyToFire) {
+                        this.tankAreaRedraw([this.leftTank, this.rightTank]);
+                        this.botFire();
+                    }
                 }
             } else {
                 this.activateMode(GameModes.IDLE);
@@ -377,7 +417,7 @@ export class GamePlay {
         this.rightTank.canHarmYourself = true;
     };
 
-    private virtualFire(angle: number, power: number): { hitX: number, isTankHit: boolean } {
+    virtualFire(angle: number, power: number): { hitX: number, isTankHit: boolean } {
         if (!this.ctx || !this.leftTank || !this.rightTank || !this.ground) {
             return { hitX: 0, isTankHit: false };
         }

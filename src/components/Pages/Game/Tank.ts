@@ -29,9 +29,9 @@ export class Tank {
 
     gunpointAngleMax = 2 * Math.PI;
 
-    private tankBodyImg: HTMLImageElement;
+    private tankBodyImg: HTMLImageElement | undefined;
 
-    private gunpointImg: HTMLImageElement;
+    private gunpointImg: HTMLImageElement | undefined;
 
     x: number;
 
@@ -78,10 +78,10 @@ export class Tank {
         y: number,
         innerWidth: number,
         innerHeight: number,
-        tankBodyImg: HTMLImageElement,
-        gunpointImg: HTMLImageElement,
         gunpointAngle: number,
         weapons: Weapon[],
+        tankBodyImg?: HTMLImageElement,
+        gunpointImg?: HTMLImageElement,
     ) {
         this.gunpointDeltaX = 30;
         this.gunpointDeltaY = 23;
@@ -281,7 +281,9 @@ export class Tank {
     draw(ctx: CanvasRenderingContext2D, mousePos: Coords | null, ground: Ground) {
         this.recalcPosition(ctx, ground);
         // Рисуем танк
-        ctx.drawImage(this.tankBodyImg, floor(this.x), floor(this.y - 30), this.tankWidth, this.tankHeight);
+        if (this.tankBodyImg) {
+            ctx.drawImage(this.tankBodyImg, floor(this.x), floor(this.y - 30), this.tankWidth, this.tankHeight);
+        }
         // Определяем зону поражения танка заново, на случай если он изменил расположение
         this.tankHitArea = new Path2D();
         this.tankHitArea.rect(floor(this.x), floor(this.y - 30), this.tankWidth, this.tankHeight);
@@ -298,7 +300,9 @@ export class Tank {
             // Восстанавливаем последний угол поворота
             rotateFigureByAngle(ctx, this.gunpointAngle, this.gunpointX, this.gunpointY);
         }
-        ctx.drawImage(this.gunpointImg, this.gunpointX, this.gunpointY, this.gunpointWidth, this.gunpointHeight);
+        if (this.gunpointImg) {
+            ctx.drawImage(this.gunpointImg, this.gunpointX, this.gunpointY, this.gunpointWidth, this.gunpointHeight);
+        }
         ctx.restore();
     }
 }
