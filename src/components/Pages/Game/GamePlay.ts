@@ -1,12 +1,12 @@
 import { RefObject } from 'react';
 import { Dispatch } from 'redux';
 import { wrap } from 'comlink';
+import { floor } from 'utils/canvas';
 import { Coords, Weapon } from './types';
 import { Ground } from './Ground';
 import { Tank } from './Tank';
 import { Bullet } from './Bullet';
 
-import { floor } from '../../../utils/canvas';
 import '../../../../static/images/left-tank.svg';
 import '../../../../static/images/right-tank.svg';
 import '../../../../static/images/gunpoint.svg';
@@ -33,7 +33,8 @@ export const GameModes = {
     MOVE: 'move',
 };
 
-const worker = new Worker(new URL('./Worker', import.meta.url));
+const getWorker = () => new Worker(new URL('./Worker', import.meta.url));
+const worker:Worker = getWorker();
 
 export class GamePlay {
     private prevTimestamp = 0;
@@ -42,7 +43,7 @@ export class GamePlay {
 
     canvasRef: RefObject<HTMLCanvasElement>;
 
-    private images: { [p: string]: HTMLImageElement };
+    static images: { [p: string]: HTMLImageElement };
 
     innerWidth: number;
 
@@ -81,22 +82,14 @@ export class GamePlay {
     constructor(canvasRef: RefObject<HTMLCanvasElement>, allWeapons: TanksWeapons,
         calcPoints: () => void, isGameOver: () => void) {
         this.canvasRef = canvasRef;
-        this.images = {};
         this.mousePos = null;
         this.lastAnimationTime = 0;
         this.allWeapons = allWeapons;
         this.isGameOver = isGameOver;
         this.calcPoints = calcPoints;
-
-        const canvas = canvasRef.current;
-        if (canvas) {
-            this.innerWidth = canvas.width;
-            this.innerHeight = canvas.height;
-        } else {
-            const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
-            this.innerWidth = width - 150;
-            this.innerHeight = height - 300;
-        }
+        const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
+        this.innerWidth = width - 150;
+        this.innerHeight = height - 300;
     }
 
     changeTankPosition = (delta: number, dispatch: Dispatch) => {
@@ -136,15 +129,21 @@ export class GamePlay {
                 }
             };
             img.src = `images/${fileName}`;
-            this.images = {
-                ...this.images,
+            GamePlay.images = {
+                ...GamePlay.images,
                 [name]: img,
             };
         });
     };
 
     initPaint = () => {
-        const { leftTank, leftGunpoint, sand } = this.images;
+        const canvas = this.canvasRef.current;
+        if (canvas) {
+            this.ctx = canvas.getContext('2d');
+            this.innerWidth = canvas.width;
+            this.innerHeight = canvas.height;
+        }
+        const { leftTank, leftGunpoint, sand } = GamePlay.images;
         const { leftTankWeapons, rightTankWeapons } = this.allWeapons;
         this.ground = new Ground(this.innerWidth, this.innerHeight, sand);
         const leftTankX = floor(this.innerWidth / 4);
@@ -163,7 +162,7 @@ export class GamePlay {
 
         const rightTankX = floor((this.innerWidth * 3) / 4);
         const rightTankY = this.innerHeight - this.ground.heights[rightTankX];
-        const { rightTank, rightGunpoint } = this.images;
+        const { rightTank, rightGunpoint } = GamePlay.images;
         this.rightTank = new Tank(
             rightTankX,
             rightTankY,
@@ -174,17 +173,11 @@ export class GamePlay {
             rightTank,
             rightGunpoint,
         );
-
-        const canvas = this.canvasRef.current;
-        if (canvas) {
-            // canvas.width = this.innerWidth;
-            // canvas.height = this.innerHeight;
-            this.ctx = canvas.getContext('2d');
-            if (this.ctx) {
-                this.ground.draw(this.ctx);
-            }
-            this.animate();
+        if (this.ctx) {
+            this.ground.draw(this.ctx);
         }
+        this.animate();
+        this.fullRedraw();
     };
 
     getActiveAndTargetTanks = (tank1: Tank, tank2: Tank) => (tank1.isActive
@@ -196,6 +189,7 @@ export class GamePlay {
             [this.leftTank.isActive, this.rightTank.isActive] = this.leftTank.isActive
                 ? [false, true]
                 : [true, false];
+            this.fullRedraw();
         }
     };
 

@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Image } from 'components/components/Image/Image';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
+import { RESOURCES_BASE_URL } from 'constants/api-routes';
+import { floor, rotateFigure } from 'utils/canvas';
 import { GameModes, GamePlay, TanksWeapons } from './GamePlay';
 import './Game.css';
 import { Button } from '../../components/Button/Button';
@@ -29,9 +31,7 @@ import {
     selectWeapon,
     setWeapons,
 } from '../../../redux/actions/game-state';
-import { floor, rotateFigure } from '../../../utils/canvas';
 import { getUserAvatar, getUserNickname } from '../../../redux/selectors/user-state';
-import { RESOURCES_BASE_URL } from '../../../constants/api-routes';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
     const weapons: Weapon[] = [];
@@ -52,6 +52,7 @@ const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => 
 const weaponsAmount = 6;
 let allWeapons: TanksWeapons = generateRandomWeapons([Bullet], weaponsAmount);
 let game: GamePlay;
+let isImagesLoaded = false;
 
 export const Game = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -96,11 +97,12 @@ export const Game = () => {
             dispatch(changePlayerPoints(0));
             dispatch(changeEnemyPoints(0));
             const canvas = canvasRef.current;
+            const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
             if (canvas) {
-                const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
                 canvas.width = width - 2 * canvas.offsetLeft;
                 canvas.height = height - (canvas.nextSibling as HTMLBaseElement)?.offsetHeight;
             }
+
             game = new GamePlay(
                 canvasRef,
                 allWeapons,
@@ -122,12 +124,17 @@ export const Game = () => {
                 },
                 () => {
                     if (!isGameOver && !game.leftTank?.weapons?.length
-                    && !game.rightTank?.weapons?.length && !game.isFireMode) {
+                            && !game.rightTank?.weapons?.length && !game.isFireMode) {
                         setIsGameOver(true);
                     }
                 },
             );
-            game.loadImages();
+            if (isImagesLoaded) {
+                game.initPaint();
+            } else {
+                game.loadImages();
+                isImagesLoaded = true;
+            }
             setIsStart(false);
         }
     }, [isStart]);

@@ -13,7 +13,7 @@
     "stylelint": "stylelint **/*.css",
     "lint:all": "npm run stylelint && npm run eslint",
     "compile": "tsc --noEmit",
-    "validate": "npm-run-all compile lint:all",
+    "validate": "npm-run-all compile test lint:all",
     "start": "webpack serve",
     "server": "node server.js",
     "build": "webpack --mode production",
