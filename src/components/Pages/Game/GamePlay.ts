@@ -216,6 +216,10 @@ export class GamePlay {
 
         // Выходим из режима разворота дула
         this.isAngleMode = false;
+        // Выходим из режима передвижения
+        if (this.isMoveMode && !this.leftTank.dx) {
+            this.isMoveMode = false;
+        }
         // Если выстрел, взрыв, осыпание земли завершены и танки не движутся,
         // то переходим в режим ожидания, т.е. прекращаем перерисовку
         if (this.isFireMode && !this.bullet && !this.ground.isFalling && !this.leftTank.dy && !this.rightTank.dy) {

@@ -186,7 +186,7 @@ export const Game = () => {
                 }
                 case 'ArrowLeft': {
                     if (e.ctrlKey) {
-                        if (moves > 0) {
+                        if (moves > 0 && !game.isMoveMode) {
                             game.changeTankPosition(-150, dispatch);
                         }
                     } else {
@@ -196,7 +196,7 @@ export const Game = () => {
                 }
                 case 'ArrowRight': {
                     if (e.ctrlKey) {
-                        if (moves > 0) {
+                        if (moves > 0 && !game.isMoveMode) {
                             game.changeTankPosition(150, dispatch);
                         }
                     } else {
@@ -218,7 +218,7 @@ export const Game = () => {
             window.removeEventListener('keydown', onKeyDown);
             window.removeEventListener('resize', onResize);
         };
-    }, []);
+    }, [selectedWeapon, moves]);
 
     return (
         <>
