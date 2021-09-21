@@ -4,17 +4,22 @@ import {
     Link,
 } from 'react-router-dom';
 
+import imageMenuButton from 'images/menu.svg';
+
 import { Menu } from '@headlessui/react';
 
 import { ROUTES } from '../../../utils/constants/routes';
-
 import './Menu.css';
+import { Image } from '../Image/Image';
 
 /** Использовать с BrowserRouter React, так как компонент Link */
 export const MenuComponent = () => (
     <Menu>
         <Menu.Button className="menu-item menu-item_button">
-            Меню
+            <Image
+                className="image"
+                imagePath={imageMenuButton}
+            />
         </Menu.Button>
         <Menu.Items className="menu-items">
             {ROUTES.map((item) => (

@@ -1,5 +1,5 @@
 import type { compose } from 'redux';
-import type { State } from '../redux/reducers';
+import type { State } from 'redux/reducers';
 
 declare global {
     interface Window {

@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin: 10px;
 }
 
 .field-counter__wrap {

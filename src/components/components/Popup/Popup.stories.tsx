@@ -7,7 +7,7 @@ import {
 import { Popup } from './Popup';
 
 export default {
-    title: 'POCKET-TANKS/components/Poups',
+    title: 'POCKET-TANKS/components/Popup',
     component: Popup,
 } as ComponentMeta<typeof Popup>;
 

@@ -16,14 +16,20 @@ const Template: ComponentStory<typeof WeaponSelect> = (
     args,
 ) => (
     <WrapperCenter className="wrapper-center wrapper-center_full-screen">
-        <WeaponSelect weapon={args.weapon} label={args.label} listPosition={args.listPosition} />
+        <WeaponSelect
+            selectedWeapon={args.weapons[0]}
+            weapons={args.weapons}
+            label={args.label}
+            listPosition={args.listPosition}
+            onChange={() => {}}
+        />
     </WrapperCenter>
 );
 
 export const WeaponSelectTemplateTop = Template.bind({});
 
 WeaponSelectTemplateTop.args = {
-    weapon: [
+    weapons: [
         { id: 1, name: 'Ядро' },
         { id: 2, name: 'Ракета' },
         { id: 3, name: 'Снаряд' },
@@ -40,7 +46,7 @@ WeaponSelectTemplateTop.args = {
 export const WeaponSelectTemplateBottom = Template.bind({});
 
 WeaponSelectTemplateBottom.args = {
-    weapon: [
+    weapons: [
         { id: 1, name: 'Ядро' },
         { id: 2, name: 'Ракета' },
         { id: 3, name: 'Снаряд' },

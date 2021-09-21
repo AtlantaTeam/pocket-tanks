@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpareUI } from 'components/SpareUI/SpareUI';
 
-import { Nullable } from 'types/Nullable';
+import { Nullable } from 'types';
 
 interface ErrorBoundaryProps {
     error?: Error;

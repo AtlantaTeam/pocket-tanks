@@ -1,4 +1,7 @@
-import { Coords } from '../types/Coords';
+import { Coords } from '../components/Pages/Game/types';
+
+// eslint-disable-next-line no-bitwise
+export const floor = (num: number) => (num | 0);
 
 export const rotateFigureByAngle = (
     ctx: CanvasRenderingContext2D,
@@ -33,6 +36,6 @@ export const rotateFigure = (
 
 // Определяем новые координаты точки после трансформации (разворота или переноса точки отсчета)
 export const transformPoint = (point: Coords, matrix: DOMMatrix) => ({
-    x: Math.floor(matrix.a * point.x + matrix.c * point.y + matrix.e),
-    y: Math.floor(matrix.b * point.x + matrix.d * point.y + matrix.f),
+    x: floor(matrix.a * point.x + matrix.c * point.y + matrix.e),
+    y: floor(matrix.b * point.x + matrix.d * point.y + matrix.f),
 });
