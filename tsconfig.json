@@ -23,6 +23,7 @@
 
         // Specify library files to be included in the compilation.
         "lib": [
+            "WebWorker",
             "esnext",
             "DOM",
             "DOM.Iterable"
@@ -98,7 +99,7 @@
             // for custom type declarations
         ],
         // Type declaration files to be included in compilation.
-        //"types": [],
+        //"types": ["node", "jest"],
 
         // Allow default imports from modules with no default export. This does not affect code emit, just typechecking.
         "allowSyntheticDefaultImports": true,
@@ -127,9 +128,10 @@
         "experimentalDecorators": true,
         // Enables experimental support for emitting type metadata for decorators.
         "emitDecoratorMetadata": true,
+        "baseUrl": ".",
         "paths": {
             "*": ["./src/*"]
-        },
+        }
     },
     "include": [
         "src"

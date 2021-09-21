@@ -92,7 +92,7 @@ export class Bullet {
         this.y = floor(this.y + this.dy);
     }
 
-    isHit = (ctx: CanvasRenderingContext2D) => {
+    isHit = (ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D) => {
         if (this.isTankHit) {
             return true;
         }
@@ -138,7 +138,7 @@ export class Bullet {
         return false;
     };
 
-    checkTankHit = (ctx: CanvasRenderingContext2D, tank: Tank) => {
+    checkTankHit = (ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, tank: Tank) => {
         ctx.save();
         ctx.setTransform(tank.currentTransformer);
         if (ctx.isPointInPath(tank.tankHitArea, this.x, this.y)) {

@@ -116,7 +116,7 @@
     align-items: center;
     justify-content: space-around;
     cursor: pointer;
-    margin: 0px;
+    margin: 0;
     max-width: 120px;
     transition: transform .2s linear;
     text-decoration: none;
@@ -133,7 +133,7 @@
 .button-logout {
     position: absolute;
     top: 20px;
-    right: 20px;
+    right: 130px;
     font-size: 24px;
     border: 3px solid;
     border-radius: 5px;
@@ -199,6 +199,7 @@
     border-radius: 50%;
 }
 
+/*noinspection ALL*/
 .big_red_button {
     position: relative;
     height: 200px;

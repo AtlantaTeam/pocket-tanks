@@ -16,7 +16,7 @@ export class Ground {
 
     private color: string;
 
-    private sandImage: HTMLImageElement;
+    private sandImage: HTMLImageElement | undefined;
 
     private sandImagePattern: CanvasPattern | null;
 
@@ -30,7 +30,7 @@ export class Ground {
 
     isFalling = false;
 
-    constructor(innerWidth: number, innerHeight: number, sandImage: HTMLImageElement) {
+    constructor(innerWidth: number, innerHeight: number, sandImage?: HTMLImageElement) {
         this.stepMax = 3;
         this.stepChange = 0.3;
         this.innerWidth = innerWidth;
@@ -141,6 +141,9 @@ export class Ground {
     };
 
     decorateWithSand(ctx: CanvasRenderingContext2D, xStart: number, xEnd: number) {
+        if (!this.sandImage) {
+            return;
+        }
         if (!this.sandImagePattern) {
             this.sandImagePattern = ctx.createPattern(this.sandImage, 'repeat');
         }
