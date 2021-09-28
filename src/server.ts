@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
+import axios from 'axios';
 
 import { serverRenderMiddleware } from './serverRenderMiddleware';
 
@@ -33,7 +34,14 @@ const rootDir = process.cwd();
 
 console.log(__dirname);
 
+/* axios.post(`https://ya-praktikum.tech/api/v2/auth/signin`, {
+    "login": "Pochta",
+    "password": "111111"
+  })
+
 // Отдаём статику приложения
+ */
+
 app
     .use(express.static(path.resolve(rootDir, 'dist')));
 
