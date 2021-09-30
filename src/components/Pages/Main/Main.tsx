@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 import './Main.css';
 
+import imgLogo from 'images/logo.svg';
+
 import { Title } from 'components/components/Title/Title';
 import { Text } from 'components/components/Text/Text';
 import { Image } from 'components/components/Image/Image';
 import { Page } from '../components/Page/Page';
-import imgLogo from '../../../../static/images/logo.svg';
 
 export const Main = () => (
     <Page>

@@ -128,12 +128,13 @@
         // Enables experimental support for emitting type metadata for decorators.
         "emitDecoratorMetadata": true,
         "paths": {
-            "*": ["./src/*", "./configs/*" ]
+            "*": ["./src/*", "./configs/*", "./static/*" ]
         },
     },
     "include": [
         "src",
         "configs",
+        "static",
         "./",
     ],
     "exclude": [

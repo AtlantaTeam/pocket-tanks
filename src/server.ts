@@ -32,7 +32,7 @@ const app = express();
 
 const rootDir = process.cwd();
 
-console.log(__dirname);
+// console.log(__dirname);
 
 /* axios.post(`https://ya-praktikum.tech/api/v2/auth/signin`, {
     "login": "Pochta",
