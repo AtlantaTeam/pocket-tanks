@@ -1,6 +1,7 @@
 import { rotateFigureByAngle, rotateFigure, transformPoint } from 'utils/canvas';
 import { Ground } from './Ground';
-import { Coords } from '../../../types/Coords';
+import { Coords, Weapon } from './types';
+import { floor } from '../../../utils/canvas';
 
 interface GroundUnderTankData {
     leftSideX: number,
@@ -24,23 +25,29 @@ export class Tank {
 
     gunpointAngle: number;
 
-    private tankBodyImg: HTMLImageElement;
+    gunpointAngleMin = 0;
 
-    private gunpointImg: HTMLImageElement;
+    gunpointAngleMax = 2 * Math.PI;
+
+    private tankBodyImg: HTMLImageElement | undefined;
+
+    private gunpointImg: HTMLImageElement | undefined;
 
     x: number;
 
     y: number;
 
-    private gunpointX: number;
+    gunpointX: number;
 
-    private gunpointY: number;
+    gunpointY: number;
 
     isActive = false;
 
     canHarmYourself = true;
 
     tankHitArea: Path2D;
+
+    tankHitAreaCtx: CanvasRenderingContext2D | undefined;
 
     currentTransformer: DOMMatrix | undefined;
 
@@ -54,20 +61,27 @@ export class Tank {
 
     power = 10;
 
+    powerMin = 1;
+
+    powerMax = 20;
+
     gravity = 0;
 
     isReadyToFire = true;
 
     closestToHit: { minDiff: number; angle: number; power: number, count: number } | null;
 
+    weapons: Weapon[];
+
     constructor(
         x: number,
         y: number,
         innerWidth: number,
         innerHeight: number,
-        tankBodyImg: HTMLImageElement,
-        gunpointImg: HTMLImageElement,
         gunpointAngle: number,
+        weapons: Weapon[],
+        tankBodyImg?: HTMLImageElement,
+        gunpointImg?: HTMLImageElement,
     ) {
         this.gunpointDeltaX = 30;
         this.gunpointDeltaY = 23;
@@ -77,6 +91,7 @@ export class Tank {
         this.gunpointHeight = 5;
         this.gunpointAngle = gunpointAngle;
         this.tankHitArea = new Path2D();
+        this.weapons = weapons;
 
         this.tankBodyImg = tankBodyImg;
         this.gunpointImg = gunpointImg;
@@ -97,6 +112,27 @@ export class Tank {
             y: this.gunpointY + this.gunpointWidth * Math.sin(this.gunpointAngle),
         };
     }
+
+    fire = (weaponType: Weapon) => {
+        this.weapons = this.weapons.filter((weapon) => weapon !== weaponType);
+    };
+
+    move = () => {
+        const step = 2;
+        const direction = this.dx > 0 ? 1 : -1;
+        if (this.x + this.tankWidth + step < this.innerWidth && this.x - step > 0) {
+            if (Math.abs(this.dx) > step) {
+                this.x += direction * step;
+            } else {
+                this.x += direction * this.dx;
+            }
+            this.dx -= direction * step;
+        } else {
+            this.dx = 0;
+        }
+        this.gunpointX = this.x + this.gunpointDeltaX;
+        this.gunpointY = this.y - this.gunpointDeltaY;
+    };
 
     jump(highestYUnderTank: number) {
         // Столкновение с правой или левой стеной
@@ -131,8 +167,8 @@ export class Tank {
             this.gravity = gravity;
             // TODO: когда появится разное по мощности оружие, в зависимости от hitPower изменять dx и dy,
             // а пока сила отскока танка будет зависеть от силы выстрела
-            this.dx = Math.floor(dx / 5);
-            this.dy = -Math.abs(Math.floor(dx / 3));
+            this.dx = floor(dx / 5);
+            this.dy = -Math.abs(floor(dx / 3));
         }
     }
 
@@ -198,8 +234,8 @@ export class Tank {
     }
 
     private getGroundUnderTankData(ground: Ground) {
-        const leftSideX = Math.floor(this.x) + 10;
-        const rightSideX = Math.floor(this.x + this.tankWidth) - 15;
+        const leftSideX = floor(this.x) + 10;
+        const rightSideX = floor(this.x + this.tankWidth) - 15;
         const xBySortedHeights = [];
 
         for (let index = 0, xCur = leftSideX; xCur <= rightSideX; xCur++, index++) {
@@ -220,8 +256,12 @@ export class Tank {
 
     recalcPosition(ctx: CanvasRenderingContext2D, ground: Ground) {
         const { highestPointUnderTank, ...restGroundUnderTankParams } = this.getGroundUnderTankData(ground);
-        if (this.dx || this.dy) {
-            // Если в танк попали и его dx и dy не 0, то совершаем прыжок
+        if (this.dx && !this.dy) {
+            // Если в танк движется и его dx не 0
+            this.move();
+        }
+        if (this.dy) {
+            // Если в танк попали и его dy не 0, то совершаем прыжок
             this.jump(highestPointUnderTank.y);
         } else {
             // Наклоняем танк в зависимости от земли под ним
@@ -232,8 +272,8 @@ export class Tank {
                     x: this.x + this.gunpointDeltaX,
                     y: this.y - this.gunpointDeltaY,
                 }, this.currentTransformer);
-                this.gunpointX = Math.floor(newX);
-                this.gunpointY = Math.floor(newY);
+                this.gunpointX = floor(newX);
+                this.gunpointY = floor(newY);
             }
         }
     }
@@ -241,23 +281,28 @@ export class Tank {
     draw(ctx: CanvasRenderingContext2D, mousePos: Coords | null, ground: Ground) {
         this.recalcPosition(ctx, ground);
         // Рисуем танк
-        ctx.drawImage(this.tankBodyImg, Math.floor(this.x), Math.floor(this.y - 30), this.tankWidth, this.tankHeight);
+        if (this.tankBodyImg) {
+            ctx.drawImage(this.tankBodyImg, floor(this.x), floor(this.y - 30), this.tankWidth, this.tankHeight);
+        }
         // Определяем зону поражения танка заново, на случай если он изменил расположение
         this.tankHitArea = new Path2D();
-        this.tankHitArea.rect(Math.floor(this.x), Math.floor(this.y - 30), this.tankWidth, this.tankHeight);
+        this.tankHitArea.rect(floor(this.x), floor(this.y - 30), this.tankWidth, this.tankHeight);
+        this.tankHitAreaCtx = ctx;
         ctx.restore();
 
         // Рисуем дуло
         if (mousePos && this.isActive) {
             // Вращаем дуло, если танк активный
             const { x, y } = mousePos;
-            const { angle } = rotateFigure(ctx, Math.floor(x), Math.floor(y), this.gunpointX, this.gunpointY);
+            const { angle } = rotateFigure(ctx, floor(x), floor(y), this.gunpointX, this.gunpointY);
             this.gunpointAngle = angle;
         } else {
             // Восстанавливаем последний угол поворота
             rotateFigureByAngle(ctx, this.gunpointAngle, this.gunpointX, this.gunpointY);
         }
-        ctx.drawImage(this.gunpointImg, this.gunpointX, this.gunpointY, this.gunpointWidth, this.gunpointHeight);
+        if (this.gunpointImg) {
+            ctx.drawImage(this.gunpointImg, this.gunpointX, this.gunpointY, this.gunpointWidth, this.gunpointHeight);
+        }
         ctx.restore();
     }
 }

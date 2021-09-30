@@ -6,6 +6,10 @@ import { fetchUserInfoRequested } from '../../../redux/actions/user-state/user-i
 
 import {App} from '../App';
 
+jest.mock('components/Pages/Game/Game', () => function getWorker(){
+    return null;
+})
+
 describe('<App />', () => {
     let store;
     let wrapper;

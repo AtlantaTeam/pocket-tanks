@@ -1,0 +1,104 @@
+.game_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.canvas {
+    height: calc(100vh - 300px);
+    width: calc(100vw - 150px);
+    margin: 0 auto;
+}
+
+.canvas_light {
+    /* день */
+    background: linear-gradient(
+        to bottom,
+        #79b1f5 0%,
+        #88c2c9 30%,
+        #e1c45e 70%,
+        #b26339 100%
+    );
+}
+
+.canvas_dark {
+    /* вечер */
+    background: linear-gradient(
+        to bottom,
+        #154277 0%,
+        #576e71 30%,
+        #e1c45e 70%,
+        #b26339 100%
+    );
+}
+
+.controls_wrapper {
+    height: 300px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.control_buttons {
+    display: flex;
+}
+
+.control_counter_group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 40px;
+}
+
+.avatar_group-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: auto 0;
+}
+
+.avatar_group-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: auto 0;
+}
+
+.image_avatar {
+    width: 150px;
+    height: 150px;
+    margin: 10px 0;
+}
+
+.control_counter {
+    margin: auto 85px;
+}
+
+.player_name {
+    font-family: Play,sans-serif;
+    font-size: 24px;
+}
+
+.player_points {
+    font-family: Play,sans-serif;
+    font-size: 24px;
+    color: var(--white);
+}
+
+.enemy_name {
+    font-family: Play,sans-serif;
+    font-size: 24px;
+}
+
+.color-main {
+    color: var(--main);
+}
+
+.color-accent {
+    color: var(--accent);
+}
+
+.winner_text {
+    font-family: Play,sans-serif;
+    font-size: 24px;
+    color: var(--white);
+}

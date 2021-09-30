@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog } from '@headlessui/react';
 
-import imgCloseCross from '../../../../static/images/close-cross.svg';
+import imgCloseCross from 'images/close-cross.svg';
 
 import { Button } from '../Button/Button';
 import { Title } from '../Title/Title';

@@ -7,16 +7,19 @@ import {
 import { StaticRouterContext } from 'react-router';
 
 import { hot } from 'react-hot-loader/root';
+import { useDispatch } from 'react-redux';
 
 import { ErrorBoundary } from 'utils/classes/ErrorBoundary/ErrorBoundary';
 
 import '../../../static/styles/fonts/fonts.css';
 import '../../../static/index.css';
-
 import './App.css';
 
-import { MenuComponent } from '../components/Menu/Menu';
-import { ROUTES } from '../../utils/constants/routes';
+import { MenuComponent } from 'components/components/Menu/Menu';
+
+import { ROUTES } from 'utils/constants/routes';
+import { fetchUserInfoRequested } from '../../redux/actions/user-state/user-info';
+import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 
 export interface StaticRouterProps {
     location?: string;
@@ -46,6 +49,7 @@ export const App = ({
                     </Route>
                 ))}
             </Switch>
+            <FullscreenButton />
         </StaticRouter>
     </div>
 );
