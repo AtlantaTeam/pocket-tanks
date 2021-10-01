@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 
 import { App } from 'components/App/App';
 
-import type { History } from 'history';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { history, initializeStore } from 'redux/store';
 
 // eslint-disable-next-line no-underscore-dangle
+const { store } = initializeStore(window.__INITIAL_STATE__);
 
 const Root = () => (
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider store={store}>
+        <App history={history} />
+    </Provider>
 );
 
 ReactDOM.hydrate(<Root />, document.getElementById('root'));

@@ -1,19 +1,36 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
-import { StaticRouterContext } from 'react-router';
+import {
+    StaticRouter,
+    StaticRouterContext,
+} from 'react-router';
+import { Provider } from 'react-redux';
 
 import { App } from 'components/App/App';
+import { history, initializeStore } from './redux/store';
+import { getInitialState } from './redux/reducers/getInitalState';
 
-let jsx: JSX.Element;
-
-export const serverRenderMiddleware = (req: Request, res: Response) => {
+export const serverRenderMiddleware = (
+    req: Request,
+    res: Response,
+) => {
     const location = req.url;
     const context: StaticRouterContext = {};
+    const { store } = initializeStore(getInitialState());
 
-    jsx = (<App context={context} location={location} />);
+    console.log(store);
+
+    const jsx = (
+        <Provider store={store}>
+            <StaticRouter context={context} location={location}>
+                <App history={history} />
+            </StaticRouter>
+        </Provider>
+    );
 
     const reactHtml = renderToString(jsx);
+    const reduxState = store.getState();
 
     if (context.url) {
         res.redirect(context.url);
@@ -22,10 +39,10 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
 
     res
         .status(context.statusCode || 200)
-        .send(getHtml(reactHtml));
+        .send(getHtml(reactHtml, reduxState));
 };
 
-function getHtml(reactHtml: string) {
+function getHtml(reactHtml: string, reduxState = {}) {
     return `
         <!DOCTYPE html>
         <html lang="en">
@@ -41,6 +58,7 @@ function getHtml(reactHtml: string) {
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
+                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
             </script>
             <script defer src="/main.js"></script>
         </body>

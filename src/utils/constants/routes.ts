@@ -66,12 +66,12 @@ export const ROUTES = [
         component: SignUp,
 
     },
-    {
+    /*     {
         name: 'Игра',
         link: '/game',
         component: Game,
 
-    },
+    }, */
     {
         name: 'Профиль',
         link: '/profile',

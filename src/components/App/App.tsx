@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import {
     Switch,
     Route,
-    StaticRouter,
+    Router,
 } from 'react-router-dom';
-import { StaticRouterContext } from 'react-router';
 
 import { hot } from 'react-hot-loader/root';
 import { useDispatch } from 'react-redux';
@@ -15,23 +14,22 @@ import '../../../static/styles/fonts/fonts.css';
 import '../../../static/index.css';
 import './App.css';
 
+import { ConnectedRouter } from 'connected-react-router';
+
+import type { History } from 'history';
+
 import { MenuComponent } from 'components/components/Menu/Menu';
 
 import { ROUTES } from 'utils/constants/routes';
-import { fetchUserInfoRequested } from '../../redux/actions/user-state/user-info';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 
-export interface StaticRouterProps {
-    location?: string;
-    context?: StaticRouterContext;
+interface AppProps {
+    history: History;
 }
 
-export const App = ({
-    context,
-    location,
-}: StaticRouterProps) => (
-    <div className="app">
-        <StaticRouter context={context} location={location}>
+export const App = ({ history } : AppProps) => (
+    <ConnectedRouter history={history}>
+        <div className="app">
             <MenuComponent />
             <Switch>
                 {ROUTES.map((item) => (
@@ -50,6 +48,6 @@ export const App = ({
                 ))}
             </Switch>
             <FullscreenButton />
-        </StaticRouter>
-    </div>
+        </div>
+    </ConnectedRouter>
 );
