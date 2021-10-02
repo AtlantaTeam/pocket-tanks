@@ -4,6 +4,7 @@ import logger from 'redux-logger';
 
 import { isServer } from 'utils/isServer';
 import { createBrowserHistory, createMemoryHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router';
 
 import { rootReducer } from './reducers';
 import type { State } from './reducers';
@@ -24,7 +25,7 @@ export const initializeStore = (initialState: State) => {
     const store = createStore(
         rootReducer(history),
         initialState,
-        composeEnhancers(applyMiddleware(sagaMiddleware, logger)),
+        composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware, logger)),
     );
 
     sagaMiddleware.run(rootSaga);
