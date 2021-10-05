@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom';
 
 import { App } from 'components/App/App';
 
-import { Provider } from 'react-redux';
-import { history, initializeStore } from 'redux/store';
+import { Provider as ReduxProvider } from 'react-redux';
+import { initializeStore } from 'redux/store';
+import { ConnectedRouter } from 'connected-react-router';
 
 // eslint-disable-next-line no-underscore-dangle
-const { store } = initializeStore(window.__INITIAL_STATE__);
+const { store, history } = initializeStore(window.__INITIAL_STATE__);
 
 const Root = () => (
-    <Provider store={store}>
-        <App history={history} />
-    </Provider>
+    <ReduxProvider store={store}>
+        <ConnectedRouter history={history}>
+            <App />
+        </ConnectedRouter>
+    </ReduxProvider>
 );
 
 ReactDOM.hydrate(<Root />, document.getElementById('root'));

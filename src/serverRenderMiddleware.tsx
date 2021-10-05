@@ -1,14 +1,13 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
-import {
-    StaticRouter,
-    StaticRouterContext,
-} from 'react-router';
+import { StaticRouter } from 'react-router-dom';
+import { StaticRouterContext } from 'react-router';
+
 import { Provider } from 'react-redux';
 
 import { App } from 'components/App/App';
-import { history, initializeStore } from './redux/store';
+import { initializeStore } from './redux/store';
 import { getInitialState } from './redux/reducers/getInitalState';
 
 export const serverRenderMiddleware = (
@@ -17,14 +16,12 @@ export const serverRenderMiddleware = (
 ) => {
     const location = req.url;
     const context: StaticRouterContext = {};
-    const { store } = initializeStore(getInitialState());
-
-    console.log(store);
+    const { store } = initializeStore(getInitialState(location), location);
 
     const jsx = (
         <Provider store={store}>
             <StaticRouter context={context} location={location}>
-                <App history={history} />
+                <App />
             </StaticRouter>
         </Provider>
     );

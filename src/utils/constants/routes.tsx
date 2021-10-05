@@ -5,6 +5,7 @@ import { Game } from 'components/Pages/Game/Game';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
+import { isServer } from 'utils/isServer';
 
 /* import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
 
@@ -71,8 +72,8 @@ export const ROUTES = [
         link: '/game',
         component: Game,
 
-    }, */
-    {
+    },
+    */{
         name: 'Профиль',
         link: '/profile',
         component: Profile,
