@@ -1,14 +1,14 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {mount} from 'enzyme';
-import {mockStore} from "mocks/store";
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import { mockStore } from 'mocks/store';
 import { fetchUserInfoRequested } from '../../../redux/actions/user-state/user-info';
 
-import {App} from '../App';
+import { App } from '../App';
 
-jest.mock('components/Pages/Game/Game', () => function getWorker(){
+jest.mock('components/Pages/Game/Game', () => function getWorker() {
     return null;
-})
+});
 
 describe('<App />', () => {
     let store;
