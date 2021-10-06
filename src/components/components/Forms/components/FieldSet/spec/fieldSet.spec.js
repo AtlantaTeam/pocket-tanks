@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
+import { Formik, Form } from 'formik';
 import { FieldSet } from '../FieldSet';
 
 describe('<FieldSet />', () => {
@@ -18,16 +19,29 @@ describe('<FieldSet />', () => {
 
     it('рендерится корректно', () => {
         wrapper = mount(
-            <FieldSet
-                {...props}
-            />
+            <Formik
+                initialValues={{
+                    test: '',
+                }}
+                onSubmit={() => {}}
+            >
+                {() => (
+                    <Form>
+                        <FieldSet
+                            {...props}
+                        />
+                    </Form>
+                )}
+            </Formik>
         );
 
         const htmlInput = wrapper.find('FieldSet').find('input');
         const htmlLabel = wrapper.find('FieldSet').find('label');
+        const errorLabel = wrapper.find('FieldSet').find('span.error-label');
 
         expect(wrapper.find('FieldSet')).toHaveLength(1);
-        expect(errorLabel.find('.error-label').hasClass('.error-label_hidden')).toBeTruthy();
+
+        expect(errorLabel.hasClass('error-label_hidden')).toBeTruthy();
 
         expect(htmlInput).toHaveLength(1);
         expect(htmlInput.props().className).toEqual(props.className);
@@ -38,23 +52,34 @@ describe('<FieldSet />', () => {
 
         expect(htmlLabel).toHaveLength(1);
         expect(htmlLabel.props().htmlFor).toEqual(props.name);
-        expect(htmlLabel.props().innerText).toEqual(props.labelText);
+        expect(htmlLabel.text()).toEqual(props.labelText);
     });
 
     it('сообщения о неправильном заполнении поля работают корректно', () => {
         const errorText = 'errorText';
 
         wrapper = mount(
-            <FieldSet
-                {...props}
-                errorText={errorText}
-                viewError={true}
-            />
+            <Formik
+                initialValues={{
+                    test: '',
+                }}
+                onSubmit={() => {}}
+            >
+                {() => (
+                    <Form>
+                        <FieldSet
+                            {...props}
+                            errorText={errorText}
+                            viewError={true}
+                        />
+                    </Form>
+                )}
+            </Formik>
         );
 
-        const errorLabel = wrapper.find('FieldSet').find('ErrorLabel');
+        const errorLabel = wrapper.find('FieldSet').find('span.error-label');
 
-        expect(errorLabel.find('.error-label').hasClass('.error-label_hidden')).toBeFalsy();
-        expect(errorLabel.find('.error-label').text()).toEqual(errorText);
+        expect(errorLabel.hasClass('error-label_hidden')).toBeFalsy();
+        expect(errorLabel.text()).toEqual(errorText);
     });
 });

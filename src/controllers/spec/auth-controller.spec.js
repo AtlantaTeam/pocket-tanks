@@ -8,8 +8,11 @@ describe('auth controller', () => {
     const dummyResponseTransformed = { dataData: 'data_data' };
 
     const httpModule = http.request;
-    jest.spyOn(httpModule, 'get').mockResolvedValue({ data: dummyResponse });
-    jest.spyOn(httpModule, 'post').mockResolvedValue({ data: dummyResponse });
+
+    beforeEach(() => {
+        jest.spyOn(httpModule, 'get').mockResolvedValue({ data: dummyResponse });
+        jest.spyOn(httpModule, 'post').mockResolvedValue({ data: dummyResponse });
+    });
 
     afterEach(() => {
         httpModule.get.mockClear();

@@ -8,7 +8,10 @@ describe('user controller', () => {
     const dummyResponseTransformed = { dataData: 'data_data' };
 
     const httpModule = http.request;
-    jest.spyOn(httpModule, 'put').mockResolvedValue({ data: dummyResponse });
+
+    beforeEach(() => {
+        jest.spyOn(httpModule, 'put').mockResolvedValue({ data: dummyResponse });
+    });
 
     afterEach(() => {
         httpModule.put.mockClear();
