@@ -1,3 +1,4 @@
+import { isServer } from 'utils/isServer';
 import { RefObject } from 'react';
 import { Dispatch } from 'redux';
 import { wrap } from 'comlink';
@@ -33,8 +34,8 @@ export const GameModes = {
     MOVE: 'move',
 };
 
-// const getWorker = () => new Worker(new URL('./Worker', import.meta.url));
-const worker = false;
+const getWorker = () => (isServer ? false : new Worker(new URL('./Worker', import.meta.url)));
+const worker = getWorker();
 
 export class GamePlay {
     private prevTimestamp = 0;
