@@ -15,29 +15,29 @@ export const serverRenderMiddleware = (
     res: Response,
 ) => {
     const location = req.url;
-    if (location !== '/game'){
-    const context: StaticRouterContext = {};
-    const { store } = initializeStore(getInitialState(location), location);
+    if (location !== '/game') {
+        const context: StaticRouterContext = {};
+        const { store } = initializeStore(getInitialState(location), location);
 
-    const jsx = (
-        <Provider store={store}>
-            <StaticRouter context={context} location={location}>
-                <App />
-            </StaticRouter>
-        </Provider>
-    );
+        const jsx = (
+            <Provider store={store}>
+                <StaticRouter context={context} location={location}>
+                    <App />
+                </StaticRouter>
+            </Provider>
+        );
 
-    const reactHtml = renderToString(jsx);
-    const reduxState = store.getState();
+        const reactHtml = renderToString(jsx);
+        const reduxState = store.getState();
 
-    if (context.url) {
-        res.redirect(context.url);
-        return;
-    }
+        if (context.url) {
+            res.redirect(context.url);
+            return;
+        }
 
-    res
-        .status(context.statusCode || 200)
-        .send(getHtml(reactHtml, reduxState));
+        res
+            .status(context.statusCode || 200)
+            .send(getHtml(reactHtml, reduxState));
     }
 };
 

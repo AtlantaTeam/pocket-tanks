@@ -42,7 +42,7 @@ export const Main = () => (
                     </div>
                 </div>
                 <Link
-                    to="/leaderboard"
+                    to="/game"
                     className="button button_orange button_orange_link"
                 >
                     Поехали!
