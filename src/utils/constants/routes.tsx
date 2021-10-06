@@ -1,7 +1,7 @@
 import { Main } from 'components/Pages/Main/Main';
 import { Login } from 'components/Pages/Login/Login';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
-import { Game } from 'components/Pages/Game/Game';
+import Game from 'components/Pages/Game/Game';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
@@ -53,7 +53,6 @@ export const ROUTES = [
     },
 ] as const;
  */
-
 export const ROUTES = [
     {
         name: 'Вход',
@@ -67,13 +66,13 @@ export const ROUTES = [
         component: SignUp,
 
     },
-    /*     {
+    {
         name: 'Игра',
         link: '/game',
         component: Game,
 
     },
-    */{
+    {
         name: 'Профиль',
         link: '/profile',
         component: Profile,

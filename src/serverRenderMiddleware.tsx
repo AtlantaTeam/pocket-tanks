@@ -15,6 +15,7 @@ export const serverRenderMiddleware = (
     res: Response,
 ) => {
     const location = req.url;
+    if (location !== '/game'){
     const context: StaticRouterContext = {};
     const { store } = initializeStore(getInitialState(location), location);
 
@@ -37,6 +38,7 @@ export const serverRenderMiddleware = (
     res
         .status(context.statusCode || 200)
         .send(getHtml(reactHtml, reduxState));
+    }
 };
 
 function getHtml(reactHtml: string, reduxState = {}) {

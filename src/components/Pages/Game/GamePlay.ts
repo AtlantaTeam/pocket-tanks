@@ -33,8 +33,8 @@ export const GameModes = {
     MOVE: 'move',
 };
 
-const getWorker = () => new Worker(new URL('./Worker', import.meta.url));
-const worker:Worker = getWorker();
+// const getWorker = () => new Worker(new URL('./Worker', import.meta.url));
+const worker = false;
 
 export class GamePlay {
     private prevTimestamp = 0;
