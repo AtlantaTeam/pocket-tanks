@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Page.css';
 
-interface PageProps {
+export interface PageProps {
     children: JSX.Element;
 }
 

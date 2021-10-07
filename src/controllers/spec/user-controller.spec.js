@@ -7,6 +7,11 @@ describe('user controller', () => {
     const dummyResponse = { data_data: 'data_data' };
     const dummyResponseTransformed = { dataData: 'data_data' };
 
+    const dummyForm = new FormData();
+    dummyForm.append('data', 'data');
+
+    const dummyConfig = expect.anything();
+
     const httpModule = http.request;
 
     beforeEach(() => {
@@ -18,25 +23,22 @@ describe('user controller', () => {
     });
 
     it('метод changeProfile выполняет put запрос и преобразует нотацию в camel', () => {
-        userController.changeProfile(new FormData()).then((data) => {
-            expect(httpModule.put).toBeCalledTimes(1);
-            expect(httpModule.put.mock.calls[0][0]).toEqual(USER_ROUTES.CHANGE_PROFILE);
+        userController.changeProfile(dummyForm).then((data) => {
+            expect(httpModule.put).toBeCalledWith(USER_ROUTES.CHANGE_PROFILE, dummyForm, dummyConfig);
             expect(data).toEqual(dummyResponseTransformed);
         });
     });
 
     it('метод changeAvatar выполняет put запрос и преобразует нотацию в camel', () => {
-        userController.changeAvatar(new FormData()).then((data) => {
-            expect(httpModule.put).toBeCalledTimes(1);
-            expect(httpModule.put.mock.calls[0][0]).toEqual(USER_ROUTES.CHANGE_AVATAR);
+        userController.changeAvatar(dummyForm).then((data) => {
+            expect(httpModule.put).toBeCalledWith(USER_ROUTES.CHANGE_AVATAR, dummyForm);
             expect(data).toEqual(dummyResponseTransformed);
         });
     });
 
     it('метод changePassword выполняет put запрос', () => {
-        userController.changePassword(new FormData()).then((data) => {
-            expect(httpModule.put).toBeCalledTimes(1);
-            expect(httpModule.put.mock.calls[0][0]).toEqual(USER_ROUTES.CHANGE_PASSWORD);
+        userController.changePassword(dummyForm).then((data) => {
+            expect(httpModule.put).toBeCalledWith(USER_ROUTES.CHANGE_PASSWORD, dummyForm, dummyConfig);
             expect(data).toEqual(dummyResponse);
         });
     });

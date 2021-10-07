@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { isServer } from 'utils/isServer';
 import { Image } from 'components/components/Image/Image';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
@@ -54,7 +55,7 @@ let allWeapons: TanksWeapons = generateRandomWeapons([Bullet], weaponsAmount);
 let game: GamePlay;
 let isImagesLoaded = false;
 
-export const Game = () => {
+const Game = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isStart, setIsStart] = useState(true);
     const [isGameOver, setIsGameOver] = useState(false);
@@ -333,3 +334,11 @@ export const Game = () => {
         </>
     );
 };
+
+function renderGame() {
+    return !isServer
+        ? Game
+        : () => <></>;
+}
+
+export default renderGame();

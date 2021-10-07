@@ -6,7 +6,7 @@ import '../Forms.css';
 
 import { Image } from 'components/components/Image/Image';
 import { ButtonSubmit } from 'components/components/Button/Button';
-import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
+import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
 

@@ -57,7 +57,7 @@ export type UserState = {
     userInfo: Record<string, never> | IDResponse | UserInfoResponse;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
     isLoading: false,
     isLoggedIn: false,
     userInfo: {},

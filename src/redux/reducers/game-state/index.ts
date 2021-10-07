@@ -49,7 +49,7 @@ export type GameState = {
 
 const emptyWeapon = { id: 0, name: '-' };
 
-const initialState: GameState = {
+export const initialState: GameState = {
     weapons: [emptyWeapon],
     selectedWeapon: emptyWeapon,
     power: 10,
