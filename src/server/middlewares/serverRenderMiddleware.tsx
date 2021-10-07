@@ -7,38 +7,42 @@ import { StaticRouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 
 import { App } from 'components/App/App';
-import { initializeStore } from './redux/store';
-import { getInitialState } from './redux/reducers/getInitalState';
+import { initializeStore } from '../../redux/store';
+import { getInitialState } from '../../redux/reducers/getInitalState';
 
 export const serverRenderMiddleware = (
     req: Request,
     res: Response,
 ) => {
     const location = req.url;
-    if (location !== '/game') {
-        const context: StaticRouterContext = {};
-        const { store } = initializeStore(getInitialState(location), location);
+    const xsrf = req.csrfToken();
+    console.log(xsrf);
+    const context: StaticRouterContext = {};
+    const { store } = initializeStore(
+        getInitialState(location),
+        location,
+    );
 
-        const jsx = (
-            <Provider store={store}>
-                <StaticRouter context={context} location={location}>
-                    <App />
-                </StaticRouter>
-            </Provider>
-        );
+    const jsx = (
+        <Provider store={store}>
+            <StaticRouter context={context} location={location}>
+                <App />
+            </StaticRouter>
+        </Provider>
+    );
 
-        const reactHtml = renderToString(jsx);
-        const reduxState = store.getState();
+    const reactHtml = renderToString(jsx);
+    const reduxState = store.getState();
 
-        if (context.url) {
-            res.redirect(context.url);
-            return;
-        }
-
-        res
-            .status(context.statusCode || 200)
-            .send(getHtml(reactHtml, reduxState));
+    if (context.url) {
+        res.redirect(context.url);
+        return;
     }
+
+    res
+        .cookie('XSRF-TOKEN', xsrf)
+        .status(context.statusCode || 200)
+        .send(getHtml(reactHtml, reduxState));
 };
 
 function getHtml(reactHtml: string, reduxState = {}) {

@@ -4,11 +4,16 @@ import 'babel-polyfill';
 import webpack from 'webpack';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
+import cookieParser from 'cookie-parser';
 import axios from 'axios';
 
-import { serverRenderMiddleware } from './serverRenderMiddleware';
+import { csrf } from './middlewares/csrf';
+import { csp } from './middlewares/csp';
 
-import { clientConfig } from '../configs/webpack/client.config';
+import { serverRenderMiddleware } from './middlewares/serverRenderMiddleware';
+
+import { clientConfig } from '../../configs/webpack/client.config';
+import { checkAuth } from './middlewares/auth';
 
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
@@ -43,7 +48,11 @@ const rootDir = process.cwd();
  */
 
 app
-    .use(express.static(path.resolve(rootDir, 'dist')));
+    .use(express.static(path.resolve(rootDir, 'dist')))
+    .use(cookieParser())
+    .use(csrf())
+    .use(express.json())
+    .use(checkAuth());
 
 // На все get запросы запускаем сначала middleware dev server, а потом middleware рендеринга приложения
 app.get(
