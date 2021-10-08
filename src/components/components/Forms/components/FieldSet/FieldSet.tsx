@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'formik';
+import cn from 'classnames';
 
 import { Label } from '../Input/components/Label/Label';
 import { ErrorLabel } from '../Input/components/ErrorLabel/ErrorLabel';
@@ -35,16 +36,9 @@ export const FieldSet = (props: FieldSetProps) => (
                 text={props.labelText}
             />
         </div>
-        {props.viewError ? (
-            <ErrorLabel
-                className="error-label"
-                text={props.errorText}
-            />
-        ) : (
-            <ErrorLabel
-                className="error-label error-label_hidden"
-                text="no error"
-            />
-        )}
+        <ErrorLabel
+            className={cn('error-label', { 'error-label_hidden': !props.viewError })}
+            text={props.viewError ? props.errorText : 'no error'}
+        />
     </>
 );

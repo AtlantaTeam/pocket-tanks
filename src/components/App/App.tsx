@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import {
+    Switch,
+    Route,
+} from 'react-router-dom';
 
 import { ErrorBoundary } from 'utils/classes/ErrorBoundary/ErrorBoundary';
 
-import '../../styles/fonts.css';
+import '../../../static/styles/fonts/fonts.css';
 import '../../../static/index.css';
 import './App.css';
 
@@ -23,25 +27,31 @@ export const App = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(checkStateRequested());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(checkStateRequested());
+    // }, []);
 
     return (
         <div className="app">
-            <Router>
-                <MenuComponent />
-                <Switch>
-                    {ROUTES.map((item) => (
-                        <Route path={item.link} key={`${item.name}-route`}>
-                            <ErrorBoundary key={`${item.name}-error`}>
-                                <item.component key={`${item.name}-component`} />
-                            </ErrorBoundary>
-                        </Route>
-                    ))}
-                </Switch>
-                <FullscreenButton />
-            </Router>
+            <MenuComponent />
+            <Switch>
+                {ROUTES.map((item) => (
+                    <Route
+                        exact
+                        path={item.link}
+                        key={`${item.name}-route`}
+                    >
+                        <ErrorBoundary
+                            key={`${item.name}-error`}
+                        >
+                            <item.component
+                                key={`${item.name}-component`}
+                            />
+                        </ErrorBoundary>
+                    </Route>
+                ))}
+            </Switch>
+            <FullscreenButton />
             <Popup
                 isOpen={!!error}
                 action={() => {

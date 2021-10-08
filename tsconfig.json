@@ -84,7 +84,7 @@
         // Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6).
         "moduleResolution": "node",
         // Base directory to resolve non-absolute module names.
-        // "baseUrl": "./",
+        "baseUrl": "./",
 
         // A series of entries which re-map imports to lookup locations relative to the 'baseUrl'.
         // "paths": {},
@@ -130,11 +130,14 @@
         "emitDecoratorMetadata": true,
         "baseUrl": ".",
         "paths": {
-            "*": ["./src/*"]
-        }
+         "*": ["./src/*", "./configs/*", "./static/*" ]
+        },
     },
     "include": [
-        "src"
+        "src",
+        "configs",
+        "static",
+        "./",
     ],
     "exclude": [
         "dist",

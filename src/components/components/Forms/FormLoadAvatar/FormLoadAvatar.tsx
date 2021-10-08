@@ -6,7 +6,7 @@ import '../Forms.css';
 
 import { Image } from 'components/components/Image/Image';
 import { ButtonSubmit } from 'components/components/Button/Button';
-import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
+import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
 
@@ -61,25 +61,22 @@ export const FormLoadAvatar = () => {
                                 id="avatar"
                                 name="avatar"
                                 type="file"
+                                accept="image/jpeg"
                                 className="input-avatar"
                                 onChange={
                                     (event) => {
-                                        if (event.currentTarget !== null) {
-                                            if (event.currentTarget.files !== null) {
-                                                if (event.currentTarget.files[0] !== undefined) {
-                                                    setState({
-                                                        message: `Файл загружен: ${event.currentTarget.files[0].name}`,
-                                                        className: 'load-message',
-                                                        img: URL.createObjectURL(event.currentTarget.files[0]),
-                                                    });
-                                                } else {
-                                                    setState({
-                                                        message: 'Ошибка, попробуйте еще раз',
-                                                        className: 'load-message load-message_error',
-                                                        img: initialStateAvatar,
-                                                    });
-                                                }
-                                            }
+                                        if (event.target?.files?.[0]) {
+                                            setState({
+                                                message: `Файл загружен: ${event.target.files[0].name}`,
+                                                className: 'load-message',
+                                                img: URL.createObjectURL(event.target.files[0]),
+                                            });
+                                        } else {
+                                            setState({
+                                                message: 'Ошибка, попробуйте еще раз',
+                                                className: 'load-message load-message_error',
+                                                img: initialStateAvatar,
+                                            });
                                         }
                                     }
                                 }

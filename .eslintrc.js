@@ -56,7 +56,10 @@ module.exports = {
             "error",
             { functions: false, classes: true, variables: true, typedefs: true },
         ],
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        //
+        "@typescript-eslint/no-unsafe-call" : "off",
+        "@typescript-eslint/no-unsafe-member-access" : "off",
     },
     ignorePatterns: ['*.config.js', '*.js', '**/*/stories']
 };
