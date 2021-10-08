@@ -2,7 +2,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
 import {mockStore} from "mocks/store";
-import { fetchUserInfoRequested } from '../../../redux/actions/user-state/user-info';
+import { checkStateRequested } from '../../../redux/actions/user-state/check-state';
 
 import {App} from '../App';
 
@@ -15,7 +15,11 @@ describe('<App />', () => {
     let wrapper;
 
     beforeEach(() => {
-        store = mockStore({});
+        store = mockStore({
+            userState: {
+                error: null,
+            },
+        });
 
         wrapper = mount(
             <Provider store={store}>
@@ -30,7 +34,7 @@ describe('<App />', () => {
 
     it('при рендеринге диспатчит экшен для запроса инфы о пользователе', () => {
         expect(store.getActions()).toEqual([
-            fetchUserInfoRequested()
+            checkStateRequested()
         ]);
     });
 });
