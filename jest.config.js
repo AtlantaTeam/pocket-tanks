@@ -13,6 +13,7 @@ module.exports = {
     setupFiles: [
         '<rootDir>/configs/enzyme',
         '<rootDir>/configs/runtime',
+        '<rootDir>/configs/jestPromiseRejections',
     ],
     coverageDirectory: '<rootDir>/coverage',
     coveragePathIgnorePatterns: [
