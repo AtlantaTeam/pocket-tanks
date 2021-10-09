@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Loader from 'react-loader-spinner';
@@ -9,6 +9,8 @@ import { Button } from '../../components/Button/Button';
 
 import { logoutRequested } from '../../../redux/actions/user-state/logout';
 import { getUserNickname } from '../../../redux/selectors/user-state';
+
+import { sendNotificationDefault } from '../../../modules/notifications/notifications';
 
 import './Profile.css';
 
@@ -24,6 +26,12 @@ export const Profile = () => {
     const dispatch = useDispatch();
 
     const userName = useSelector(getUserNickname);
+
+    useEffect(() => {
+        setTimeout(() => {
+            sendNotificationDefault('Загрузка данных отключена');
+        }, 1000);
+    }, []);
 
     return (
         <Page>

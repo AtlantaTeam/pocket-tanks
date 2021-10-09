@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { ToastContainer } from 'react-toastify';
+import { toastContainerProps } from 'modules/notifications/toast-container-props';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import {
     Switch,
     Route,
@@ -23,7 +27,7 @@ import { cleanError } from '../../redux/actions/user-state/clean-error';
 import { getErrorText } from '../../redux/selectors/user-state';
 
 export const App = () => {
-    const error = useSelector(getErrorText);
+    const userStateError = useSelector(getErrorText);
 
     const dispatch = useDispatch();
 
@@ -53,14 +57,16 @@ export const App = () => {
             </Switch>
             <FullscreenButton />
             <Popup
-                isOpen={!!error}
+                isOpen={!!userStateError}
                 action={() => {
                     dispatch(cleanError());
                 }}
                 title="Ошибка"
-                textContent={error as string}
+                textContent={userStateError as string}
                 buttonText="Закрыть"
             />
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <ToastContainer {...toastContainerProps} />
         </div>
     );
 };
