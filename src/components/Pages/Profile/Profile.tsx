@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Loader from 'react-loader-spinner';
 import { Title } from 'components/components/Title/Title';
 import { Tabs } from 'components/components/Tabs/Tabs';
 import { Page } from '../components/Page/Page';
-import { Button } from '../../components/Button/Button';
-
-import { logoutRequested } from '../../../redux/actions/user-state/logout';
 import { getUserNickname } from '../../../redux/selectors/user-state';
 
 import { sendNotificationDefault } from '../../../modules/notifications/notifications';
@@ -23,8 +20,6 @@ const Spinner = () => (
 );
 
 export const Profile = () => {
-    const dispatch = useDispatch();
-
     const userName = useSelector(getUserNickname);
 
     useEffect(() => {
@@ -38,12 +33,6 @@ export const Profile = () => {
             <div className="profile-wrapper">
                 <Title className="title title_middle" text={userName ?? 'Загрузка...'} />
                 {userName ? <Tabs tabs={tabs} /> : <Spinner />}
-                <Button
-                    type="button"
-                    text="Выйти"
-                    className="button-link button-logout"
-                    onClick={() => dispatch(logoutRequested())}
-                />
             </div>
         </Page>
     );
