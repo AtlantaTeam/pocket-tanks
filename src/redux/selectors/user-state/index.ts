@@ -5,6 +5,7 @@ export const getUserState = (state: State) => state.userState;
 export const getUserLoaderState = (state: State) => getUserState(state).isLoading;
 export const getUserAuthState = (state: State) => getUserState(state).isLoggedIn;
 export const getUserProfile = (state: State) => getUserState(state).userInfo;
+export const getErrorText = (state: State) => getUserState(state).error;
 
 export const getUserNickname = (state: State) => {
     const userProfile = getUserProfile(state);

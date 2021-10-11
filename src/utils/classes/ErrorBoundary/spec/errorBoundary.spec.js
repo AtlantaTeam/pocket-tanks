@@ -36,6 +36,6 @@ describe('<ErrorBoundary />', () => {
     it('пользователь может прочитать текст ошибки', () => {
         wrapper.find('ErrorBoundary').find('Main').simulateError(new Error(errorText));
 
-        expect(wrapper.find('SpareUI').find('p').at(1).text()).toEqual(errorText);
+        expect(wrapper.find('SpareUI').find('Text').text()).toEqual(errorText);
     });
 });

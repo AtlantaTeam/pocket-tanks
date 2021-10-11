@@ -1,0 +1,27 @@
+.Toastify__toast-body {
+    font-family: "Play", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--white);
+}
+
+.notification_default {
+    background-color: var(--black);
+    color: var(--white);
+    border: 3px solid var(--white);
+    border-radius: 5px;
+}
+
+.notification-progress_default {
+    background: var(--main);
+}
+
+.notification_with-image {
+    & .Toastify__toast-icon {
+        width: 35px;
+        height: 35px;
+        margin-right: 15px;
+    }
+}

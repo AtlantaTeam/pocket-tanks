@@ -12,9 +12,13 @@ export default {
 } as ComponentMeta<typeof Popup>;
 
 const Template: ComponentStory<typeof Popup> = () => (
-    <Popup>
-        <span> FFF </span>
-    </Popup>
+    <Popup
+        isOpen
+        title="Внимание"
+        textContent="Текст сообщения для пользователя"
+        buttonText="Закрыть"
+        action={() => {}}
+    />
 );
 
 export const PopupElement = Template.bind({});

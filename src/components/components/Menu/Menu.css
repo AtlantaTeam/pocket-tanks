@@ -52,3 +52,15 @@
 .menu-item_disabled {
     opacity: .75;
 }
+
+.menu-logout {
+    cursor: pointer;
+    position: absolute;
+    top: 90px;
+    left: 10px;
+    width: 50px;
+    border-width: 0;
+    margin-bottom: 16px;
+    z-index: 900;
+    background: none;
+}
