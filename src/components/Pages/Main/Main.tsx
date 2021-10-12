@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import imgLogo from 'images/logo.svg';
 import './Main.css';
+
+import imgLogo from 'images/logo.svg';
 
 import { Title } from 'components/components/Title/Title';
 import { Text } from 'components/components/Text/Text';

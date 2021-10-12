@@ -1,7 +1,10 @@
 import { Ground } from './Ground';
 import { Tank } from './Tank';
+import { floor } from '../../../utils/canvas';
 
 export class Bullet {
+    static readonly label = 'Ядро';
+
     radius: number;
 
     private mass: number;
@@ -46,6 +49,8 @@ export class Bullet {
 
     private activeTank: Tank;
 
+    hittedTank: Tank | undefined;
+
     constructor(
         innerWidth: number,
         innerHeight: number,
@@ -61,8 +66,8 @@ export class Bullet {
         this.x = x;
         this.y = y;
         this.power = activeTank.power;
-        this.dx = Math.floor(Math.cos(activeTank.gunpointAngle) * this.power);
-        this.dy = Math.floor(Math.sin(activeTank.gunpointAngle) * this.power);
+        this.dx = floor(Math.cos(activeTank.gunpointAngle) * this.power);
+        this.dy = floor(Math.sin(activeTank.gunpointAngle) * this.power);
         this.gravity = 0.1;
         this.elasticity = 1;
         this.wind = 0;
@@ -83,11 +88,11 @@ export class Bullet {
         // Учитываем сопротивление ветра
         this.dx -= (this.dx * this.wind);
 
-        this.x = Math.floor(this.x + this.dx);
-        this.y = Math.floor(this.y + this.dy);
+        this.x = floor(this.x + this.dx);
+        this.y = floor(this.y + this.dy);
     }
 
-    isHit = (ctx: CanvasRenderingContext2D) => {
+    isHit = (ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D) => {
         if (this.isTankHit) {
             return true;
         }
@@ -123,7 +128,7 @@ export class Bullet {
             }
 
             // Удар о землю
-            if (this.innerHeight - this.y - this.radius <= this.ground.heights[Math.floor(this.x)]) {
+            if (this.innerHeight - this.y - this.radius <= this.ground.heights[floor(this.x)]) {
                 return true;
             }
         } else {
@@ -133,11 +138,12 @@ export class Bullet {
         return false;
     };
 
-    checkTankHit = (ctx: CanvasRenderingContext2D, tank: Tank) => {
+    checkTankHit = (ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, tank: Tank) => {
         ctx.save();
         ctx.setTransform(tank.currentTransformer);
         if (ctx.isPointInPath(tank.tankHitArea, this.x, this.y)) {
             this.isTankHit = true;
+            this.hittedTank = tank;
             console.log('HIT!!!');
         }
         ctx.restore();
@@ -167,7 +173,7 @@ export class Bullet {
         this.explosionRadius += 1;
         if (this.explosionRadius >= this.explosionMaxRadius) {
             // Создаем провал земли в пределах взрыва
-            this.ground.fall(Math.floor(this.x), Math.floor(this.y), this.explosionRadius);
+            this.ground.fall(floor(this.x), floor(this.y), this.explosionRadius);
             // Удаляем снаряд после взрыва
             this.isFinished = true;
             this.explosionRadius = 0;

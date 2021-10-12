@@ -7,14 +7,18 @@ import {
 import { Popup } from './Popup';
 
 export default {
-    title: 'POCKET-TANKS/components/Poups',
+    title: 'POCKET-TANKS/components/Popup',
     component: Popup,
 } as ComponentMeta<typeof Popup>;
 
 const Template: ComponentStory<typeof Popup> = () => (
-    <Popup>
-        <span> FFF </span>
-    </Popup>
+    <Popup
+        isOpen
+        title="Внимание"
+        textContent="Текст сообщения для пользователя"
+        buttonText="Закрыть"
+        action={() => {}}
+    />
 );
 
 export const PopupElement = Template.bind({});

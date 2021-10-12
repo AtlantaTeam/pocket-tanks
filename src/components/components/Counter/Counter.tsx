@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
-import {
-    Input,
-    InputProps,
-} from '../Forms/components/Input/Input';
+import { Input, InputProps } from '../Forms/components/Input/Input';
 
 import './Counter.css';
 
 export interface CounterProps extends InputProps {
-    step: number;
+    leftStepHandler: () => void;
+    rightStepHandler: () => void;
     label: string;
-    initialState: number;
 }
 
 export const Counter = (props: CounterProps) => {
-    const [
-        state,
-        setState,
-    ] = useState({ count: props.initialState });
+    const inputRef = useRef<HTMLDivElement>(null);
+    const { value } = props;
 
     return (
-        <div className="field-counter">
+        <div className="field-counter" ref={inputRef}>
             <p className="field-counter__parameter">
                 {props.label}
             </p>
@@ -29,45 +24,21 @@ export const Counter = (props: CounterProps) => {
                     type="button"
                     aria-hidden="true"
                     className="triangle-right"
-                    onClick={() => {
-                        if (props.min !== undefined) {
-                            if (
-                                state.count > Number(props.min)
-                            ) {
-                                setState({
-                                    count:
-                                        state.count - props.step,
-                                });
-                            }
-                        }
-                    }}
+                    onClick={props.leftStepHandler}
                 />
                 <Input
                     className="field-counter__input"
                     type="number"
                     name={props.name}
                     id={props.name}
-                    defaultValue={props.initialState}
-                    value={state.count}
-                    min={props.min}
-                    max={props.max}
+                    value={value}
+                    onChange={() => {}}
                 />
                 <button
                     type="button"
                     aria-hidden="true"
                     className="triangle-left"
-                    onClick={() => {
-                        if (props.max !== undefined) {
-                            if (
-                                state.count < Number(props.max)
-                            ) {
-                                setState({
-                                    count:
-                                        state.count + props.step,
-                                });
-                            }
-                        }
-                    }}
+                    onClick={props.rightStepHandler}
                 />
             </div>
         </div>

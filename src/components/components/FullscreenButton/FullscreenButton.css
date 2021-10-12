@@ -1,0 +1,10 @@
+.button_fullscreen {
+    position: absolute;
+    top: 16px;
+    right: 0;
+    width: 75px;
+    border-width: 0;
+    z-index: 1000;
+    background: var(--black);
+    cursor: pointer;
+}

@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'Play';
+    src: url('Play-Bold.eot');
+    src: local('Play-Bold'),
+        url('Play-Bold.eot?#iefix')
+        format('embedded-opentype'),
+        url('Play-Bold.woff') format('woff'),
+        url('Play-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Play';
+    src: url('Play.eot');
+    src: local('Play'),
+        url('Play.eot?#iefix')
+        format('embedded-opentype'),
+        url('Play.woff') format('woff'),
+        url('Play.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('PressStart2P.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
