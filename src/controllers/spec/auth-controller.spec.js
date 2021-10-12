@@ -1,4 +1,4 @@
-import { httpToAPI } from '../../modules/http-service/http-service';
+import { http } from '../../modules/http-service/http-service';
 
 import * as authController from '../auth-controller';
 import { AUTH_ROUTES } from '../../constants/api-routes';
@@ -12,7 +12,7 @@ describe('auth controller', () => {
 
     const dummyConfig = expect.anything();
 
-    const httpModule = httpToAPI.request;
+    const httpModule = http.request;
 
     beforeEach(() => {
         jest.spyOn(httpModule, 'get').mockResolvedValue({ data: dummyResponse });

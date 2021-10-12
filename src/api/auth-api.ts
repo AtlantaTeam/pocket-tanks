@@ -1,41 +1,35 @@
-import { httpToServer, HTTPService } from '../modules/http-service/http-service';
+import { http } from '../modules/http-service/http-service';
 import { AUTH_ROUTES } from '../constants/api-routes';
 import type { UserInfoResponse, IDResponse, EmptyResponse } from './types';
 
-export class AuthAPI {
-    public http: HTTPService;
-
-    constructor(httpInstance: HTTPService) {
-        this.http = httpInstance;
-    }
-
+class AuthAPI {
     getUserInfo() {
-        return this.http.request.get<UserInfoResponse>(
+        return http.request.get<UserInfoResponse>(
             AUTH_ROUTES.GET_USER_INFO,
         );
     }
 
     login(formData: FormData) {
-        return this.http.request.post<EmptyResponse>(
+        return http.request.post<EmptyResponse>(
             AUTH_ROUTES.LOGIN,
             formData,
-            this.http.configFormDataAsJSON,
+            http.configFormDataAsJSON,
         );
     }
 
     signup(formData: FormData) {
-        return this.http.request.post<IDResponse>(
+        return http.request.post<IDResponse>(
             AUTH_ROUTES.SIGNUP,
             formData,
-            this.http.configFormDataAsJSON,
+            http.configFormDataAsJSON,
         );
     }
 
     logout() {
-        return this.http.request.post<EmptyResponse>(
+        return http.request.post<EmptyResponse>(
             AUTH_ROUTES.LOGOUT,
         );
     }
 }
 
-export const authAPI = new AuthAPI(httpToServer);
+export const authAPI = new AuthAPI();

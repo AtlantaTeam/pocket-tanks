@@ -6,7 +6,7 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
 
-import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
+/* import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
 
 export const ROUTES = [
     {
@@ -31,6 +31,7 @@ export const ROUTES = [
         name: 'Профиль',
         link: '/profile',
         component: withAuthState(true, '/login', Profile),
+
     },
     {
         name: 'Таблица результатов',
@@ -50,7 +51,7 @@ export const ROUTES = [
         component: Main,
     },
 ] as const;
-/*
+ */
 export const ROUTES = [
     {
         name: 'Вход',
@@ -94,4 +95,3 @@ export const ROUTES = [
         component: Main,
     },
 ] as const;
-*/
