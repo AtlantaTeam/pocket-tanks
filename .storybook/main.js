@@ -1,7 +1,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const custom = require('../webpack.config.js');
+const custom = require('../storybook.webpack.config');
 
 module.exports = {
     stories: [
@@ -47,6 +47,8 @@ module.exports = {
 
         config.module.rules.push({
             test: /\.stories\.tsx$/,
+            include: path.resolve(__dirname, '../src/components'),
+
             loader: require.resolve(
                 '@storybook/source-loader',
             ),
@@ -56,7 +58,7 @@ module.exports = {
 
         config.module.rules.push({
             test: /\.tsx?$/,
-            include: path.resolve(__dirname, '../src'),
+            include: path.resolve(__dirname, '../src/components'),
             use: [
                 require.resolve('babel-loader'),
                 {
