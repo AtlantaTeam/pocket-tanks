@@ -1,10 +1,10 @@
 import React from 'react';
-import {Provider} from 'react-redux';
-import {mount} from 'enzyme';
-import {mockStore} from "mocks/store";
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import { mockStore } from "mocks/store";
 import { loginRequested } from '../../../../../redux/actions/user-state/login';
 
-import {FormSignIn} from '../FormSignIn';
+import { FormSignIn } from '../FormSignIn';
 
 jest.mock('react-router-dom', () => ({
     Link() {

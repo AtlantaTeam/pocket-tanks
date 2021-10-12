@@ -1,4 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosTransformer } from 'axios';
+import axios from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosTransformer } from 'axios';
 import qs from 'qs';
 import { isServer } from 'utils/isServer';
 import { BASE_URL, SERVER_URL } from '../../constants/api-routes';

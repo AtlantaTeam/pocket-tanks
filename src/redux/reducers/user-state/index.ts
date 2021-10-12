@@ -33,6 +33,9 @@ import {
     CHANGE_PASSWORD_FULFILLED,
     CHANGE_PASSWORD_FAILED,
 } from '../../actions/user-state/change-password';
+import {
+    CLEAN_ERROR,
+} from '../../actions/user-state/clean-error';
 import type { FetchUserInfoAction } from '../../actions/user-state/user-info';
 import type { LoginAction } from '../../actions/user-state/login';
 import type { SignupAction } from '../../actions/user-state/signup';
@@ -40,6 +43,7 @@ import type { LogoutAction } from '../../actions/user-state/logout';
 import type { ChangeProfileAction } from '../../actions/user-state/change-profile';
 import type { ChangeAvatarAction } from '../../actions/user-state/change-avatar';
 import type { ChangePasswordAction } from '../../actions/user-state/change-password';
+import type { CleanErrorAction } from '../../actions/user-state/clean-error';
 import type { UserInfoResponse, IDResponse } from '../../../api/types';
 
 export type UserStateAction =
@@ -49,18 +53,21 @@ export type UserStateAction =
     | LogoutAction
     | ChangeProfileAction
     | ChangeAvatarAction
-    | ChangePasswordAction;
+    | ChangePasswordAction
+    | CleanErrorAction;
 
 export type UserState = {
     isLoading: boolean;
     isLoggedIn: boolean;
     userInfo: Record<string, never> | IDResponse | UserInfoResponse;
+    error: string | null;
 };
 
 export const initialState: UserState = {
     isLoading: false,
     isLoggedIn: false,
     userInfo: {},
+    error: null,
 };
 
 /* eslint-disable no-param-reassign */
@@ -117,6 +124,11 @@ export const userState = (state: UserState = initialState, action: UserStateActi
         case CHANGE_AVATAR_FAILED:
         case CHANGE_PASSWORD_FAILED:
             state.isLoading = false;
+            state.error = action.payload.message;
+            break;
+
+        case CLEAN_ERROR:
+            state.error = null;
             break;
 
         // no default

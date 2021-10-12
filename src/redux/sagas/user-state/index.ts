@@ -17,6 +17,8 @@ import { changeAvatarFulfilled, changeAvatarFailed, CHANGE_AVATAR_REQUESTED }
     from '../../actions/user-state/change-avatar';
 import { changePasswordFulfilled, changePasswordFailed, CHANGE_PASSWORD_REQUESTED }
     from '../../actions/user-state/change-password';
+import { checkStateFailed, CHECK_STATE_REQUESTED }
+    from '../../actions/user-state/check-state';
 
 import * as authController from '../../../controllers/auth-controller';
 import * as userController from '../../../controllers/user-controller';
@@ -50,6 +52,16 @@ export function* logoutRequest() {
         yield put(logoutFulfilled());
     } catch (err) {
         yield put(logoutFailed(err as ErrorResponse));
+    }
+}
+
+export function* checkStateRequest() {
+    try {
+        // @ts-expect-error redux-saga types
+        const userInfo = yield call(authController.getUserInfo);
+        yield put(fetchUserInfoFulfilled(userInfo as UserInfoResponse));
+    } catch (err) {
+        yield put(checkStateFailed(err as ErrorResponse));
     }
 }
 
@@ -96,6 +108,7 @@ export function* userStateSaga() {
     yield takeLatest(LOGIN_REQUESTED, loginRequest);
     yield takeLatest(SIGNUP_REQUESTED, signupRequest);
     yield takeLatest(LOGOUT_REQUESTED, logoutRequest);
+    yield takeLatest(CHECK_STATE_REQUESTED, checkStateRequest);
     yield takeLatest(FETCH_USER_INFO_REQUESTED, fetchUserInfoRequest);
     yield takeLatest(CHANGE_PROFILE_REQUESTED, changeProfileRequest);
     yield takeLatest(CHANGE_AVATAR_REQUESTED, changeAvatarRequest);
