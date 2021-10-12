@@ -12,5 +12,3 @@ declare module '*.svg' {
     const value: string | undefined;
     export default value;
 }
-
-declare module 'openssl-self-signed-certificate';

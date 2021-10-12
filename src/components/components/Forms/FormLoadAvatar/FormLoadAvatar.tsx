@@ -19,7 +19,6 @@ export const FormLoadAvatar = () => {
 
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
-
     const initialStateAvatar = avatar ? `${RESOURCES_BASE_URL}${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({

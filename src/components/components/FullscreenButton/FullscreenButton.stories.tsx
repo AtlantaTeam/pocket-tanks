@@ -1,5 +1,7 @@
 import React from 'react';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
+import '../../../styles/fonts.css';
 import { WrapperCenter } from '../WrapperCenter/WrapperCenter';
 import { FullscreenButton } from './FullscreenButton';
 
