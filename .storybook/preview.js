@@ -1,3 +1,4 @@
+import '../static/styles/fonts/fonts.css';
 import '../static/index.css';
 
 export const parameters = {

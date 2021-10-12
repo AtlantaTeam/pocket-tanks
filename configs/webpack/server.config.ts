@@ -14,7 +14,7 @@ export const serverConfig: Configuration = {
     name: 'server',
     target: 'node',
     node: { __dirname: false },
-    entry: path.join(rootDir, 'src/server'),
+    entry: path.join(rootDir, 'src/server/server'),
     module: {
         rules: [...fileLoaders.server, cssLoaders.server, tsLoaders.server],
     },

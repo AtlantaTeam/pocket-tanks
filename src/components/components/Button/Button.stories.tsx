@@ -4,7 +4,7 @@ import {
     ComponentMeta,
 } from '@storybook/react';
 
-import '../../../styles/fonts.css';
+// import '../../../../static/styles/fonts.css';
 import imageYandexLogo from '../../../../static/images/yandex-logo-black.svg';
 import { Button } from './Button';
 import { Image } from '../Image/Image';
