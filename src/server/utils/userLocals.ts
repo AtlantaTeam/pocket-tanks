@@ -9,6 +9,6 @@ export const setUserAuth = (res: Response) => {
 
 export const getUserInfo = (res: Response) => res.locals.userInfo as UserInfoResponse;
 
-export const setUserInfo = (res: Response, user: any) => {
+export const setUserInfo = (res: Response, user: UserInfoResponse) => {
     res.locals.userInfo = user;
 };

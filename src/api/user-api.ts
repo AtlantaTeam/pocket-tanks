@@ -1,30 +1,36 @@
-import { http } from '../modules/http-service/http-service';
+import { httpToAPI, HTTPService } from '../modules/http-service/http-service';
 import { USER_ROUTES } from '../constants/api-routes';
 import type { UserInfoResponse, EmptyResponse } from './types';
 
 class UserAPI {
+    public http: HTTPService;
+
+    constructor(httpInstance: HTTPService) {
+        this.http = httpInstance;
+    }
+
     changeProfile(formData: FormData) {
-        return http.request.put<UserInfoResponse>(
+        return this.http.request.put<UserInfoResponse>(
             USER_ROUTES.CHANGE_PROFILE,
             formData,
-            http.configFormDataAsJSON,
+            this.http.configFormDataAsJSON,
         );
     }
 
     changeAvatar(formData: FormData) {
-        return http.request.put<UserInfoResponse>(
+        return this.http.request.put<UserInfoResponse>(
             USER_ROUTES.CHANGE_AVATAR,
             formData,
         );
     }
 
     changePassword(formData: FormData) {
-        return http.request.put<EmptyResponse>(
+        return this.http.request.put<EmptyResponse>(
             USER_ROUTES.CHANGE_PASSWORD,
             formData,
-            http.configFormDataAsJSON,
+            this.http.configFormDataAsJSON,
         );
     }
 }
 
-export const userAPI = new UserAPI();
+export const userAPI = new UserAPI(httpToAPI);

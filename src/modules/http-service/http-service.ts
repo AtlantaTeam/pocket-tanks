@@ -1,13 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosTransformer } from 'axios';
 import qs from 'qs';
-import { BASE_URL } from '../../constants/api-routes';
+import { isServer } from 'utils/isServer';
+import { BASE_URL, SERVER_URL } from '../../constants/api-routes';
 
-class HTTPService {
-    private httpTransport: AxiosInstance;
+export class HTTPService {
+    public httpTransport: AxiosInstance;
 
-    constructor() {
+    constructor(baseUrlHTTP: string) {
         this.httpTransport = axios.create({
-            baseURL: BASE_URL,
+            baseURL: baseUrlHTTP,
             timeout: 5000,
             withCredentials: true,
             paramsSerializer: (params) => qs.stringify(params),
@@ -22,13 +23,20 @@ class HTTPService {
         return {
             transformRequest: [
                 ...axios.defaults.transformRequest as AxiosTransformer[],
-                (formData: FormData) => JSON.stringify(Object.fromEntries(formData.entries())),
+                (formData: FormData) => this.configDataAsJSON(formData),
             ],
             headers: {
                 'Content-type': 'application/json; charset=utf-8',
             },
         };
     }
+
+    private configDataAsJSON(data: FormData) {
+        return isServer
+            ? data
+            : JSON.stringify(Object.fromEntries(data.entries()));
+    }
 }
 
-export const http = new HTTPService();
+export const httpToAPI = new HTTPService(BASE_URL);
+export const httpToServer = new HTTPService(SERVER_URL);

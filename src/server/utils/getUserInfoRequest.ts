@@ -1,0 +1,19 @@
+import { AuthAPI } from 'api/auth-api';
+import { objectToCamel } from 'ts-case-convert';
+import { NextFunction, Request, Response } from 'express';
+import { setAuthServerToAPI } from './authServerToAPILocals';
+import { setUserAuth, setUserInfo } from './userLocals';
+
+export const getUserInfoRequest = (req:Request, res: Response, next: NextFunction, authServerToAPI: AuthAPI) => {
+    authServerToAPI.getUserInfo()
+        .then((userInfo) => {
+            setUserAuth(res);
+            setUserInfo(res, objectToCamel(userInfo.data));
+            setAuthServerToAPI(res, authServerToAPI);
+            return userInfo;
+        })
+        .catch((err: Error) => console.log(err))
+        .finally(() => {
+            next();
+        });
+};

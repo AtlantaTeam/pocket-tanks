@@ -5,10 +5,12 @@ import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
 
 import { Provider } from 'react-redux';
-
 import { App } from 'components/App/App';
+import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
+import { loginFulfilled } from '../../redux/actions/user-state/login';
 import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
+import { getUserInfo, isUserAuth } from '../utils/userLocals';
 
 export const serverRenderMiddleware = (
     req: Request,
@@ -16,12 +18,18 @@ export const serverRenderMiddleware = (
 ) => {
     const location = req.url;
     const xsrf = req.csrfToken();
-    console.log(xsrf);
     const context: StaticRouterContext = {};
+
     const { store } = initializeStore(
         getInitialState(location),
         location,
     );
+
+    if (isUserAuth(res)) {
+        const userInfo = getUserInfo(res);
+        store.dispatch(loginFulfilled());
+        store.dispatch(fetchUserInfoFulfilled(userInfo));
+    }
 
     const jsx = (
         <Provider store={store}>
@@ -41,6 +49,7 @@ export const serverRenderMiddleware = (
 
     res
         .cookie('XSRF-TOKEN', xsrf)
+        .clearCookie('authKey')
         .status(context.statusCode || 200)
         .send(getHtml(reactHtml, reduxState));
 };
