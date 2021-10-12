@@ -3,7 +3,6 @@ import { httpToAPI } from 'modules/http-service/http-service';
 import { AuthAPI } from '../../api/auth-api';
 import { setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { getUserInfoRequest } from '../utils/getUserInfoRequest';
-import { getUserInfo } from '../utils/userLocals';
 
 export const checkAuth = () => (
     req: Request,

@@ -4,15 +4,21 @@ import { NextFunction, Request, Response } from 'express';
 import { setAuthServerToAPI } from './authServerToAPILocals';
 import { setUserAuth, setUserInfo } from './userLocals';
 
-export const getUserInfoRequest = (req:Request, res: Response, next: NextFunction, authServerToAPI: AuthAPI) => {
-    authServerToAPI.getUserInfo()
+export const getUserInfoRequest = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    authServerToAPI: AuthAPI,
+) => {
+    authServerToAPI
+        .getUserInfo()
         .then((userInfo) => {
             setUserAuth(res);
             setUserInfo(res, objectToCamel(userInfo.data));
             setAuthServerToAPI(res, authServerToAPI);
-            return userInfo;
+            return objectToCamel(userInfo.data);
         })
-        .catch((err: Error) => console.log(err))
+        .catch((err: Error) => { throw err; })
         .finally(() => {
             next();
         });

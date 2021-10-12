@@ -49,6 +49,5 @@ export const initializeStore = (initialState: State, url = '/') => {
     if (!isServer) {
         sagaMiddleware.run(rootSaga);
     }
-
     return { store, history };
 };

@@ -12,3 +12,7 @@ export const getAuthServerToAPI = (res: Response): AuthAPI => {
     }
     return new AuthAPI(httpToAPI);
 };
+
+export const deleteAuthServerToAPI = (res: Response) => {
+    res.locals.authServerToAPI = undefined;
+};

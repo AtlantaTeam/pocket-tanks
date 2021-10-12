@@ -3,8 +3,10 @@ import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
 import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
-
+import { Store } from 'redux';
 import { Provider } from 'react-redux';
+import { SagaMiddleware } from 'redux-saga';
+
 import { App } from 'components/App/App';
 import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
 import { loginFulfilled } from '../../redux/actions/user-state/login';
@@ -12,6 +14,10 @@ import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
 import { getUserInfo, isUserAuth } from '../utils/userLocals';
 
+export type AppStore = Store & {
+    runSaga: SagaMiddleware['run'];
+    close: () => void;
+};
 export const serverRenderMiddleware = (
     req: Request,
     res: Response,
@@ -27,6 +33,7 @@ export const serverRenderMiddleware = (
 
     if (isUserAuth(res)) {
         const userInfo = getUserInfo(res);
+        console.log(userInfo);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
     }
@@ -38,7 +45,6 @@ export const serverRenderMiddleware = (
             </StaticRouter>
         </Provider>
     );
-
     const reactHtml = renderToString(jsx);
     const reduxState = store.getState();
 
@@ -46,10 +52,8 @@ export const serverRenderMiddleware = (
         res.redirect(context.url);
         return;
     }
-
     res
         .cookie('XSRF-TOKEN', xsrf)
-        .clearCookie('authKey')
         .status(context.statusCode || 200)
         .send(getHtml(reactHtml, reduxState));
 };
