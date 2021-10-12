@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 import type { NextFunction, Request, Response } from 'express';
 
-import { httpToAPI } from 'modules/http-service/http-service';
-import { AuthAPI } from 'api/auth-api';
+import { httpToAPI } from '../../modules/http-service/http-service';
+import { AuthAPI } from '../../api/auth-api';
 
-import { deleteUserAuth } from 'server/utils/userLocals';
+import { deleteUserAuth } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
 import { getUserInfoRequest } from '../utils/getUserInfoRequest';
