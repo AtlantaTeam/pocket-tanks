@@ -1,6 +1,9 @@
 import { routerMiddleware } from 'connected-react-router';
-import { applyMiddleware, compose, createStore } from 'redux';
-import createSagaMiddleware from 'redux-saga';
+import {
+    applyMiddleware, compose, createStore, Store,
+} from 'redux';
+import createSagaMiddleware, { END, SagaMiddleware } from 'redux-saga';
+
 import logger from 'redux-logger';
 
 import { isServer } from 'utils/isServer';
@@ -10,6 +13,11 @@ import { rootReducer } from './reducers';
 import type { State } from './reducers';
 
 import { rootSaga } from './sagas';
+
+export type AppStore = Store & {
+    runSaga: SagaMiddleware['run'];
+    close: () => void;
+};
 
 function getComposeEnhancers() {
     if (process.env.NODE_ENV !== 'production' && !isServer) {
@@ -31,15 +39,15 @@ export const initializeStore = (initialState: State, url = '/') => {
         rootReducer(history),
         initialState,
         composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware, logger)),
-    );
+    ) as AppStore;
 
-    /*     // Add methods to use in the server
+    // Add methods to use in the server
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     store.runSaga = sagaMiddleware.run;
     store.close = () => store.dispatch(END);
- */
+
     if (!isServer) {
         sagaMiddleware.run(rootSaga);
     }
-
     return { store, history };
 };
