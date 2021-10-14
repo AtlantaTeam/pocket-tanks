@@ -20,7 +20,8 @@ import { serverRenderMiddleware } from './middlewares/serverRenderMiddleware';
 import { clientConfig } from '../../configs/webpack/client.config';
 import { checkAuth } from './middlewares/checkAuthMiddleware';
 
-import { authRouter } from './routes/authRouter';
+import { authRouter } from './routers/authRouter';
+import { errorsMiddleware } from './middlewares/errorsMiddleware';
 
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
@@ -70,7 +71,8 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
         serverRenderMiddleware,
     )
     .use(csp)
-    .use(compression);
+    .use(compression)
+    .use(errorsMiddleware);
 
 let serverApp = http.createServer(app);
 

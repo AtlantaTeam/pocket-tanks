@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
 import { Store } from 'redux';
@@ -21,6 +21,7 @@ export type AppStore = Store & {
 export const serverRenderMiddleware = (
     req: Request,
     res: Response,
+    next: NextFunction,
 ) => {
     const location = req.url;
     const xsrf = req.csrfToken();
@@ -33,29 +34,32 @@ export const serverRenderMiddleware = (
 
     if (isUserAuth(res)) {
         const userInfo = getUserInfo(res);
-        console.log(userInfo);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
     }
 
-    const jsx = (
-        <Provider store={store}>
-            <StaticRouter context={context} location={location}>
-                <App />
-            </StaticRouter>
-        </Provider>
-    );
-    const reactHtml = renderToString(jsx);
-    const reduxState = store.getState();
+    const renderApp = () => {
+        const jsx = (
+            <Provider store={store}>
+                <StaticRouter context={context} location={location}>
+                    <App />
+                </StaticRouter>
+            </Provider>
+        );
+        const reactHtml = renderToString(jsx);
+        const reduxState = store.getState();
 
-    if (context.url) {
-        res.redirect(context.url);
-        return;
-    }
-    res
-        .cookie('XSRF-TOKEN', xsrf)
-        .status(context.statusCode || 200)
-        .send(getHtml(reactHtml, reduxState));
+        if (context.url) {
+            res.redirect(context.url);
+            return;
+        }
+        res
+            .cookie('XSRF-TOKEN', xsrf)
+            .status(context.statusCode || 200)
+            .send(getHtml(reactHtml, reduxState));
+    };
+
+    renderApp();
 };
 
 function getHtml(reactHtml: string, reduxState = {}) {

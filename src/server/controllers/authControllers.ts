@@ -7,7 +7,6 @@ import { AuthAPI } from '../../api/auth-api';
 import { deleteUserAuth } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
-import { getUserInfoRequest } from '../utils/getUserInfoRequest';
 
 export const loginController = (req: Request, res: Response, next: NextFunction) => {
     const authServerToAPI = getAuthServerToAPI(res);
@@ -18,7 +17,7 @@ export const loginController = (req: Request, res: Response, next: NextFunction)
             res.send('Ок');
             return response;
         })
-        .catch((err) => { throw err; })
+        .catch((err) => next(err))
         .finally(() => {
             next();
         });
@@ -33,7 +32,7 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
             res.send('Ок');
             return response;
         })
-        .catch((err) => { throw err; })
+        .catch((err) => next(err))
         .finally(() => {
             next();
         });
@@ -42,9 +41,10 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
 export const getUserInfoController = (req: Request, res: Response, next: NextFunction) => {
     const { authCookie, uuid } = req.cookies;
     if (authCookie && uuid) {
-        httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
-        const authServerToAPI = new AuthAPI(httpToAPI);
-        getUserInfoRequest(req, res, next, authServerToAPI);
+        if (res.locals.userInfo !== undefined) {
+            res.status(200);
+            res.send(res.locals.userInfo);
+        } else throw new Error('Пользователь не авторизирован');
     } else {
         console.log('Нет ключа авторизации');
         const authServerToAPI = new AuthAPI(httpToAPI);
@@ -66,7 +66,7 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
             res.send('Ок');
             return response;
         })
-        .catch((err) => { throw err; })
+        .catch((err) => next(err))
         .finally(() => {
             next();
         });

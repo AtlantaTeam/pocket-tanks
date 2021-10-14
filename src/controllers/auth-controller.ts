@@ -13,6 +13,7 @@ export const signup = async (formData: FormData) => {
 
 export const getUserInfo = async () => {
     const response = await authAPI.getUserInfo();
+    console.log(response.data);
     return objectToCamel(response.data);
 };
 

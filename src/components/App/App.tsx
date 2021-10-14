@@ -22,7 +22,6 @@ import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 
-import { checkStateRequested } from '../../redux/actions/user-state/check-state';
 import { cleanError } from '../../redux/actions/user-state/clean-error';
 import { getErrorText } from '../../redux/selectors/user-state';
 
@@ -41,7 +40,7 @@ export const App = () => {
             <Switch>
                 {ROUTES.map((item) => (
                     <Route
-                        exact
+                        exact={item.exact}
                         path={item.link}
                         key={`${item.name}-route`}
                     >

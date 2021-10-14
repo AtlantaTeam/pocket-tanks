@@ -12,86 +12,48 @@ export const ROUTES = [
     {
         name: 'Вход',
         link: '/login',
+        exact: true,
         component: withAuthState(false, '/profile', Login),
 
     },
     {
         name: 'Регистрация',
         link: '/signup',
+        exact: true,
         component: withAuthState(false, '/profile', SignUp),
 
     },
     {
         name: 'Игра',
         link: '/game',
+        exact: true,
         component: withAuthState(true, '/login', Game),
 
     },
     {
         name: 'Профиль',
         link: '/profile',
+        exact: true,
         component: withAuthState(true, '/login', Profile),
     },
     {
         name: 'Таблица результатов',
         link: '/leaderboard',
+        exact: true,
         component: withAuthState(true, '/login', LeaderBoard),
 
     },
     {
         name: 'Форум',
         link: '/forum',
+        exact: true,
         component: withAuthState(true, '/login', Forum),
     },
     // Должен быть последним для Switch
     {
         name: 'Главная страница',
         link: '/',
+        exact: true,
         component: Main,
     },
 ] as const;
-/*
-export const ROUTES = [
-    {
-        name: 'Вход',
-        link: '/login',
-        component: Login,
-
-    },
-    {
-        name: 'Регистрация',
-        link: '/signup',
-        component: SignUp,
-
-    },
-    {
-        name: 'Игра',
-        link: '/game',
-        component: Game,
-
-    },
-    {
-        name: 'Профиль',
-        link: '/profile',
-        component: Profile,
-
-    },
-    {
-        name: 'Таблица результатов',
-        link: '/leaderboard',
-        component: LeaderBoard,
-
-    },
-    {
-        name: 'Форум',
-        link: '/forum',
-        component: Forum,
-    },
-    // Должен быть последним для Switch
-    {
-        name: 'Главная страница',
-        link: '/',
-        component: Main,
-    },
-] as const;
-*/
