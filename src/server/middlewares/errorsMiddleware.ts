@@ -14,11 +14,13 @@ export const errorsMiddleware = (
         return next(err);
     }
 
-    const { response } = err;
-    const { status, data } = response;
-    const { reason } = data;
-    if (status) res.status(status);
-    if (reason) res.send({ reason });
+    if (err.response.status !== undefined) {
+        res.status(err.response.status);
+        res.send(err.response.reason);
+    } else {
+        res.status(500);
+        res.send(err);
+    }
 
     return next();
 };

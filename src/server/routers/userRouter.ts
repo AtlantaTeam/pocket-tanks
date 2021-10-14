@@ -1,9 +1,18 @@
-import { USER_ROUTES } from 'constants/api-routes';
 import Router from 'express';
-import { changeProfileController } from 'server/controllers/userControllers';
+
+import { USER_ROUTES } from 'constants/api-routes';
+import {
+    changeAvatarController,
+    changePasswordController,
+    changeProfileController,
+} from 'server/controllers/userControllers';
 
 const userRouter = Router();
 
-userRouter.get(USER_ROUTES.CHANGE_PROFILE, changeProfileController);
+userRouter.put(USER_ROUTES.CHANGE_PROFILE, changeProfileController);
+
+userRouter.put(USER_ROUTES.CHANGE_AVATAR, changeAvatarController);
+
+userRouter.put(USER_ROUTES.CHANGE_PASSWORD, changePasswordController);
 
 export { userRouter };

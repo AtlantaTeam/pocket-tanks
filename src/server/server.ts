@@ -22,6 +22,7 @@ import { checkAuth } from './middlewares/checkAuthMiddleware';
 
 import { authRouter } from './routers/authRouter';
 import { errorsMiddleware } from './middlewares/errorsMiddleware';
+import { userRouter } from './routers/userRouter';
 
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
@@ -63,6 +64,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(express.json())
     .use(checkAuth())
     .use('/', authRouter)
+    .use('/', userRouter)
     .get(
         '/*',
         [

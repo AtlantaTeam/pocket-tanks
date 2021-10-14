@@ -1,8 +1,8 @@
-import { httpToAPI, HTTPService } from '../modules/http-service/http-service';
+import { HTTPService, httpToServer } from '../modules/http-service/http-service';
 import { USER_ROUTES } from '../constants/api-routes';
 import type { UserInfoResponse, EmptyResponse } from './types';
 
-class UserAPI {
+export class UserAPI {
     public http: HTTPService;
 
     constructor(httpInstance: HTTPService) {
@@ -33,4 +33,4 @@ class UserAPI {
     }
 }
 
-export const userAPI = new UserAPI(httpToAPI);
+export const userAPI = new UserAPI(httpToServer);
