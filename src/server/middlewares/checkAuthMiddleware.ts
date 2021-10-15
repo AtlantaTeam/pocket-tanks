@@ -25,7 +25,7 @@ export const checkAuth = () => (
                 setUserInfo(res, objectToCamel(userInfo.data));
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);
-                return objectToCamel(userInfo.data);
+                return userInfo.data.avatar;
             })
             .catch((err) => next(err))
             .finally(() => {
