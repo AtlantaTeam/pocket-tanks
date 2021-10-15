@@ -17,10 +17,7 @@ export const loginController = (req: Request, res: Response, next: NextFunction)
             res.send('Ок');
             return response;
         })
-        .catch((err) => next(err))
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };
 
 export const signUpController = (req: Request, res: Response, next: NextFunction) => {
@@ -32,10 +29,7 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
             res.send('Ок');
             return response;
         })
-        .catch((err) => next(err))
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };
 
 export const getUserInfoController = (req: Request, res: Response, next: NextFunction) => {
@@ -49,7 +43,6 @@ export const getUserInfoController = (req: Request, res: Response, next: NextFun
         console.log('Нет ключа авторизации');
         const authServerToAPI = new AuthAPI(httpToAPI);
         setAuthServerToAPI(res, authServerToAPI);
-        next();
     }
 };
 
@@ -66,8 +59,5 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
             res.send('Ок');
             return response;
         })
-        .catch((err) => next(err))
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };

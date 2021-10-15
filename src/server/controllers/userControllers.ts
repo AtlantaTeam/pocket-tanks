@@ -12,10 +12,7 @@ export const changeProfileController = (req: Request, res: Response, next: NextF
             res.send(userInfo.data);
             return userInfo.data;
         })
-        .catch((err) => next(err))
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };
 
 export const changeAvatarController = (req: Request, res: Response, next: NextFunction) => {
@@ -30,8 +27,5 @@ export const changePasswordController = (req: Request, res: Response, next: Next
             res.send('Ок');
             return response;
         })
-        .catch((err) => next(err))
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };
