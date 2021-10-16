@@ -1,14 +1,26 @@
-import { HTTPService, httpToAPI } from 'modules/http-service/http-service';
+import { HTTPService, httpToAPI, httpToServer } from 'modules/http-service/http-service';
 import {
     EmptyResponse, GetLeaderBoardRequest, LeaderBoardRequest, LeaderBoardResponse,
 } from 'api/types';
 import { LEADER_BOARD_ROUTES } from 'constants/api-routes';
 
-class LeaderBoardAPI {
+export class LeaderBoardAPI {
     public http: HTTPService;
 
     constructor(httpInstance: HTTPService) {
         this.http = httpInstance;
+    }
+
+    add(data: LeaderBoardRequest) {
+        return this.http.request.post<EmptyResponse>(
+            LEADER_BOARD_ROUTES.ADD,
+            data,
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                },
+            },
+        );
     }
 
     addUserResults(data: LeaderBoardRequest) {
@@ -36,4 +48,4 @@ class LeaderBoardAPI {
     }
 }
 
-export const leaderboadAPI = new LeaderBoardAPI(httpToAPI);
+export const leaderboadAPI = new LeaderBoardAPI(httpToServer);

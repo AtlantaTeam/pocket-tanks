@@ -15,6 +15,11 @@ export type OAuthServiceIdResponse = {
     service_id: string
 };
 
+export type OAuthData = {
+    code: string,
+    redirect_uri: string,
+};
+
 export type IDResponse = {
     id: number;
 };

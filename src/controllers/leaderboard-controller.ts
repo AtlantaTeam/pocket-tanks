@@ -1,14 +1,14 @@
 import { leaderboadAPI } from 'api/leaderboard-api';
 
 export const addUserResults = async (name: string, points: number) => {
-    const response = await leaderboadAPI.addUserResults({
+    const response = await leaderboadAPI.add({
         data: {
             points,
             name,
         },
         ratingFieldName: 'points',
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
 };
 

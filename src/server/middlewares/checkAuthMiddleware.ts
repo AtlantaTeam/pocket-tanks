@@ -15,7 +15,7 @@ export const checkAuth = () => (
         const authServerToAPI = new AuthAPI(httpToAPI);
         getUserInfoRequest(req, res, next, authServerToAPI);
     } else {
-        console.log('Нет ключа авторизации');
+        console.log('Нет ключа авторизации', 'checkAuth');
         const authServerToAPI = new AuthAPI(httpToAPI);
         setAuthServerToAPI(res, authServerToAPI);
         next();
