@@ -1,0 +1,10 @@
+.button_sound {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 75px;
+    border-width: 0;
+    z-index: 1000;
+    background: var(--black);
+    cursor: pointer;
+}

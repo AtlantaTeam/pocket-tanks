@@ -41,6 +41,7 @@ export const clientConfig: Configuration = {
             utils: path.join(SRC_DIR, 'utils'),
             assets: path.join(STATIC_DIR, 'assets'),
             images: path.join(STATIC_DIR, 'images'),
+            audio: path.join(STATIC_DIR, 'audio'),
         },
         extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
