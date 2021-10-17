@@ -21,7 +21,6 @@ export class AuthAPI {
 
     getServiceId(redirectUri: string) {
         return this.http.request.get<OAuthServiceIdResponse>(
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `${AUTH_ROUTES.GET_OAUTH_SERVICE_ID}?redirect_uri=${redirectUri}`,
         );
     }
