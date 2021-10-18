@@ -59,7 +59,6 @@ export const initialState: GameState = {
     enemyPoints: 0,
 };
 
-/* eslint-disable no-param-reassign */
 export const gameState = (state: GameState = initialState, action: GameStateAction) => {
     switch (action.type) {
         case SELECT_WEAPON: {
@@ -121,4 +120,3 @@ export const gameState = (state: GameState = initialState, action: GameStateActi
     }
     return state;
 };
-/* eslint-enable no-param-reassign */

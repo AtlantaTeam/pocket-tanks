@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { setUserInfo } from 'server/utils/userLocals';
 import { getUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import { objectToCamel } from 'ts-case-convert';

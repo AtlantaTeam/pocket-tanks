@@ -1,8 +1,5 @@
-import {
-    NextFunction,
-    Request,
-    Response,
-} from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { IS_DEV } from '../../../configs/webpack/env';
 
 export const errorsMiddleware = (
     err: any,
@@ -13,8 +10,9 @@ export const errorsMiddleware = (
     if (res.headersSent) {
         return next(err);
     }
-
-    if (err.response.status !== undefined) {
+    if (IS_DEV) {
+        console.log(err);
+    } else if (err.response.status !== undefined) {
         res.status(err.response.status);
         res.send(err.response.reason);
     } else {

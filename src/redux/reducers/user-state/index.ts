@@ -19,6 +19,11 @@ import {
     LOGOUT_FAILED,
 } from '../../actions/user-state/logout';
 import {
+    AVATAR_REQUESTED,
+    AVATAR_FULFILLED,
+    AVATAR_FAILED,
+} from '../../actions/user-state/get-avatar';
+import {
     CHANGE_PROFILE_REQUESTED,
     CHANGE_PROFILE_FULFILLED,
     CHANGE_PROFILE_FAILED,
@@ -40,6 +45,7 @@ import type { FetchUserInfoAction } from '../../actions/user-state/user-info';
 import type { LoginAction } from '../../actions/user-state/login';
 import type { SignupAction } from '../../actions/user-state/signup';
 import type { LogoutAction } from '../../actions/user-state/logout';
+import type { AvatarAction } from '../../actions/user-state/get-avatar';
 import type { ChangeProfileAction } from '../../actions/user-state/change-profile';
 import type { ChangeAvatarAction } from '../../actions/user-state/change-avatar';
 import type { ChangePasswordAction } from '../../actions/user-state/change-password';
@@ -51,6 +57,7 @@ export type UserStateAction =
     | LoginAction
     | SignupAction
     | LogoutAction
+    | AvatarAction
     | ChangeProfileAction
     | ChangeAvatarAction
     | ChangePasswordAction
@@ -60,6 +67,7 @@ export type UserState = {
     isLoading: boolean;
     isLoggedIn: boolean;
     userInfo: Record<string, never> | IDResponse | UserInfoResponse;
+    avatar: string | null,
     error: string | null;
 };
 
@@ -67,16 +75,17 @@ export const initialState: UserState = {
     isLoading: false,
     isLoggedIn: false,
     userInfo: {},
+    avatar: null,
     error: null,
 };
 
-/* eslint-disable no-param-reassign */
 export const userState = (state: UserState = initialState, action: UserStateAction) => {
     switch (action.type) {
         case FETCH_USER_INFO_REQUESTED:
         case LOGIN_REQUESTED:
         case SIGNUP_REQUESTED:
         case LOGOUT_REQUESTED:
+        case AVATAR_REQUESTED:
         case CHANGE_PROFILE_REQUESTED:
         case CHANGE_AVATAR_REQUESTED:
         case CHANGE_PASSWORD_REQUESTED:
@@ -93,6 +102,10 @@ export const userState = (state: UserState = initialState, action: UserStateActi
         case CHANGE_AVATAR_FULFILLED:
             state.isLoading = false;
             state.userInfo = action.payload;
+            break;
+
+        case AVATAR_FULFILLED:
+            state.avatar = action.payload;
             break;
 
         case LOGIN_FULFILLED:
@@ -120,6 +133,7 @@ export const userState = (state: UserState = initialState, action: UserStateActi
         case LOGIN_FAILED:
         case SIGNUP_FAILED:
         case LOGOUT_FAILED:
+        case AVATAR_FAILED:
         case CHANGE_PROFILE_FAILED:
         case CHANGE_AVATAR_FAILED:
         case CHANGE_PASSWORD_FAILED:
@@ -135,4 +149,3 @@ export const userState = (state: UserState = initialState, action: UserStateActi
     }
     return state;
 };
-/* eslint-enable no-param-reassign */

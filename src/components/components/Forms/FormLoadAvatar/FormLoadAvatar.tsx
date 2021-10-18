@@ -10,7 +10,6 @@ import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholde
 
 import { Label } from '../components/Input/components/Label/Label';
 
-import { RESOURCES_BASE_URL } from '../../../../constants/api-routes';
 import { getUserLoaderState, getUserAvatar } from '../../../../redux/selectors/user-state';
 import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
 
@@ -19,8 +18,8 @@ export const FormLoadAvatar = () => {
 
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
-
-    const initialStateAvatar = avatar ? `${RESOURCES_BASE_URL}${avatar}` : imgAvatarPlaceHolder;
+    console.log(avatar);
+    const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
         message: avatar ? 'Новый аватар не выбран' : 'Аватар еще не выбран',

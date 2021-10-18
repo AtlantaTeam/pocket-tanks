@@ -1,5 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
+import { fetchUserAvatar } from '../../../fetchMethods/fetchUserAvatar';
 import type { LoginRequestedAction } from '../../actions/user-state/login';
 import type { SignupRequestedAction } from '../../actions/user-state/signup';
 import type { ChangeProfileRequestedAction } from '../../actions/user-state/change-profile';
@@ -19,6 +20,12 @@ import { changePasswordFulfilled, changePasswordFailed, CHANGE_PASSWORD_REQUESTE
     from '../../actions/user-state/change-password';
 import { checkStateFailed, CHECK_STATE_REQUESTED }
     from '../../actions/user-state/check-state';
+import {
+    avatarFulfilled,
+    avatarFailed,
+    AVATAR_REQUESTED,
+    AvatarRequestedAction,
+} from '../../actions/user-state/get-avatar';
 
 import * as authController from '../../../controllers/auth-controller';
 import * as userController from '../../../controllers/user-controller';
@@ -75,6 +82,16 @@ export function* fetchUserInfoRequest() {
     }
 }
 
+export function* fetchAvatarRequest({ payload }:AvatarRequestedAction) {
+    try {
+        // @ts-expect-error redux-saga types
+        const avatar = yield call(fetchUserAvatar, payload);
+        yield put(avatarFulfilled(avatar as string));
+    } catch (err) {
+        yield put(avatarFailed(err as ErrorResponse));
+    }
+}
+
 export function* changeProfileRequest({ payload }: ChangeProfileRequestedAction) {
     try {
         // @ts-expect-error redux-saga types
@@ -110,6 +127,7 @@ export function* userStateSaga() {
     yield takeLatest(LOGOUT_REQUESTED, logoutRequest);
     yield takeLatest(CHECK_STATE_REQUESTED, checkStateRequest);
     yield takeLatest(FETCH_USER_INFO_REQUESTED, fetchUserInfoRequest);
+    yield takeLatest(AVATAR_REQUESTED, fetchAvatarRequest);
     yield takeLatest(CHANGE_PROFILE_REQUESTED, changeProfileRequest);
     yield takeLatest(CHANGE_AVATAR_REQUESTED, changeAvatarRequest);
     yield takeLatest(CHANGE_PASSWORD_REQUESTED, changePasswordRequest);

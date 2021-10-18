@@ -12,6 +12,11 @@ export type UserInfoResponse = {
     imgAvatarBase64: string;
 };
 
+export type Avatar = {
+    cookie: string;
+    avatarPath: string;
+};
+
 export type IDResponse = {
     id: number;
 };

@@ -1,18 +1,22 @@
+import url from 'url';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { NextFunction, Request, Response } from 'express';
 import { StaticRouter } from 'react-router-dom';
-import { StaticRouterContext } from 'react-router';
+import { matchPath, StaticRouterContext } from 'react-router';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { SagaMiddleware } from 'redux-saga';
 
+import { ROUTES } from 'utils/constants/routes';
 import { App } from 'components/App/App';
 import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
 import { loginFulfilled } from '../../redux/actions/user-state/login';
 import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
 import { getUserInfo, isUserAuth } from '../utils/userLocals';
+import { rootSaga } from '../../redux/sagas';
+import { setAuthCookie } from '../../redux/actions/auth-cookie-state';
 
 export type AppStore = Store & {
     runSaga: SagaMiddleware['run'];
@@ -36,6 +40,11 @@ export const serverRenderMiddleware = (
         const userInfo = getUserInfo(res);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
+        const { authCookie, uuid } = req.cookies;
+        if (authCookie && uuid) {
+            const cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+            store.dispatch(setAuthCookie(cookie));
+        }
     }
 
     const renderApp = () => {
@@ -59,7 +68,42 @@ export const serverRenderMiddleware = (
             .send(getHtml(reactHtml, reduxState));
     };
 
-    renderApp();
+    store
+        .runSaga(rootSaga)
+        .toPromise()
+        .then(() => renderApp())
+        .catch((err) => next(err));
+
+    const dataRequirements: (Promise<void> | void)[] = [];
+
+    ROUTES.some((route) => {
+        if ('fetchData' in route) {
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            const { fetchData: fetchMethod } = route;
+            const match = matchPath<{ slug: string }>(
+                String(url.parse(location).pathname),
+                route,
+            );
+
+            if (fetchMethod && match) {
+                const data = {
+                    storeItem: store,
+                    match,
+                };
+                dataRequirements.push(
+                    fetchMethod(data),
+                );
+            }
+            return Boolean(match);
+        }
+        return false;
+    });
+
+    // When all async actions will be finished,
+    // dispatch action END to close saga
+    return Promise.all(dataRequirements)
+        .then(() => store.close())
+        .catch((err) => next(err));
 };
 
 function getHtml(reactHtml: string, reduxState = {}) {

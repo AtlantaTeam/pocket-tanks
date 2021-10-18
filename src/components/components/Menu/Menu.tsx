@@ -36,7 +36,7 @@ export const MenuComponent = () => {
                             {({ active }) => (
                                 <Link
                                     key={`${item.name}-link`}
-                                    to={item.link}
+                                    to={item.path}
                                     className={cn('menu-item', { 'menu-item_active': active })}
                                 >
                                     {item.name}

@@ -139,6 +139,7 @@
     "express-csp-header": "5.0.0",
     "form-data": "^4.0.0",
     "formik": "2.2.9",
+    "fs": "0.0.1-security",
     "history": "4.9.0",
     "http": "0.0.1-security",
     "https": "^1.0.0",

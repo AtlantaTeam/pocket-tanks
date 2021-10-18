@@ -3,7 +3,7 @@ import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
-import selfSigned from 'openssl-self-signed-certificate';
+import fs from 'fs';
 
 import compression from 'compression';
 import 'babel-polyfill';
@@ -79,8 +79,10 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
 let serverApp = http.createServer(app);
 
 if (IS_DEV) {
+    const certLocal = fs.readFileSync('./SSL/server.crt');
+    const keyLocal = fs.readFileSync('./SSL/server.key');
     serverApp = https
-        .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+        .createServer({ key: keyLocal, cert: certLocal }, app);
 }
 
 const server = serverApp;

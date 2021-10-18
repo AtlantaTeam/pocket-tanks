@@ -1,5 +1,5 @@
-import { UserInfoResponse } from 'api/types';
 import type { Response } from 'express';
+import { UserInfoResponse } from '../../api/types';
 
 export const isUserAuth = (res: Response) => !!res.locals.isUserAuth;
 

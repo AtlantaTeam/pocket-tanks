@@ -38,11 +38,11 @@ export const App = () => {
         <div className="app">
             <MenuComponent />
             <Switch>
-                {ROUTES.map((item) => (
+                {ROUTES.map(({ ...item }) => (
                     <Route
-                        exact={item.exact}
-                        path={item.link}
                         key={`${item.name}-route`}
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...item}
                     >
                         <ErrorBoundary
                             key={`${item.name}-error`}
