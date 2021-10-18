@@ -10,7 +10,7 @@ export class HTTPService {
     constructor(baseUrlHTTP: string) {
         this.httpTransport = axios.create({
             baseURL: baseUrlHTTP,
-            timeout: 5000,
+            timeout: 10000,
             withCredentials: true,
             paramsSerializer: (params) => qs.stringify(params),
         });
@@ -30,6 +30,20 @@ export class HTTPService {
                 'Content-type': 'application/json; charset=utf-8',
             },
         };
+    }
+
+    get configFormDataAsJSONAndCleanCookies(): AxiosRequestConfig {
+        return {
+            ...this.configFormDataAsJSON,
+            headers: {
+                'Content-type': 'application/json; charset=utf-8',
+                Cookie: '',
+            },
+        };
+    }
+
+    static getByUrl(url: string, config: AxiosRequestConfig) {
+        return axios.get(url, config);
     }
 
     private configDataAsJSON(data: FormData) {
