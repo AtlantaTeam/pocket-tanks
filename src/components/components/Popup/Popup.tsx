@@ -8,12 +8,13 @@ import { Image } from '../Image/Image';
 
 import './Popup.css';
 
-export interface PopupProps{
+export interface PopupProps {
     isOpen: boolean;
     title: string;
     textContent?: string;
     children?: JSX.Element;
     buttonText: string;
+    overlayType: 'warning' | 'fade';
     action: () => void;
     onCrossPress?: () => void;
 }
@@ -25,7 +26,7 @@ export const Popup = (props: PopupProps) => (
             onClose={() => {}}
             className="popup-dialog"
         >
-            <Dialog.Overlay className="popup-overlay" />
+            <Dialog.Overlay className={`popup-overlay popup-overlay_${props.overlayType}`} />
 
             <div className="popup-content">
                 <Image
