@@ -18,7 +18,6 @@ export const FormLoadAvatar = () => {
 
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
-    console.log(avatar);
     const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
@@ -48,6 +47,8 @@ export const FormLoadAvatar = () => {
                         }
                         const form = event.target as HTMLFormElement;
                         const formData = new FormData(form);
+                        console.log(formData);
+
                         dispatch(changeAvatarRequested(formData));
                     }
                 }
