@@ -8,6 +8,7 @@ import fs from 'fs';
 import compression from 'compression';
 import 'babel-polyfill';
 import webpack from 'webpack';
+import selfSigned from 'openssl-self-signed-certificate';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import cookieParser from 'cookie-parser';
@@ -79,10 +80,8 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
 let serverApp = http.createServer(app);
 
 if (IS_DEV) {
-    const certLocal = fs.readFileSync('./SSL/server.crt');
-    const keyLocal = fs.readFileSync('./SSL/server.key');
     serverApp = https
-        .createServer({ key: keyLocal, cert: certLocal }, app);
+        .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
 }
 
 const server = serverApp;
