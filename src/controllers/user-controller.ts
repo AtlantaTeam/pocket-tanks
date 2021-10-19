@@ -1,5 +1,5 @@
 import { objectToCamel } from 'ts-case-convert';
-import { fetchUserAvatar } from '../fetchMethods/fetchUserAvatar';
+import { fetchUserAvatar } from '../components/Pages/fetchMethods/fetchUserAvatar';
 import { userAPI } from '../api/user-api';
 import { Avatar } from '../api/types';
 

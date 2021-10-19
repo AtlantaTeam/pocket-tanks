@@ -105,6 +105,7 @@ export const userState = (state: UserState = initialState, action: UserStateActi
             break;
 
         case AVATAR_FULFILLED:
+            state.isLoading = false;
             state.avatar = action.payload;
             break;
 

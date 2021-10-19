@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 
-import { fetchUserAvatar } from '../../../fetchMethods/fetchUserAvatar';
+import { fetchUserAvatar } from '../../../components/Pages/fetchMethods/fetchUserAvatar';
 import type { LoginRequestedAction } from '../../actions/user-state/login';
 import type { SignupRequestedAction } from '../../actions/user-state/signup';
 import type { ChangeProfileRequestedAction } from '../../actions/user-state/change-profile';
