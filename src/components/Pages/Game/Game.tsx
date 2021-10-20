@@ -69,7 +69,7 @@ const Game = () => {
     const enemyPoints = useSelector(getEnemyPoints);
     const userName = useSelector(getUserNickname);
     const avatar = useSelector(getUserAvatar);
-    const avatarPath = avatar ? `${RESOURCES_BASE_URL}${avatar}` : imgAvatarPlaceHolder;
+    const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
         const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
         activeTank.power = power;

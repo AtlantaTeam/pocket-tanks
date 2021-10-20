@@ -42,7 +42,10 @@ export const ROUTES = [
         path: '/game',
         exact: true,
         component: withAuthState(true, '/login', Game),
-
+        fetchData(data: RouterFetchDataArgs) {
+            const { dispatch } = data.storeItem;
+            dispatch(avatarRequested(data.storeItem));
+        },
     },
     {
         name: 'Профиль',
