@@ -9,14 +9,14 @@
 }
 
 .field-select__wrap {
-    border: 3px solid var(--white);
-    color: var(--white);
+    border: 3px solid var(--foreground);
+    color: var(--foreground);
     border-radius: 5px;
     display: flex;
     align-items: center;
     height: 50%;
     width: 100%;
-    background-color: var(--black);
+    background-color: var(--background);
     cursor: pointer;
 }
 
@@ -49,8 +49,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: var(--black);
-    border: 3px solid var(--white);
+    background-color: var(--background);
+    border: 3px solid var(--foreground);
     border-radius: 5px;
     padding: 0;
     margin: 0;
@@ -76,11 +76,11 @@
     font-family: 'Play', sans-serif;
     font-size: 24px;
     width: 188px;
-    background-color: var(--black);
-    border: 3px solid var(--white);
+    background-color: var(--background);
+    border: 3px solid var(--foreground);
     box-sizing: border-box;
     border-radius: 5px;
-    color: var(--white);
+    color: var(--foreground);
     text-align: center;
     cursor: pointer;
     margin-top: 3px;
@@ -106,7 +106,7 @@
     position: relative;
     border: transparent;
     cursor: pointer;
-    border-left: 3px solid var(--white);
+    border-left: 3px solid var(--foreground);
 }
 
 .triangle-to-bottom::after {
@@ -115,7 +115,7 @@
     left: 18px;
     bottom: 0px;
     border: 12px solid transparent;
-    border-top: 16px solid var(--white);
+    border-top: 16px solid var(--foreground);
 }
 
 .triangle-to-top::after {
@@ -124,5 +124,5 @@
     left: 18px;
     top: 0px;
     border: 12px solid transparent;
-    border-bottom: 16px solid var(--white);
+    border-bottom: 16px solid var(--foreground);
 }

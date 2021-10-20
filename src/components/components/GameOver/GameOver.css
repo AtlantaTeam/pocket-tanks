@@ -7,8 +7,8 @@
     padding-left: 10px;
     padding-right: 10px;
     z-index: 10;
-    background-color: #121210;
-    color: #fff;
+    background-color: var(--background);
+    color: var(--foreground);
 }
 
 .description {
@@ -28,11 +28,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #fff;
-    background-color: #121210;
+    color: var(--foreground);
+    background-color: var(--background);
     margin: 10vh auto;
     justify-content: space-between;
     padding-top: 50px;
     padding-bottom: 50px;
 }
-

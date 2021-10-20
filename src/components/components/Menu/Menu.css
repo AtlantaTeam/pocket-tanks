@@ -4,8 +4,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: var(--black);
-    border: 3px solid var(--white);
+    background-color: var(--background);
+    border: 3px solid var(--foreground);
     border-radius: 5px;
     position: absolute;
     left: 20px;
@@ -16,12 +16,12 @@
 .menu-item {
     font-family: 'Play', sans-serif;
     font-size: 24px;
-    background-color: var(--black);
-    border: 3px solid var(--white);
+    background-color: var(--background);
+    border: 3px solid var(--foreground);
     width: 280px;
     box-sizing: border-box;
     border-radius: 5px;
-    color: var(--white);
+    color: var(--foreground);
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;

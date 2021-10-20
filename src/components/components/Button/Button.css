@@ -1,15 +1,15 @@
 @keyframes pulse {
     0% {
-        -moz-box-shadow: 0 0 0 0 #fff;
-        box-shadow: 0 0 0 0 #fff;
+        -moz-box-shadow: 0 0 0 0 var(--foreground);
+        box-shadow: 0 0 0 0 var(--foreground);
     }
     50% {
-        -moz-box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
-        box-shadow: 0 0 0 10px rgba(204, 169, 44, 0);
+        -moz-box-shadow: 0 0 0 10px var(--pulse);
+        box-shadow: 0 0 0 10px var(--pulse);
     }
     100% {
-        -moz-box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
-        box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
+        -moz-box-shadow: 0 0 0 0 var(--pulse);
+        box-shadow: 0 0 0 0 var(--pulse);
     }
 }
 
@@ -20,7 +20,7 @@
     border-radius: 5px;
     outline: none;
     border: none;
-    color: var(--white);
+    color: var(--foreground);
     text-align: center;
     display: flex;
     align-items: center;
@@ -30,7 +30,7 @@
 }
 
 .button_orange {
-    background-color: #f9a600;
+    background-color: var(--main);
     z-index: 100;
 }
 
@@ -48,11 +48,11 @@
             var(--main) 1%
         )
         center/15000%;
-    color: #fff;
+    color: var(--foreground);
 }
 
 .button_orange:active {
-    background-color: #fff;
+    background-color: var(--foreground);
     background-size: 100%;
     transition: background 0s;
 }
@@ -71,35 +71,35 @@
             var(--secondary) 1%
         )
         center/15000%;
-    color: #fff;
+    color: var(--foreground);
 }
 
 .button_light-orange:active {
-    background-color: #fff;
+    background-color: var(--foreground);
     background-size: 100%;
     transition: background 0s;
 }
 
 .button_yandex-logo {
-    background-color: var(--white);
-    color: #000;
+    background-color: var(--foreground);
+    color: var(--background);
     padding: 11px 10px;
 }
 
 .button_yandex-logo:hover {
     animation: none;
-    background: var(--white)
+    background: var(--foreground)
         radial-gradient(
             circle,
             transparent 1%,
-            var(--white) 1%
+            var(--foreground) 1%
         )
         center/15000%;
-    color: #fff;
+    color: var(--foreground);
 }
 
 .button_yandex-logo:active {
-    background-color: var(--grey);
+    background-color: var(--placeholder);
     background-size: 100%;
     transition: background 0s;
 }
@@ -137,12 +137,12 @@
 
 .button_fire {
     background-color: var(--accent);
-    color: #fff;
+    color: var(--foreground);
     padding: 11px 2px;
     margin: auto 85px;
     width: 200px;
     height: 220px;
-    border: 3px solid #fff;
+    border: 3px solid var(--foreground);
     font-family: 'Press Start 2P', sans-serif;
     font-size: 24px;
     display: flex;
@@ -158,11 +158,11 @@
             var(--accent) 1%
         )
         center/15000%;
-    color: #fff;
+    color: var(--foreground);
 }
 
 .button_fire:active {
-    background-color: var(--grey);
+    background-color: var(--placeholder);
     background-size: 100%;
     transition: background 0s;
 }
@@ -201,7 +201,7 @@
     cursor: pointer;
     box-shadow: inset -2px -2px 2px #666666;
     margin: auto 30px;
-    background-color: #aaa;
+    background-color: #aaaaaa;
     background-image:
         -webkit-radial-gradient(50% 0%, 15% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%),
         -webkit-radial-gradient(50% 100%, 15% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%),

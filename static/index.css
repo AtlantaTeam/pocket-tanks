@@ -1,14 +1,37 @@
 body {
-    background-color: var(--black);
     margin: 0;
 }
 
 :root {
     --main: #f9a600;
     --secondary: #f3bd15;
+    --pulse: #cca92c00;
     --accent: #d14d30;
-    --black: #121210;
-    --white: #fff;
-    --grey: #aaa9ad;
+    --background: #121210;
+    --foreground: #ffffff;
+    --placeholder: #aaa9ad;
     --error: #d14d30;
+    --background-op5: #0000000d;
+    --background-op85: #000000d9;
+    --main-op15: #f9a60026;
 }
+
+:root [data-theme="dark"] {
+    --main: #f9a600;
+    --secondary: #f3bd15;
+    --pulse: #cca92c00;
+    --accent: #d14d30;
+    --background: #c1c1c1;
+    --foreground: #000000;
+    --placeholder: #aaa9ad;
+    --error: #d14d30;
+    --background-op5: #0000000d;
+    --background-op85: #000000d9;
+    --main-op15: #f9a60026;
+}
+
+/* https://github.com/iconfu/svg-inject */
+
+/* fill="currentColor" */
+
+/* https://stackoverflow.com/questions/56936939/how-inherit-stroke-color-in-svg-not-fill-but-stroke-color */

@@ -81,7 +81,7 @@
 .player_points {
     font-family: Play,sans-serif;
     font-size: 24px;
-    color: var(--white);
+    color: var(--foreground);
 }
 
 .enemy_name {
@@ -100,5 +100,5 @@
 .winner_text {
     font-family: Play,sans-serif;
     font-size: 24px;
-    color: var(--white);
+    color: var(--foreground);
 }

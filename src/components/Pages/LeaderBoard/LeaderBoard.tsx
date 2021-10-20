@@ -23,23 +23,23 @@ export const LeaderBoard = () => {
 
     return (
         <Page>
-            <div className="leader-board-container">
-                <div className="leader-board-container">
-                    <Title
-                        className="title title_middle"
-                        text="Лучшие стрелки"
-                    />
+            <div className="leader-board__wrapper">
+                <Title
+                    className="title title_middle leader-board__title"
+                    text="Лучшие стрелки"
+                />
+                <div className="leader-board__container">
+                    {
+                        players.map((item, index) => (
+                            <div
+                                key={item?.data?.name}
+                                className="leader-board__item"
+                            >
+                                {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.points}`}
+                            </div>
+                        ))
+                    }
                 </div>
-                {
-                    players.map((item, index) => (
-                        <div
-                            key={item?.data?.name}
-                            className="leader-name"
-                        >
-                            {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.points}`}
-                        </div>
-                    ))
-                }
             </div>
         </Page>
     );
