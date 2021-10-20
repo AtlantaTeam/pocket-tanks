@@ -10,14 +10,18 @@ export const fetchUserAvatar = (store: Store) => {
     const avatarPath = state.userState.userInfo.avatar;
     axios.defaults.headers.Cookie = cookie;
     axios.defaults.withCredentials = true;
-    return axios.get(
-        `${RESOURCES_BASE_URL}${encodeURIComponent(avatarPath)}`,
-        { responseType: 'arraybuffer' },
-    )
-        .then((img: AxiosResponse) => {
-            const contentType = String(img.headers['content-type']);
-            const imgSrc = `data:${contentType};base64,${Buffer.from(img.data).toString('base64')}`;
-            dispatch(avatarFulfilled(imgSrc));
-            return imgSrc;
-        });
+    if (avatarPath !== null) {
+        return axios.get(
+            `${RESOURCES_BASE_URL}${encodeURIComponent(avatarPath)}`,
+            { responseType: 'arraybuffer' },
+        )
+            .then((img: AxiosResponse) => {
+                const contentType = String(img.headers['content-type']);
+                const imgSrc = `data:${contentType};base64,${Buffer.from(img.data).toString('base64')}`;
+                dispatch(avatarFulfilled(imgSrc));
+                return imgSrc;
+            })
+            .catch((err) => { throw new Error(err.staus); });
+    }
+    return null;
 };

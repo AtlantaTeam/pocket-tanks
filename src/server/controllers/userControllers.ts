@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import fs from 'fs';
 import pathLib from 'path';
 import formidable from 'formidable';
 import FormData from 'form-data';
-import { setUserInfo } from 'server/utils/userLocals';
+import { getUserInfo, setUserInfo } from 'server/utils/userLocals';
 import { getUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import { objectToCamel } from 'ts-case-convert';
-import { BASE_URL, USER_ROUTES } from '../../constants/api-routes';
+import { BASE_URL, RESOURCES_BASE_URL, USER_ROUTES } from '../../constants/api-routes';
 
 export const changeProfileController = (req: Request, res: Response, next: NextFunction) => {
     const userServerToAPI = getUserServerToAPI(res);
@@ -74,4 +74,26 @@ export const changePasswordController = (req: Request, res: Response, next: Next
             return response;
         })
         .catch((err) => next(err));
+};
+
+export const getUserAvatarController = (req: Request, res: Response, next: NextFunction) => {
+    const userInfo = getUserInfo(res);
+    if (userInfo && ('avatar' in userInfo)) {
+        const { authCookie, uuid } = req.cookies;
+        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        axios.defaults.withCredentials = true;
+        axios.get(
+            `${RESOURCES_BASE_URL}${encodeURIComponent(userInfo.avatar)}`,
+            { responseType: 'arraybuffer' },
+        )
+            .then((img: AxiosResponse) => {
+                const contentType = String(img.headers['content-type']);
+                const imgSrc = `data:${contentType};base64,${Buffer.from(img.data).toString('base64')}`;
+                res.status(200);
+                res.send(imgSrc);
+                return imgSrc;
+            })
+            .catch((err) => next(err));
+    }
+    res.status(404);
 };

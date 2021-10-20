@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import './FormLoadAvatar.css';
@@ -12,6 +12,8 @@ import { Label } from '../components/Input/components/Label/Label';
 
 import { getUserLoaderState, getUserAvatar } from '../../../../redux/selectors/user-state';
 import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
+import { getUserAvatar as getUserAvatarController } from '../../../../controllers/user-controller';
+import { avatarFulfilled } from '../../../../redux/actions/user-state/get-avatar';
 
 export const FormLoadAvatar = () => {
     const fileInput = useRef<HTMLInputElement>(null);
@@ -21,12 +23,36 @@ export const FormLoadAvatar = () => {
     const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
-        message: avatar ? 'Новый аватар не выбран' : 'Аватар еще не выбран',
+        message: 'Аватар еще не выбран',
         className: 'load-message',
         img: initialStateAvatar,
     });
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!avatar) {
+            getUserAvatarController()
+                .then((data) => {
+                    setState({
+                        message: avatar ? 'Новый аватар не выбран' : 'Аватар еще не выбран',
+                        className: 'load-message',
+                        img: data,
+                    });
+                    dispatch(avatarFulfilled(data));
+                    return data;
+                })
+                .catch((err) => {
+                    throw new Error(err);
+                });
+        } else {
+            setState({
+                message: 'Новый аватар не выбран',
+                className: 'load-message',
+                img: initialStateAvatar,
+            });
+        }
+    }, []);
 
     return (
         <>

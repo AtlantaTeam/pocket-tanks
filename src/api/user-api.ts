@@ -31,6 +31,12 @@ export class UserAPI {
             this.http.configFormDataAsJSON,
         );
     }
+
+    getUserAvatar() {
+        return this.http.request.get<string>(
+            USER_ROUTES.GET_AVATAR,
+        );
+    }
 }
 
 export const userAPI = new UserAPI(httpToServer);

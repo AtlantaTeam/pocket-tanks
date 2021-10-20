@@ -17,3 +17,8 @@ export const changePassword = async (formData: FormData) => {
     const response = await userAPI.changePassword(formData);
     return response.data;
 };
+
+export const getUserAvatar = async () => {
+    const response = await userAPI.getUserAvatar();
+    return response.data;
+};
