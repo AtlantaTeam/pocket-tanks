@@ -17,6 +17,7 @@ const Template: ComponentStory<typeof Popup> = () => (
         title="Внимание"
         textContent="Текст сообщения для пользователя"
         buttonText="Закрыть"
+        overlayType="warning"
         action={() => {}}
     />
 );

@@ -89,6 +89,8 @@ export const loginWithOAuthController = (req: Request, res: Response, next: Next
                 res.redirect('/profile');
                 next();
             });
+    } else {
+        next();
     }
 };
 
