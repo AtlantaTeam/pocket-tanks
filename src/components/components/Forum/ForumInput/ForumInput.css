@@ -1,0 +1,27 @@
+.forum-input {
+    font-family: 'Play', sans-serif;
+    font-size: 24px;
+    color: var(--black);
+    background-color: var(--white);
+    width: 450px;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin: 30px 0;
+    outline: none;
+    &::placeholder {
+        color: var(--grey);
+    }
+    &.forum-input_text + .forum-input_textarea {
+        margin-top: 0;
+    }
+    &.forum-input_textarea {
+        flex: 1;
+        resize: none;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

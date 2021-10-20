@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import {
     Link,
@@ -9,6 +9,7 @@ import imageMenuButton from 'images/menu.svg';
 import logoutButton from 'images/logout.svg';
 
 import { Menu } from '@headlessui/react';
+import { getUserNickname } from '../../../redux/selectors/user-state';
 import { Button } from '../Button/Button';
 
 import { ROUTES } from '../../../utils/constants/routes';
@@ -20,6 +21,7 @@ import { logoutRequested } from '../../../redux/actions/user-state/logout';
 /** Использовать с BrowserRouter React, так как компонент Link */
 export const MenuComponent = () => {
     const dispatch = useDispatch();
+    const userName = useSelector(getUserNickname);
 
     return (
         <>
@@ -46,16 +48,18 @@ export const MenuComponent = () => {
                     ))}
                 </Menu.Items>
             </Menu>
-            <Button
-                type="button"
-                className="menu-logout"
-                onClick={() => dispatch(logoutRequested())}
-            >
-                <Image
-                    className="image"
-                    imagePath={logoutButton}
-                />
-            </Button>
+            {userName && (
+                <Button
+                    type="button"
+                    className="menu-logout"
+                    onClick={() => dispatch(logoutRequested())}
+                >
+                    <Image
+                        className="image"
+                        imagePath={logoutButton}
+                    />
+                </Button>
+            )}
         </>
     );
 };

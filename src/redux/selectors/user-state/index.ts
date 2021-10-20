@@ -10,7 +10,7 @@ export const getUserAvatar = (state: State) => getUserState(state).avatar;
 
 export const getUserNickname = (state: State) => {
     const userProfile = getUserProfile(state);
-    if (!('firstName' in userProfile) && !('displayName' in userProfile)) {
+    if (!userProfile || (!('firstName' in userProfile) && !('displayName' in userProfile))) {
         return null;
     }
     return userProfile.displayName || userProfile.firstName;

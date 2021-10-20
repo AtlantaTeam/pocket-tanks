@@ -1,6 +1,10 @@
-import { httpToServer, HTTPService } from '../modules/http-service/http-service';
-import { AUTH_ROUTES } from '../constants/api-routes';
-import type { UserInfoResponse, IDResponse, EmptyResponse } from './types';
+import axios, { AxiosTransformer } from 'axios';
+import { httpToServer, HTTPService, httpToAPI } from '../modules/http-service/http-service';
+import { AUTH_ROUTES, OAUTH_AUTHORIZE_URL } from '../constants/api-routes';
+import type {
+    UserInfoResponse, IDResponse, EmptyResponse, OAuthServiceIdResponse,
+} from './types';
+import { OAuthData } from './types';
 
 export class AuthAPI {
     public http: HTTPService;
@@ -15,11 +19,29 @@ export class AuthAPI {
         );
     }
 
-    login(formData: FormData) {
+    getServiceId(redirectUri: string) {
+        return this.http.request.get<OAuthServiceIdResponse>(
+            `${AUTH_ROUTES.GET_OAUTH_SERVICE_ID}?redirect_uri=${redirectUri}`,
+        );
+    }
+
+    loginWithOAuth(data: OAuthData) {
+        return this.http.request.post<EmptyResponse>(
+            AUTH_ROUTES.OAUTH_LOGIN,
+            data,
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                },
+            },
+        );
+    }
+
+    login(formData: FormData, isCleanCookies = false) {
         return this.http.request.post<EmptyResponse>(
             AUTH_ROUTES.LOGIN,
             formData,
-            this.http.configFormDataAsJSON,
+            isCleanCookies ? this.http.configFormDataAsJSONAndCleanCookies : this.http.configFormDataAsJSON,
         );
     }
 
@@ -38,4 +60,5 @@ export class AuthAPI {
     }
 }
 
+export const authAPIDirectToAPI = new AuthAPI(httpToAPI);
 export const authAPI = new AuthAPI(httpToServer);

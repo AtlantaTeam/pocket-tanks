@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isServer } from 'utils/isServer';
 import { Image } from 'components/components/Image/Image';
+import gamePlayMusic from 'audio/gameplay.mp3';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
 import { RESOURCES_BASE_URL } from 'constants/api-routes';
 import { floor, rotateFigure } from 'utils/canvas';
+import { SoundButton } from 'components/components/SoundButton/SoundButton';
+import { addUserResults } from 'controllers/leaderboard-controller';
 import { GameModes, GamePlay, TanksWeapons } from './GamePlay';
 import './Game.css';
 import { Button } from '../../components/Button/Button';
@@ -50,10 +53,11 @@ const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => 
     };
 };
 
-const weaponsAmount = 6;
+const weaponsAmount = 10;
 let allWeapons: TanksWeapons = generateRandomWeapons([Bullet], weaponsAmount);
 let game: GamePlay;
 let isImagesLoaded = false;
+let canPointsSentToLeaderBoard = false;
 
 const Game = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -67,7 +71,7 @@ const Game = () => {
     const moves = useSelector(getMoves);
     const playerPoints = useSelector(getPlayerPoints);
     const enemyPoints = useSelector(getEnemyPoints);
-    const userName = useSelector(getUserNickname);
+    const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
     const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
@@ -97,6 +101,7 @@ const Game = () => {
             dispatch(changeMoves(4));
             dispatch(changePlayerPoints(0));
             dispatch(changeEnemyPoints(0));
+            canPointsSentToLeaderBoard = true;
             const canvas = canvasRef.current;
             const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
             if (canvas) {
@@ -323,14 +328,28 @@ const Game = () => {
                 }}
                 winner={() => {
                     let winnerText = 'Похоже Ничья!';
-                    if (playerPoints > enemyPoints) {
-                        winnerText = userName || 'Конечно же ты! Так держать!';
-                    } else if (playerPoints < enemyPoints) {
-                        winnerText = 'Terminator';
+                    if (isGameOver) {
+                        if (playerPoints > enemyPoints) {
+                            winnerText = userName || 'Конечно же ты! Так держать!';
+                            if (canPointsSentToLeaderBoard) {
+                                canPointsSentToLeaderBoard = false;
+                                addUserResults(userName, playerPoints)
+                                    .then(() => {
+                                        console.log('Results successfully sent to LeaderBoard!');
+                                        return true;
+                                    })
+                                    .catch(() => {
+                                        console.log('Failed to send results to LeaderBoard!');
+                                    });
+                            }
+                        } else if (playerPoints < enemyPoints) {
+                            winnerText = 'Terminator';
+                        }
                     }
                     return winnerText;
                 }}
             />
+            <SoundButton src={gamePlayMusic} isLoop isAutoplay />
         </>
     );
 };

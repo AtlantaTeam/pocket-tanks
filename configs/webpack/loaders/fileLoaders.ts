@@ -16,6 +16,13 @@ export const fileLoaders = {
                 filename: 'fonts/[name][ext]',
             },
         } as RuleSetRule,
+        {
+            test: /\.(mp3|wav)$/i,
+            type: 'asset/resource',
+            generator: {
+                filename: 'audio/[name][ext]',
+            },
+        } as RuleSetRule,
     ],
     server: [
         {
@@ -30,6 +37,13 @@ export const fileLoaders = {
             type: 'asset/resource',
             generator: {
                 filename: 'images/[name][ext]',
+            },
+        },
+        {
+            test: /\.(mp3|wav)$/i,
+            type: 'asset/resource',
+            generator: {
+                filename: 'audio/[name][ext]',
             },
         },
     ],

@@ -5,7 +5,12 @@
     bottom: 0;
     right: 0;
     z-index: 8000;
-    background-color: #f9a60026;
+    &.popup-overlay_warning {
+        background-color: #f9a60026;
+    }
+    &.popup-overlay_fade {
+        background-color: #000000d9;
+    }
 }
 
 .popup-content {

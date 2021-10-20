@@ -32,7 +32,7 @@ export const checkAuth = () => (
                 next();
             });
     } else {
-        console.log('Нет ключа авторизации');
+        console.log('Нет ключа авторизации', 'checkAuth');
         const authServerToAPI = new AuthAPI(httpToAPI);
         const userServerToAPI = new UserAPI(httpToAPI);
         setAuthServerToAPI(res, authServerToAPI);

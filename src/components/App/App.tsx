@@ -63,6 +63,7 @@ export const App = () => {
                 title="Ошибка"
                 textContent={userStateError as string}
                 buttonText="Закрыть"
+                overlayType="warning"
             />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <ToastContainer {...toastContainerProps} />

@@ -17,7 +17,7 @@ export function SpareUI(props: SpareUIProps) {
         <div className="spare-ui">
             <Title className="title title_big" text="Что-то пошло не так..." />
             <Image
-                className="image image_logo"
+                className="image image_logo spare-ui__logo"
                 imagePath={ErrorLogo}
                 alt=" "
             />

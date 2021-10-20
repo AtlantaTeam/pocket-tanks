@@ -1,14 +1,21 @@
-import { AUTH_ROUTES } from 'constants/api-routes';
+import { AUTH_ROUTES, LEADER_BOARD_ROUTES } from 'constants/api-routes';
 import Router from 'express';
 
 import {
+    addUserResultsController, getAllLeaderboardController,
     getUserInfoController,
-    loginController,
+    loginController, loginWithOAuthController,
     logoutController,
     signUpController,
 } from '../controllers/authControllers';
 
 const authRouter = Router();
+
+authRouter.get('/', loginWithOAuthController);
+
+authRouter.post(LEADER_BOARD_ROUTES.ADD, addUserResultsController);
+
+authRouter.post(LEADER_BOARD_ROUTES.GET_ALL, getAllLeaderboardController);
 
 authRouter.post(AUTH_ROUTES.LOGIN, loginController);
 

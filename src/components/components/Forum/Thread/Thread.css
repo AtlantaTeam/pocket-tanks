@@ -1,0 +1,38 @@
+.thread {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    border: 3px solid var(--white);
+    border-radius: 5px;
+    margin: 25px 0;
+    padding: 0 22px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.thread__title {
+    font-family: 'Play', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--white);
+    cursor: pointer;
+    margin: 11px 0;
+}
+
+.thread__content {
+    display: none;
+    margin-bottom: 6px;
+}
+
+.thread_expanded {
+    & .thread__title {
+        color: var(--main);
+    }
+    & .thread__content {
+        display: block;
+    }
+}
+
+.thread__column .thread__column {
+    margin-left: 12px;
+}
