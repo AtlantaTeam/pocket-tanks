@@ -2,8 +2,8 @@ import { Title } from 'components/components/Title/Title';
 import React, { useEffect, useState } from 'react';
 import './LeaderBoard.css';
 
-import { getLeaderBoard } from 'controllers/leaderboard-controller';
-import { LeaderBoardResponse } from 'api/types';
+import { getLeaderBoard } from '../../../controllers/leaderboard-controller';
+import { LeaderBoardResponse } from '../../../api/types';
 import { Page } from '../components/Page/Page';
 
 export const LeaderBoard = () => {

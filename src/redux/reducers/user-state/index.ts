@@ -124,6 +124,7 @@ export const userState = (state: UserState = initialState, action: UserStateActi
             state.isLoading = false;
             state.isLoggedIn = false;
             state.userInfo = {};
+            state.avatar = null;
             break;
 
         case CHANGE_PASSWORD_FULFILLED:

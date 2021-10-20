@@ -8,7 +8,8 @@ import imgBotAvatar from 'images/bot.jpg';
 import { RESOURCES_BASE_URL } from 'constants/api-routes';
 import { floor, rotateFigure } from 'utils/canvas';
 import { SoundButton } from 'components/components/SoundButton/SoundButton';
-import { addUserResults } from 'controllers/leaderboard-controller';
+import { addUserResults } from '../../../controllers/leaderboard-controller';
+import { avatarFulfilled } from '../../../redux/actions/user-state/get-avatar';
 import { GameModes, GamePlay, TanksWeapons } from './GamePlay';
 import './Game.css';
 import { Button } from '../../components/Button/Button';
@@ -36,6 +37,7 @@ import {
     setWeapons,
 } from '../../../redux/actions/game-state';
 import { getUserAvatar, getUserNickname } from '../../../redux/selectors/user-state';
+import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
     const weapons: Weapon[] = [];
@@ -89,6 +91,24 @@ const Game = () => {
             dispatch(removeWeaponById(selectedWeapon.id));
         }
     };
+
+    const [avatarImgState, setAvatarImg] = useState({ img: avatarPath });
+
+    useEffect(() => {
+        if (!avatar) {
+            getUserAvatarController()
+                .then((data) => {
+                    setAvatarImg({ img: data });
+                    dispatch(avatarFulfilled(data));
+                    return data;
+                })
+                .catch((err) => {
+                    throw new Error(err);
+                });
+        } else {
+            setAvatarImg({ img: avatarPath });
+        }
+    }, []);
 
     useEffect(() => {
         if (isStart) {
@@ -253,7 +273,7 @@ const Game = () => {
                 <div className="controls_wrapper">
                     <div className="avatar_group-left">
                         <div className="player_name color-main">{userName}</div>
-                        <Image className="image_avatar" imagePath={avatarPath} />
+                        <Image className="image_avatar" imagePath={avatarImgState.img} />
                         <div className="player_points">{playerPoints}</div>
                     </div>
                     <div className="control_buttons">

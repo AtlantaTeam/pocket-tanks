@@ -1,4 +1,4 @@
-import { leaderboadAPI } from 'api/leaderboard-api';
+import { leaderboadAPI } from '../api/leaderboard-api';
 
 export const addUserResults = async (name: string, points: number) => {
     const response = await leaderboadAPI.add({
