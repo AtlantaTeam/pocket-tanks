@@ -75,20 +75,25 @@ export const loginWithOAuthController = (req: Request, res: Response, next: Next
             code,
             redirect_uri: SERVER_URL,
         };
+
         authServerToAPI.loginWithOAuth(postData)
             .then((response) => {
                 cookieParser(res, response);
+                res.redirect('/profile');
                 return true;
             })
             .catch((err) => {
-                // const { response, message } = err;
-                // res.redirect('/profile');
-                // res.status(response?.status || 500).send(response?.data?.reason || message);
-            })
-            .finally(() => {
-                res.redirect('/profile');
-                next();
+                const { response, message } = err;
+                if (response?.data?.reason === 'User already in system'
+                    && httpToAPI.httpTransport.defaults.headers.Cookie) {
+                    httpToAPI.httpTransport.defaults.headers.Cookie = '';
+                    loginWithOAuthController(req, res, next);
+                } else {
+                    res.status(response?.status || 500).send(response?.data?.reason || message);
+                }
             });
+    } else {
+        next();
     }
 };
 
