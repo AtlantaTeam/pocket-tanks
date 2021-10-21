@@ -17,6 +17,8 @@ export const initialState: AuthCookieState = {
     authCookie: null,
 };
 
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-param-reassign */
 export const authCookieState = (state: AuthCookieState = initialState, action:AuthCookieStateAction) => {
     switch (action.type) {
         case SET_AUTH_COOKIE: {

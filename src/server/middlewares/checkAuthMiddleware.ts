@@ -25,12 +25,10 @@ export const checkAuth = () => (
                 setUserInfo(res, objectToCamel(userInfo.data));
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);
+                next();
                 return userInfo.data.avatar;
             })
-            .catch((err) => next(err))
-            .finally(() => {
-                next();
-            });
+            .catch((err) => next(err));
     } else {
         console.log('Нет ключа авторизации', 'checkAuth');
         const authServerToAPI = new AuthAPI(httpToAPI);

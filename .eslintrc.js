@@ -61,7 +61,6 @@ module.exports = {
         "@typescript-eslint/no-unsafe-call" : "off",
         "@typescript-eslint/no-unsafe-member-access" : "off",
         "promise/catch-or-return" : "off",
-        "no-param-reassign": "off",
     },
     ignorePatterns: ['*.config.js', '*.js', '**/*/stories']
 };

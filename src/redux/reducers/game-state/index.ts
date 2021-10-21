@@ -59,6 +59,8 @@ export const initialState: GameState = {
     enemyPoints: 0,
 };
 
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-param-reassign */
 export const gameState = (state: GameState = initialState, action: GameStateAction) => {
     switch (action.type) {
         case SELECT_WEAPON: {

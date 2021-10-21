@@ -79,6 +79,8 @@ export const initialState: UserState = {
     error: null,
 };
 
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable no-param-reassign */
 export const userState = (state: UserState = initialState, action: UserStateAction) => {
     switch (action.type) {
         case FETCH_USER_INFO_REQUESTED:
