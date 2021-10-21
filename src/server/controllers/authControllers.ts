@@ -8,7 +8,7 @@ import { LeaderBoardAPI } from 'api/leaderboard-api';
 import { httpToAPI } from '../../modules/http-service/http-service';
 import { AuthAPI } from '../../api/auth-api';
 
-import { deleteUserAuth, getUserInfo } from '../utils/userLocals';
+import { deleteUserAuth, getUserInfo, setUserInfo } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
 
@@ -71,14 +71,22 @@ export const loginWithOAuthController = (req: Request, res: Response, next: Next
             code,
             redirect_uri: SERVER_URL,
         };
+
         authServerToAPI.loginWithOAuth(postData)
             .then((response) => {
                 cookieParser(res, response);
+                res.redirect('/profile');
                 return true;
             })
-            .catch((err) => next(err))
-            .finally(() => {
-                res.redirect('/profile');
+            .catch((err) => {
+                const { response, message } = err;
+                if (response?.data?.reason === 'User already in system'
+                    && httpToAPI.httpTransport.defaults.headers.Cookie) {
+                    httpToAPI.httpTransport.defaults.headers.Cookie = '';
+                    loginWithOAuthController(req, res, next);
+                } else {
+                    next(err);
+                }
             });
     } else {
         next();
