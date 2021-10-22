@@ -73,9 +73,8 @@ export const FormLoadAvatar = () => {
                         }
                         const form = event.target as HTMLFormElement;
                         const formData = new FormData(form);
-                        console.log(formData);
-
                         dispatch(changeAvatarRequested(formData));
+                        dispatch(avatarFulfilled(null));
                     }
                 }
             >

@@ -26,7 +26,7 @@ export const checkAuth = () => (
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);
                 next();
-                return userInfo.data.avatar;
+                return userInfo;
             })
             .catch((err) => next(err));
     } else {

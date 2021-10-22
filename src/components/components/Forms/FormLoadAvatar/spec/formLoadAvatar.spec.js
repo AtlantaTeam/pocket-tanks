@@ -5,6 +5,7 @@ import { mockStore } from 'mocks/store';
 import { changeAvatarRequested } from '../../../../../redux/actions/user-state/change-avatar';
 
 import { FormLoadAvatar } from '../FormLoadAvatar';
+import { avatarFulfilled } from '../../../../../redux/actions/user-state/get-avatar';
 
 describe('<FormLoadAvatar />', () => {
     let store;
@@ -62,7 +63,8 @@ describe('<FormLoadAvatar />', () => {
         formData.append('avatar', avatar);
 
         expect(store.getActions()).toEqual([
-            changeAvatarRequested(formData)
+            changeAvatarRequested(formData),
+            avatarFulfilled(null)
         ]);
     });
 });

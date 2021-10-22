@@ -3,7 +3,7 @@ import type { ErrorResponse } from '../../../api/types';
 import type { Action } from '..';
 
 export type AvatarRequestedAction = Action<typeof AVATAR_REQUESTED, Store>;
-export type AvatarFulfilledAction = Action<typeof AVATAR_FULFILLED, string>;
+export type AvatarFulfilledAction = Action<typeof AVATAR_FULFILLED, string | null>;
 export type AvatarFailedAction = Action<typeof AVATAR_FAILED, ErrorResponse>;
 
 export type AvatarAction =
@@ -20,7 +20,7 @@ export const avatarRequested = (store:Store) => ({
     payload: store,
 } as AvatarRequestedAction);
 
-export const avatarFulfilled = (payload: string) => ({
+export const avatarFulfilled = (payload: string | null) => ({
     type: AVATAR_FULFILLED,
     payload,
 } as AvatarFulfilledAction);
