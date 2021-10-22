@@ -81,21 +81,21 @@
 }
 
 .button_yandex-logo {
-    background-color: var(--foreground);
-    color: var(--background);
+    background-color: #ffffff;
+    color: #000000;
     padding: 11px 10px;
 }
 
 .button_yandex-logo:hover {
     animation: none;
-    background: var(--foreground)
+    background: #ffffff
         radial-gradient(
             circle,
             transparent 1%,
-            var(--foreground) 1%
+            #ffffff 1%
         )
         center/15000%;
-    color: var(--foreground);
+    color: #000000;
 }
 
 .button_yandex-logo:active {

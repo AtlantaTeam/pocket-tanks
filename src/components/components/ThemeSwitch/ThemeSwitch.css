@@ -1,8 +1,9 @@
-.button_sound {
+.theme-switch {
     position: absolute;
-    top: 184px;
+    top: 100px;
     right: 0;
     width: 75px;
+    padding: 15px;
     border-width: 0;
     z-index: 1000;
     background: var(--background);

@@ -21,6 +21,7 @@ import { ROUTES } from 'utils/constants/routes';
 import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
+import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
 
 import { checkStateRequested } from '../../redux/actions/user-state/check-state';
 import { cleanError } from '../../redux/actions/user-state/clean-error';
@@ -56,6 +57,7 @@ export const App = () => {
                 ))}
             </Switch>
             <FullscreenButton />
+            <ThemeSwitch />
             <Popup
                 isOpen={!!userStateError}
                 action={() => {

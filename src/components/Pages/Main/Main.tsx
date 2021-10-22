@@ -49,7 +49,7 @@ export const Main = () => (
                 </Link>
             </div>
             <Image
-                className="image_logo"
+                className="image_logo image_icon"
                 imagePath={imgLogo}
             />
         </div>

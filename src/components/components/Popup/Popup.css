@@ -6,10 +6,10 @@
     right: 0;
     z-index: 8000;
     &.popup-overlay_warning {
-        background-color: var(--main-op15);
+        background-color: var(--overlay_warning-op15);
     }
     &.popup-overlay_fade {
-        background-color: var(--background-op85);
+        background-color: var(--overlay-fade-op85);
     }
 }
 

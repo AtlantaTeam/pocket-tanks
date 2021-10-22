@@ -39,7 +39,7 @@ export const FullscreenButton = () => {
             }}
         >
             <Image
-                className="image"
+                className="image image_icon"
                 imagePath={isFullscreen ? imageFullscreenOffButton : imageFullscreenOnButton}
             />
         </Button>

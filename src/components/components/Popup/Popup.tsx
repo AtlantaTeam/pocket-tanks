@@ -30,7 +30,7 @@ export const Popup = (props: PopupProps) => (
 
             <div className="popup-content">
                 <Image
-                    className="image_close-cross image_close-cross_absolute"
+                    className="image_close-cross image_close-cross_absolute image_icon"
                     imagePath={imgCloseCross}
                     onClick={() => (props.onCrossPress ?? props.action)()}
                 />

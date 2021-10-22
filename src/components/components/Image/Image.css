@@ -30,3 +30,11 @@
     width: 156px;
     height: 40px;
 }
+
+.image_icon {
+    filter: var(--icon-filter);
+}
+
+.image_flip-x {
+    transform: scaleX(-1);
+}

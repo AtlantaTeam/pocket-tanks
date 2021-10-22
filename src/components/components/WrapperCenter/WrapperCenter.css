@@ -21,7 +21,7 @@
 .wrapper-center_full-screen {
     width: 100%;
     height: 100vh;
-    background-color: var(--background-op5);
+    background-color: var(--background);
 }
 
 .wrapper-center_full-screen-black {
