@@ -33,7 +33,7 @@ export const serverRenderMiddleware = (
 
     if (isUserAuth(res)) {
         const userInfo = getUserInfo(res);
-        console.log(userInfo);
+        // console.log(userInfo);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
     }

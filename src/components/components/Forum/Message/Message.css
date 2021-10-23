@@ -11,7 +11,7 @@
     overflow: hidden;
 }
 
-.message__by {
+.message__author {
     color: var(--accent);
 }
 
