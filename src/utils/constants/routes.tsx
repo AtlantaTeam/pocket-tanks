@@ -8,6 +8,13 @@ import { Forum } from 'components/Pages/Forum/Forum';
 
 import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
 
+// Должен быть последним для Switch
+export const MAIN_ROUTE = {
+    name: 'Главная страница',
+    link: '/',
+    component: Main,
+};
+
 export const ROUTES = [
     {
         name: 'Игра',
@@ -30,12 +37,6 @@ export const ROUTES = [
         name: 'Форум',
         link: '/forum',
         component: withAuthState(true, '/login', Forum),
-    },
-    // Должен быть последним для Switch
-    {
-        name: 'Главная страница',
-        link: '/',
-        component: Main,
     },
 ] as const;
 

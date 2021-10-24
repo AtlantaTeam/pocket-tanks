@@ -13,7 +13,7 @@ import '../../../static/styles/fonts/fonts.css';
 import '../../../static/index.css';
 import './App.css';
 
-import { AUTH_MENU_ROUTES, ROUTES } from 'utils/constants/routes';
+import { AUTH_MENU_ROUTES, MAIN_ROUTE, ROUTES } from 'utils/constants/routes';
 
 import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
@@ -34,7 +34,7 @@ export const App = () => {
         <div className="app">
             <MenuComponent />
             <Switch>
-                {[...AUTH_MENU_ROUTES, ...ROUTES].map((item) => (
+                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map((item) => (
                     <Route
                         exact
                         path={item.link}

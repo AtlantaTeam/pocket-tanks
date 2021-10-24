@@ -20,7 +20,10 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
             isOpen
             action={() => {
                 props.action(titleText, messageText);
-                props.onCrossPress();
+                if ((props.title === 'Тема' && titleText && messageText)
+                    || (props.title === 'Заголовок' && messageText)) {
+                    props.onCrossPress();
+                }
             }}
             onCrossPress={props.onCrossPress}
             title={props.name}
