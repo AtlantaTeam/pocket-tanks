@@ -10,7 +10,7 @@ import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholde
 
 import { Label } from '../components/Input/components/Label/Label';
 
-import { getUserLoaderState, getUserAvatar } from '../../../../redux/selectors/user-state';
+import { getUserLoaderState, getUserAvatar, getUserAvatarResourse } from '../../../../redux/selectors/user-state';
 import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
 import { getUserAvatar as getUserAvatarController } from '../../../../controllers/user-controller';
 import { avatarFulfilled } from '../../../../redux/actions/user-state/get-avatar';
@@ -20,6 +20,7 @@ export const FormLoadAvatar = () => {
 
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
+    const userAvatarResourse = useSelector(getUserAvatarResourse);
     const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
@@ -31,7 +32,7 @@ export const FormLoadAvatar = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!avatar) {
+        if (!avatar && userAvatarResourse) {
             getUserAvatarController()
                 .then((data) => {
                     setState({

@@ -37,7 +37,7 @@ export const initializeStore = (initialState: State, url = '/') => {
     // Отключил logger из-за рисунка, если интересно можно посмотреть)
     const middlewares = isServer
         ? [routerMiddleware(history), sagaMiddleware]
-        : [routerMiddleware(history), sagaMiddleware, logger];
+        : [routerMiddleware(history), sagaMiddleware]; // logger
 
     const store = createStore(
         rootReducer(history),

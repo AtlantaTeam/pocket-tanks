@@ -37,6 +37,19 @@ export const App = () => {
     return (
         <div className="app">
             <MenuComponent />
+            <FullscreenButton />
+            <Popup
+                isOpen={!!userStateError}
+                action={() => {
+                    dispatch(cleanError());
+                }}
+                title="Ошибка"
+                textContent={userStateError as string}
+                buttonText="Закрыть"
+                overlayType="warning"
+            />
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <ToastContainer {...toastContainerProps} />
             <Switch>
                 {ROUTES.map(({ ...item }) => (
                     <Route
@@ -54,19 +67,6 @@ export const App = () => {
                     </Route>
                 ))}
             </Switch>
-            <FullscreenButton />
-            <Popup
-                isOpen={!!userStateError}
-                action={() => {
-                    dispatch(cleanError());
-                }}
-                title="Ошибка"
-                textContent={userStateError as string}
-                buttonText="Закрыть"
-                overlayType="warning"
-            />
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <ToastContainer {...toastContainerProps} />
         </div>
     );
 };

@@ -36,7 +36,7 @@ import {
     selectWeapon,
     setWeapons,
 } from '../../../redux/actions/game-state';
-import { getUserAvatar, getUserNickname } from '../../../redux/selectors/user-state';
+import { getUserAvatar, getUserAvatarResourse, getUserNickname } from '../../../redux/selectors/user-state';
 import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
@@ -75,6 +75,7 @@ const Game = () => {
     const enemyPoints = useSelector(getEnemyPoints);
     const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
+    const userAvatarResourse = useSelector(getUserAvatarResourse);
     const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
         const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
@@ -95,7 +96,7 @@ const Game = () => {
     const [avatarImgState, setAvatarImg] = useState({ img: avatarPath });
 
     useEffect(() => {
-        if (!avatar) {
+        if (!avatar && userAvatarResourse) {
             getUserAvatarController()
                 .then((data) => {
                     setAvatarImg({ img: data });
