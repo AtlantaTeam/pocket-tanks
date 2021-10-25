@@ -22,7 +22,7 @@ COPY ./package.json .
 
 COPY ./tsconfig.json .
 
-RUN npm i --only=prod && npm run build
+RUN npm i --only=prod
 
 EXPOSE $PORT
 
