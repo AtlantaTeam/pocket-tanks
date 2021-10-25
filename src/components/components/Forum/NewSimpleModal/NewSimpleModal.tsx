@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { Popup, PopupProps } from '../../Popup/Popup';
 import { ForumInput } from '../ForumInput/ForumInput';
+import { EmojiBar } from '../EmojiBar/EmojiBar';
 
 export interface NewSimpleModalProps {
     action: (title: string, text: string) => void;
@@ -34,15 +35,18 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                 <ForumInput
                     type="text"
                     placeholder={props.title}
-                    onChange={(text: string) => {
-                        setTitleText(text);
-                    }}
+                    text={titleText}
+                    onChange={setTitleText}
                 />
                 <ForumInput
                     type="textarea"
                     placeholder="Сообщение"
-                    onChange={(text: string) => {
-                        setMessageText(text);
+                    text={messageText}
+                    onChange={setMessageText}
+                />
+                <EmojiBar
+                    onSelect={(emoji: string) => {
+                        setMessageText(messageText + emoji);
                     }}
                 />
             </>
