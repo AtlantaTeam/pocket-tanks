@@ -3,11 +3,12 @@ import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
-import selfSigned from 'openssl-self-signed-certificate';
+import fs from 'fs';
 
 import compression from 'compression';
 import 'babel-polyfill';
 import webpack from 'webpack';
+import selfSigned from 'openssl-self-signed-certificate';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import cookieParser from 'cookie-parser';
@@ -20,7 +21,9 @@ import { serverRenderMiddleware } from './middlewares/serverRenderMiddleware';
 import { clientConfig } from '../../configs/webpack/client.config';
 import { checkAuth } from './middlewares/checkAuthMiddleware';
 
-import { authRouter } from './routes/authRouter';
+import { authRouter } from './routers/authRouter';
+import { errorsMiddleware } from './middlewares/errorsMiddleware';
+import { userRouter } from './routers/userRouter';
 
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
@@ -62,6 +65,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(express.json())
     .use(checkAuth())
     .use('/', authRouter)
+    .use('/', userRouter)
     .get(
         '/*',
         [
@@ -70,7 +74,8 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
         serverRenderMiddleware,
     )
     .use(csp)
-    .use(compression);
+    .use(compression)
+    .use(errorsMiddleware);
 
 let serverApp = http.createServer(app);
 

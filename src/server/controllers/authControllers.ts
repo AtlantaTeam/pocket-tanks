@@ -1,16 +1,16 @@
 import { AxiosResponse } from 'axios';
 import type { NextFunction, Request, Response } from 'express';
 
+import { getUserInfoRequest } from 'server/utils/getUserInfoRequest';
 import { SERVER_URL } from 'constants/api-routes';
 import { OAuthData } from 'api/types';
 import { LeaderBoardAPI } from 'api/leaderboard-api';
 import { httpToAPI } from '../../modules/http-service/http-service';
 import { AuthAPI } from '../../api/auth-api';
 
-import { deleteUserAuth, getUserInfo } from '../utils/userLocals';
+import { deleteUserAuth, getUserInfo, setUserInfo } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
-import { getUserInfoRequest } from '../utils/getUserInfoRequest';
 
 export const loginController = (req: Request, res: Response, next: NextFunction, isCleanCookies = false) => {
     const authServerToAPI = getAuthServerToAPI(res);
@@ -28,9 +28,7 @@ export const loginController = (req: Request, res: Response, next: NextFunction,
             if (!isCleanCookies && status === 400) {
                 loginController(req, res, next, true);
             } else {
-                const { reason } = data;
-                res.status(status);
-                res.send(reason);
+                next(err);
             }
         });
 };
@@ -45,9 +43,8 @@ export const addUserResultsController = (req: Request, res: Response, next: Next
                 const { data } = response;
                 res.status(200).send(data);
                 return true;
-            }).catch((err) => {
-                console.log(err);
-            });
+            })
+            .catch((err) => next(err));
     }
 };
 
@@ -61,9 +58,8 @@ export const getAllLeaderboardController = (req: Request, res: Response, next: N
                 const { data } = response;
                 res.status(200).send(data);
                 return true;
-            }).catch((err) => {
-                console.log(err);
-            });
+            })
+            .catch((err) => next(err));
     }
 };
 
@@ -89,7 +85,7 @@ export const loginWithOAuthController = (req: Request, res: Response, next: Next
                     httpToAPI.httpTransport.defaults.headers.Cookie = '';
                     loginWithOAuthController(req, res, next);
                 } else {
-                    res.status(response?.status || 500).send(response?.data?.reason || message);
+                    next(err);
                 }
             });
     } else {
@@ -106,13 +102,7 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
             res.send('Ок');
             return response;
         })
-        .catch((err) => {
-            const { response, message } = err;
-            res.status(response?.status || 500).send(response?.data?.reason || message);
-        })
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };
 
 export const getUserInfoController = (req: Request, res: Response, next: NextFunction) => {
@@ -126,7 +116,6 @@ export const getUserInfoController = (req: Request, res: Response, next: NextFun
         console.log('Нет ключа авторизации', 'getUserInfoController');
         const authServerToAPI = new AuthAPI(httpToAPI);
         setAuthServerToAPI(res, authServerToAPI);
-        next();
     }
 };
 
@@ -144,11 +133,5 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
             return res.redirect('/login');
             // return response;
         })
-        .catch((err) => {
-            const { response, message } = err;
-            res.status(response?.status || 500).send(response?.data?.reason || message);
-        })
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };

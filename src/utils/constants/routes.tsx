@@ -1,3 +1,4 @@
+import { match } from 'react-router';
 import { Main } from 'components/Pages/Main/Main';
 import { Login } from 'components/Pages/Login/Login';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
@@ -5,93 +6,75 @@ import Game from 'components/Pages/Game/Game';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
-
+import { Store } from 'redux';
 import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
+import { avatarRequested } from '../../redux/actions/user-state/get-avatar';
+
+export type RouterFetchDataArgs = {
+    storeItem: Store;
+    match: match<{ slug: string }>;
+};
+
+export type Route = {
+    name: string;
+    path: string;
+    exact: boolean;
+    component: JSX.Element,
+};
 
 export const ROUTES = [
     {
         name: 'Вход',
-        link: '/login',
+        path: '/login',
+        exact: true,
         component: withAuthState(false, '/profile', Login),
 
     },
     {
         name: 'Регистрация',
-        link: '/signup',
+        path: '/signup',
+        exact: true,
         component: withAuthState(false, '/profile', SignUp),
 
     },
     {
         name: 'Игра',
-        link: '/game',
+        path: '/game',
+        exact: true,
         component: withAuthState(true, '/login', Game),
-
+        fetchData(data: RouterFetchDataArgs) {
+            const { dispatch } = data.storeItem;
+            dispatch(avatarRequested(data.storeItem));
+        },
     },
     {
         name: 'Профиль',
-        link: '/profile',
+        path: '/profile',
+        exact: true,
         component: withAuthState(true, '/login', Profile),
+        fetchData(data: RouterFetchDataArgs) {
+            const { dispatch } = data.storeItem;
+            dispatch(avatarRequested(data.storeItem));
+        },
     },
     {
         name: 'Таблица результатов',
-        link: '/leaderboard',
+        path: '/leaderboard',
+        exact: true,
         component: withAuthState(true, '/login', LeaderBoard),
 
     },
     {
         name: 'Форум',
-        link: '/forum',
+        path: '/forum',
+        exact: true,
         component: withAuthState(true, '/login', Forum),
     },
     // Должен быть последним для Switch
     {
         name: 'Главная страница',
-        link: '/',
+        path: '/',
+        exact: true,
         component: Main,
     },
 ] as const;
-/*
-export const ROUTES = [
-    {
-        name: 'Вход',
-        link: '/login',
-        component: Login,
-
-    },
-    {
-        name: 'Регистрация',
-        link: '/signup',
-        component: SignUp,
-
-    },
-    {
-        name: 'Игра',
-        link: '/game',
-        component: Game,
-
-    },
-    {
-        name: 'Профиль',
-        link: '/profile',
-        component: Profile,
-
-    },
-    {
-        name: 'Таблица результатов',
-        link: '/leaderboard',
-        component: LeaderBoard,
-
-    },
-    {
-        name: 'Форум',
-        link: '/forum',
-        component: Forum,
-    },
-    // Должен быть последним для Switch
-    {
-        name: 'Главная страница',
-        link: '/',
-        component: Main,
-    },
-] as const;
-*/

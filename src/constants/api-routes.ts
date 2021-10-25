@@ -3,6 +3,7 @@ const { NODE_ENV } = process.env;
 const IS_DEV = NODE_ENV === 'development';
 
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
+
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
 export const OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
 
@@ -24,6 +25,7 @@ export const USER_ROUTES = {
     CHANGE_PROFILE: '/user/profile',
     CHANGE_AVATAR: '/user/profile/avatar',
     CHANGE_PASSWORD: '/user/password',
+    GET_AVATAR: '/user/avatar',
 } as const;
 
 export const LEADER_BOARD_ROUTES = {

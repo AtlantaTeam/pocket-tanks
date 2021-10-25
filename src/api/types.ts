@@ -9,6 +9,12 @@ export type UserInfoResponse = {
     email: string;
     phone: string;
     avatar: string;
+    imgAvatarBase64: string;
+};
+
+export type Avatar = {
+    cookie: string;
+    avatarPath: string;
 };
 
 export type OAuthServiceIdResponse = {

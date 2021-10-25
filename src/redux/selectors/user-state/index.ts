@@ -15,10 +15,19 @@ export const getUserNickname = (state: State) => {
     return userProfile.displayName || userProfile.firstName;
 };
 
-export const getUserAvatar = (state: State) => {
+export const getUserAvatarResourse = (state: State) => {
     const userProfile = getUserProfile(state);
     if (!userProfile || !('avatar' in userProfile)) {
         return null;
     }
     return userProfile.avatar;
+};
+
+export const getUserAvatar = (state: State) => {
+    const isUserAvatarResourse = getUserAvatarResourse(state);
+    const isUserAvatar = getUserState(state).avatar;
+    if (isUserAvatar && isUserAvatarResourse) {
+        return isUserAvatar;
+    }
+    return null;
 };
