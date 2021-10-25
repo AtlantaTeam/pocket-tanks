@@ -1,8 +1,9 @@
 import { AuthAPI } from 'api/auth-api';
 import { objectToCamel } from 'ts-case-convert';
 import { NextFunction, Request, Response } from 'express';
+import { saveUserToDB } from 'server/controllers/authControllers';
 import { setAuthServerToAPI } from './authServerToAPILocals';
-import { setUserAuth, setUserInfo } from './userLocals';
+import { getUserInfo, setUserAuth, setUserInfo } from './userLocals';
 
 export const getUserInfoRequest = (
     req: Request,
@@ -15,6 +16,7 @@ export const getUserInfoRequest = (
         .then((userInfo) => {
             setUserAuth(res);
             setUserInfo(res, objectToCamel(userInfo.data));
+            saveUserToDB(getUserInfo(res));
             setAuthServerToAPI(res, authServerToAPI);
             return objectToCamel(userInfo.data);
         })
