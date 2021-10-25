@@ -1,5 +1,4 @@
 body {
-    background-color: var(--black);
     margin: 0;
 }
 
@@ -7,8 +6,21 @@ body {
     --main: #f9a600;
     --secondary: #f3bd15;
     --accent: #d14d30;
-    --black: #121210;
-    --white: #fff;
-    --grey: #aaa9ad;
+    --pulse: #00000000;
     --error: #d14d30;
+
+    --overlay_warning-op15: #f9a60026;
+    --overlay-fade-op85: #000000d9;
+
+    --background: #121210;
+    --foreground: #ffffff;
+    --placeholder: #aaa9ad;
+    --icon-filter: none;
+}
+
+:root [data-theme="alternative"] {
+    --background: #ececec;
+    --foreground: #0c0c0c;
+    --placeholder: #6c6464;
+    --icon-filter: invert(95%);
 }

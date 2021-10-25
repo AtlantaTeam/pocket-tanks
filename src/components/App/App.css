@@ -3,4 +3,5 @@
     margin: 0 auto;
     display: flex;
     min-height: 100vh;
+    background-color: var(--background);
 }

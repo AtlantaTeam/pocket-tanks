@@ -1,7 +1,7 @@
 .label {
     font-family: 'Play', sans-serif;
     font-size: 16px;
-    color: #fff;
+    color: var(--foreground);
     display: block;
     width: 100%;
     position: absolute;
@@ -14,7 +14,7 @@
     width: initial;
     font-family: 'Play', sans-serif;
     font-size: 16px;
-    color: #fff;
+    color: var(--foreground);
     color: var(--main);
     display: block;
     cursor: pointer;
