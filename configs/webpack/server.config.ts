@@ -3,7 +3,7 @@ import { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 
-import { IS_DEV, DIST_DIR, SRC_DIR } from './env';
+import { IS_DEV } from './env';
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
 import { tsLoaders } from './loaders/tsLoaders';

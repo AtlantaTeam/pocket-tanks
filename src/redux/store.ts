@@ -4,11 +4,13 @@ import {
 } from 'redux';
 import createSagaMiddleware, { END, SagaMiddleware } from 'redux-saga';
 
+import logger from 'redux-logger';
+
 import { isServer } from 'utils/isServer';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 
-import type { State } from './reducers';
 import { rootReducer } from './reducers';
+import type { State } from './reducers';
 
 import { rootSaga } from './sagas';
 
@@ -32,11 +34,15 @@ export const initializeStore = (initialState: State, url = '/') => {
 
     const sagaMiddleware = createSagaMiddleware();
     const composeEnhancers = getComposeEnhancers();
+    // Отключил logger из-за рисунка, если интересно можно посмотреть)
+    const middlewares = isServer
+        ? [routerMiddleware(history), sagaMiddleware]
+        : [routerMiddleware(history), sagaMiddleware]; // logger
 
     const store = createStore(
         rootReducer(history),
         initialState,
-        composeEnhancers(applyMiddleware(routerMiddleware(history), sagaMiddleware)), // , logger
+        composeEnhancers(applyMiddleware(...middlewares)),
     ) as AppStore;
 
     // Add methods to use in the server

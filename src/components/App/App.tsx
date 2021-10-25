@@ -33,23 +33,6 @@ export const App = () => {
     return (
         <div className="app">
             <MenuComponent />
-            <Switch>
-                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map((item) => (
-                    <Route
-                        exact
-                        path={item.link}
-                        key={`${item.name}-route`}
-                    >
-                        <ErrorBoundary
-                            key={`${item.name}-error`}
-                        >
-                            <item.component
-                                key={`${item.name}-component`}
-                            />
-                        </ErrorBoundary>
-                    </Route>
-                ))}
-            </Switch>
             <FullscreenButton />
             <Popup
                 isOpen={!!userStateError}
@@ -63,6 +46,23 @@ export const App = () => {
             />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <ToastContainer {...toastContainerProps} />
+            <Switch>
+                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map(({ ...item }) => (
+                    <Route
+                        key={`${item.name}-route`}
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...item}
+                    >
+                        <ErrorBoundary
+                            key={`${item.name}-error`}
+                        >
+                            <item.component
+                                key={`${item.name}-component`}
+                            />
+                        </ErrorBoundary>
+                    </Route>
+                ))}
+            </Switch>
         </div>
     );
 };

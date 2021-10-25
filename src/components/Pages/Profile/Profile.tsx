@@ -11,7 +11,7 @@ import './Profile.css';
 
 const tabs = ['Данные', 'Аватар', 'Пароль'];
 
-const Spinner = () => (
+export const Spinner = () => (
     <div className="profile-spinner">
         <Loader type="BallTriangle" color="#f9a600" width="200" height="200" />
     </div>

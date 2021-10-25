@@ -5,6 +5,8 @@ import { MessageAttributes } from 'db/models/Message';
 import { forumAPI } from 'api/forum-api';
 import { NewSimpleModal } from 'components/components/Forum/NewSimpleModal/NewSimpleModal';
 import { useSelector } from 'react-redux';
+import { Tabs } from 'components/components/Tabs/Tabs';
+import { Spinner } from 'components/Pages/Profile/Profile';
 import { getUserNickname } from '../../../redux/selectors/user-state';
 import { Page } from '../components/Page/Page';
 import { Title } from '../../components/Title/Title';
@@ -139,16 +141,20 @@ export const Forum = () => {
                 />
                 <div className="forum__content">
                     <div className="forum__threads-container">
-                        {threadList.map((thread) => (
-                            <Thread
-                                key={thread.id}
-                                id={thread.id}
-                                title={thread.title}
-                                messages={thread.messages}
-                                updateThread={currentThread}
-                                reply={(msg) => sendReply(msg)}
-                            />
-                        ))}
+                        {
+                            !threadList?.length
+                                ? <Spinner />
+                                : threadList.map((thread) => (
+                                    <Thread
+                                        key={thread.id}
+                                        id={thread.id}
+                                        title={thread.title}
+                                        messages={thread.messages}
+                                        updateThread={currentThread}
+                                        reply={(msg) => sendReply(msg)}
+                                    />
+                                ))
+                        }
                     </div>
                 </div>
                 <Button

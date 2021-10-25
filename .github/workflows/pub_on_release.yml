@@ -6,22 +6,22 @@ on:
     # Запуск только при публиковании нового релиза
 
     # Можем запускать вручную из Actions tab
-    workflow_dispatch:
+    workflow_dispatch:    
 
 jobs:
-    run_tests:
-        runs-on: [ubuntu-latest]
-        steps:
-            # Чекаутим код
-            - uses: actions/checkout@main
-            - name: Install packages
-              run: npm i
-            - name: Run tests
-              run: npm run validate
+#    run_tests:
+#        runs-on: [ubuntu-latest]
+#        steps:
+#            # Чекаутим код
+#            - uses: actions/checkout@v2
+#            - name: Install packages
+#              run: npm i
+#            - name: Run tests
+#              run: npm run validate
 
     build_and_pub:
         # Если тесты были пройдены успешно
-        needs: [run_tests]
+#        needs: [run_tests]
         runs-on: [ubuntu-latest]
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
@@ -31,7 +31,7 @@ jobs:
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
                 # Чекаутим код
-            - uses: actions/checkout@main
+            - uses: actions/checkout@v2
             - name: Build image
                 # Собираем image и называем его так как указано в hub.docker т.е. login/repository:version
               run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11} -f Dockerfile .

@@ -9,6 +9,12 @@ export type UserInfoResponse = {
     email: string;
     phone: string;
     avatar: string;
+    imgAvatarBase64: string;
+};
+
+export type Avatar = {
+    cookie: string;
+    avatarPath: string;
 };
 
 export type OAuthServiceIdResponse = {
@@ -32,7 +38,7 @@ export type EmptyRequest = undefined;
 
 export type LeaderBoardRequest = {
     data: {
-        points: number,
+        tankpoints: number,
         name: string,
     },
     ratingFieldName: string
@@ -47,6 +53,6 @@ export type GetLeaderBoardRequest = {
 export type LeaderBoardResponse = {
     data: {
         name: string,
-        points: number,
+        tankpoints: number,
     }
 }[];
