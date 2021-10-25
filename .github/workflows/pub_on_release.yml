@@ -4,8 +4,8 @@ on:
     # Можем запускать вручную из Actions tab
     workflow_dispatch:    
     
-    release:
-        types: [published]
+#    release:
+#        types: [published]
     # Запуск только при публиковании нового релиза
 
     
