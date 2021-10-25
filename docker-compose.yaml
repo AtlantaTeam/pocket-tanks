@@ -15,7 +15,6 @@ services:
         # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
         ports:
             - "5000:5000"
-            - "9229:9229"
         # Проброс файлов, откуда с хоста, куда в контейнер
 #        volumes:
 #            - ./shared:/var/www/shared
@@ -23,7 +22,7 @@ services:
         networks:
             - awesome
         restart: always
-    #        command: ./wait-for.sh mongo:27017 -- npm run start
+        command: ./wait-for.sh postgres:5432 -- node index.js
 
     postgres:
         image: postgres:12
