@@ -1,12 +1,14 @@
 name: Publish on Docker Hub and Deploy
 
 on:
+    # Можем запускать вручную из Actions tab
+    workflow_dispatch:    
+    
     release:
         types: [published]
     # Запуск только при публиковании нового релиза
 
-    # Можем запускать вручную из Actions tab
-    workflow_dispatch:    
+    
 
 jobs:
     run_tests:
