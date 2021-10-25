@@ -9,19 +9,19 @@ on:
     workflow_dispatch:    
 
 jobs:
-    run_tests:
-        runs-on: [ubuntu-latest]
-        steps:
-            # Чекаутим код
-            - uses: actions/checkout@v2
-            - name: Install packages
-              run: npm i
-            - name: Run tests
-              run: npm run validate
+#    run_tests:
+#        runs-on: [ubuntu-latest]
+#        steps:
+#            # Чекаутим код
+#            - uses: actions/checkout@v2
+#            - name: Install packages
+#              run: npm i
+#            - name: Run tests
+#              run: npm run validate
 
     build_and_pub:
         # Если тесты были пройдены успешно
-        needs: [run_tests]
+#        needs: [run_tests]
         runs-on: [ubuntu-latest]
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
