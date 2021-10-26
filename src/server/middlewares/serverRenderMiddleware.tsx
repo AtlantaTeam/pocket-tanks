@@ -28,7 +28,7 @@ export const serverRenderMiddleware = (
     next: NextFunction,
 ) => {
     const location = req.url;
-    const xsrf = req.csrfToken();
+    // const xsrf = req.csrfToken();
     const context: StaticRouterContext = {};
 
     const { store } = initializeStore(
@@ -63,7 +63,7 @@ export const serverRenderMiddleware = (
             return;
         }
         res
-            .cookie('XSRF-TOKEN', xsrf)
+            // .cookie('XSRF-TOKEN', xsrf)
             .status(context.statusCode || 200)
             .send(getHtml(reactHtml, reduxState));
     };

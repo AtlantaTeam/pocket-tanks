@@ -7,7 +7,8 @@ export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
 export const OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
 
-export const SERVER_URL = IS_DEV ? 'https://localhost:5000/' : 'https://atlanta-pocketanks-07.ya-praktikum.tech/';
+export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'atlanta-pocketanks-07.ya-praktikum.tech';
+export const SERVER_URL = `https://${SERVER_DOMAIN}/`;
 
 export const AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',

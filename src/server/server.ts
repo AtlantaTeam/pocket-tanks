@@ -3,7 +3,6 @@ import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
-import fs from 'fs';
 
 import compression from 'compression';
 import 'babel-polyfill';
@@ -15,7 +14,6 @@ import cookieParser from 'cookie-parser';
 import { sequelize } from 'db';
 import { dbRouter } from 'db/routes/dbRouter';
 import { populateDB } from 'db/seeds/seeder';
-import { csrf } from './middlewares/csrf';
 import { csp } from './middlewares/csp';
 
 import { serverRenderMiddleware } from './middlewares/serverRenderMiddleware';
@@ -28,7 +26,7 @@ import { errorsMiddleware } from './middlewares/errorsMiddleware';
 import { userRouter } from './routers/userRouter';
 
 const { NODE_ENV, IS_POPULATE_DB } = process.env;
-const IS_DEV = NODE_ENV === 'development';
+export const IS_DEV = NODE_ENV === 'development';
 
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
@@ -66,7 +64,7 @@ app.use(
 
 app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(cookieParser())
-    .use(csrf())
+    // .use(csrf())
     .use(express.json())
     .use(checkAuth())
     .use('/', authRouter)

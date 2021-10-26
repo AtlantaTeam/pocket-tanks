@@ -1,5 +1,7 @@
 import { AxiosResponse } from 'axios';
 import type { Response } from 'express';
+import { SERVER_DOMAIN } from 'constants/api-routes';
+import { IS_DEV } from 'server/server';
 import { lowerCaseFirstChar } from './lowerCaseFirstChar';
 
 export const cookieParser = (res: Response, response: AxiosResponse) => {
@@ -10,6 +12,10 @@ export const cookieParser = (res: Response, response: AxiosResponse) => {
         for (let i = 1; i < cookie.length; i++) {
             const option = cookie[i].split('=');
             const key = lowerCaseFirstChar(option[0]);
+            const value = lowerCaseFirstChar(option[1]);
+            if (!IS_DEV && key === 'domain' && value !== SERVER_DOMAIN) {
+                return;
+            }
             // Domain не проставляет в браузер, и всю куку с ним тоже. Поэтому не нужно указывать его.
             if (key !== 'domain') {
                 if ((option.length > 1)) {
