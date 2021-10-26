@@ -66,7 +66,6 @@ app.use(
 
 app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(cookieParser())
-    .use(csrf())
     .use(express.json())
     .use(checkAuth())
     .use('/', authRouter)
