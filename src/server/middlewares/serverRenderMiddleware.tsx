@@ -58,7 +58,8 @@ export const serverRenderMiddleware = (
             <Provider store={store}>
                 <StaticRouter
                     context={context}
-                    location={location}>
+                    location={location}
+                >
                     <App />
                 </StaticRouter>
             </Provider>
@@ -129,8 +130,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
                 window.__INITIAL_STATE__ = ${JSON.stringify(
-                    reduxState,
-                )}
+        reduxState,
+    )}
             </script>
             <script defer src="/main.js"></script>
         </body>
