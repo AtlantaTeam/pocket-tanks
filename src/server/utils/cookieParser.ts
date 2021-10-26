@@ -19,6 +19,7 @@ export const cookieParser = (res: Response, response: AxiosResponse) => {
                 } else options[key] = true;
             }
         }
+        if (CookieNameAndValue[0] === 'uuid') CookieNameAndValue[0] = 'uuidForAuth';
         res.cookie(CookieNameAndValue[0], CookieNameAndValue[1], options);
     });
 };

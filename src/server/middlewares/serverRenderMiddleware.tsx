@@ -3,7 +3,10 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { NextFunction, Request, Response } from 'express';
 import { StaticRouter } from 'react-router-dom';
-import { matchPath, StaticRouterContext } from 'react-router';
+import {
+    matchPath,
+    StaticRouterContext,
+} from 'react-router';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { SagaMiddleware } from 'redux-saga';
@@ -14,7 +17,10 @@ import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info
 import { loginFulfilled } from '../../redux/actions/user-state/login';
 import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
-import { getUserInfo, isUserAuth } from '../utils/userLocals';
+import {
+    getUserInfo,
+    isUserAuth,
+} from '../utils/userLocals';
 import { rootSaga } from '../../redux/sagas';
 import { setAuthCookie } from '../../redux/actions/auth-cookie-state';
 
@@ -40,9 +46,9 @@ export const serverRenderMiddleware = (
         const userInfo = getUserInfo(res);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
-        const { authCookie, uuid } = req.cookies;
-        if (authCookie && uuid) {
-            const cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookie, uuidForAuth } = req.cookies;
+        if (authCookie && uuidForAuth) {
+            const cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
             store.dispatch(setAuthCookie(cookie));
         }
     }
@@ -50,7 +56,9 @@ export const serverRenderMiddleware = (
     const renderApp = () => {
         const jsx = (
             <Provider store={store}>
-                <StaticRouter context={context} location={location}>
+                <StaticRouter
+                    context={context}
+                    location={location}>
                     <App />
                 </StaticRouter>
             </Provider>
@@ -90,9 +98,7 @@ export const serverRenderMiddleware = (
                     storeItem: store,
                     match,
                 };
-                dataRequirements.push(
-                    fetchMethod(data),
-                );
+                dataRequirements.push(fetchMethod(data));
             }
             return Boolean(match);
         }
@@ -122,7 +128,9 @@ function getHtml(reactHtml: string, reduxState = {}) {
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
-                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+                window.__INITIAL_STATE__ = ${JSON.stringify(
+                    reduxState,
+                )}
             </script>
             <script defer src="/main.js"></script>
         </body>

@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 
 import { UserAPI } from 'api/user-api';
 import { setUserServerToAPI } from 'server/utils/userServerToAPILocals';
-import { getUserInfo, setUserAuth, setUserInfo } from 'server/utils/userLocals';
+import {
+    getUserInfo,
+    setUserAuth,
+    setUserInfo,
+} from 'server/utils/userLocals';
 import { objectToCamel } from 'ts-case-convert';
 import { saveUserToDB } from 'server/controllers/authControllers';
 import { httpToAPI } from '../../modules/http-service/http-service';
@@ -14,16 +18,21 @@ export const checkAuth = () => (
     res: Response,
     next: NextFunction,
 ) => {
-    const { authCookie, uuid } = req.cookies;
-    if (authCookie && uuid) {
-        httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+    const { authCookie, uuidForAuth } = req.cookies;
+    if (authCookie && uuidForAuth) {
+        httpToAPI
+            .httpTransport
+            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         const authServerToAPI = new AuthAPI(httpToAPI);
         const userServerToAPI = new UserAPI(httpToAPI);
         authServerToAPI
             .getUserInfo()
             .then((userInfo) => {
                 setUserAuth(res);
-                setUserInfo(res, objectToCamel(userInfo.data));
+                setUserInfo(
+                    res,
+                    objectToCamel(userInfo.data),
+                );
                 saveUserToDB(getUserInfo(res));
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);

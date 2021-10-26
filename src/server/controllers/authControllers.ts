@@ -53,9 +53,11 @@ export const loginController = (req: Request, res: Response, next: NextFunction)
 };
 
 export const addUserResultsController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuid } = req.cookies;
-    if (authCookie && uuid) {
-        httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+    const { authCookie, uuidForAuth } = req.cookies;
+    if (authCookie && uuidForAuth) {
+        httpToAPI
+            .httpTransport
+            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
         leaderboadAPIDirectToAPI.addUserResults(req.body)
             .then((response) => {
@@ -68,9 +70,11 @@ export const addUserResultsController = (req: Request, res: Response, next: Next
 };
 
 export const getAllLeaderboardController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuid } = req.cookies;
-    if (authCookie && uuid) {
-        httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+    const { authCookie, uuidForAuth } = req.cookies;
+    if (authCookie && uuidForAuth) {
+        httpToAPI
+            .httpTransport
+            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
         leaderboadAPIDirectToAPI.getLeaderBoard(req.body)
             .then((response) => {
@@ -124,9 +128,11 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
 };
 
 export const getUserInfoController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuid } = req.cookies;
-    if (authCookie && uuid) {
-        httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+    const { authCookie, uuidForAuth } = req.cookies;
+    if (authCookie && uuidForAuth) {
+        httpToAPI
+            .httpTransport
+            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         const authServerToAPI = new AuthAPI(httpToAPI);
         getUserInfoRequest(req, res, next, authServerToAPI);
         res.status(200).send(getUserInfo(res));

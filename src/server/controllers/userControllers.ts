@@ -65,8 +65,8 @@ export const changeAvatarController = (
             },
         );
 
-        const { authCookie, uuid } = req.cookies;
-        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookie, uuidForAuth } = req.cookies;
+        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         axios.defaults.withCredentials = true;
         axios.defaults.headers['content-type'] = req.headers['content-type'];
         // eslint-disable-next-line promise/no-promise-in-callback
@@ -115,8 +115,8 @@ export const getUserAvatarController = (
 ) => {
     const userInfo = getUserInfo(res);
     if (userInfo && 'avatar' in userInfo) {
-        const { authCookie, uuid } = req.cookies;
-        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookie, uuidForAuth } = req.cookies;
+        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
         axios.defaults.withCredentials = true;
         axios
             .get(
