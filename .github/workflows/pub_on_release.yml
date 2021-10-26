@@ -47,6 +47,6 @@ jobs:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
-                  script: cd /home/$USER/pocketanks && \
-                          sed -i -E 's/$NAME:${GITHUB_REF:11}.+$/$NAME:${GITHUB_REF:11}-${{ github.run_id }}/' docker-compose.yml && \
+                  script: cd /home/$USER/pocketanks && 
+                          sed -i -E 's/$NAME:${GITHUB_REF:11}.+$/$NAME:${GITHUB_REF:11}-${{ github.run_id }}/' docker-compose.yml && 
                           docker-compose up --no-deps --build -d app
