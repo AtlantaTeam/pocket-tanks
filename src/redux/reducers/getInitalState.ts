@@ -1,6 +1,7 @@
 import { RouterState } from 'connected-react-router';
 import { initialState as userState } from './user-state';
 import { initialState as gameState } from './game-state';
+import { initialState as authCookieState } from './auth-cookie-state';
 import { State } from './index';
 
 export const getInitialState = (
@@ -8,6 +9,7 @@ export const getInitialState = (
 ): State => ({
     userState,
     gameState,
+    authCookieState,
     router: {
         location: {
             pathname,

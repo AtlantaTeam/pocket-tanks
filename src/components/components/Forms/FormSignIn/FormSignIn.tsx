@@ -18,7 +18,7 @@ import { loginRequested } from '../../../../redux/actions/user-state/login';
 
 export const SignInSchema = Yup.object().shape({
     login: Yup.string()
-        .min(4, ERRORS.ERROR_TEXT)
+        .min(2, ERRORS.ERROR_TEXT)
         .max(50, ERRORS.ERROR_TEXT)
         .required(ERRORS.ERROR_REQUIRED_FIELD),
     password: Yup.string()
@@ -53,7 +53,7 @@ export const FormSignIn = () => {
                 {({ errors, touched }) => (
                     <Form name="signin" className="form">
                         <FieldSet
-                            className="input input_white"
+                            className="input input_normal"
                             placeholder="Ваш логин"
                             name="login"
                             id="login"
@@ -63,7 +63,7 @@ export const FormSignIn = () => {
                             viewError={errors.login && touched.login}
                         />
                         <FieldSet
-                            className="input input_white"
+                            className="input input_normal"
                             placeholder="Ваш пароль"
                             name="password"
                             id="password"

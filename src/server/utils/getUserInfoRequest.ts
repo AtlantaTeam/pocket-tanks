@@ -18,11 +18,5 @@ export const getUserInfoRequest = (
             setAuthServerToAPI(res, authServerToAPI);
             return objectToCamel(userInfo.data);
         })
-        .catch((err) => {
-            // const { response, message } = err;
-            // res.status(response?.status || 500).send(response?.data?.reason || message);
-        })
-        .finally(() => {
-            next();
-        });
+        .catch((err) => next(err));
 };

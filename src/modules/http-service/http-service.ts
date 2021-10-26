@@ -32,16 +32,6 @@ export class HTTPService {
         };
     }
 
-    get configFormDataAsJSONAndCleanCookies(): AxiosRequestConfig {
-        return {
-            ...this.configFormDataAsJSON,
-            headers: {
-                'Content-type': 'application/json; charset=utf-8',
-                Cookie: '',
-            },
-        };
-    }
-
     static getByUrl(url: string, config: AxiosRequestConfig) {
         return axios.get(url, config);
     }

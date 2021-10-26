@@ -12,7 +12,7 @@ import { Menu } from '@headlessui/react';
 import { getUserNickname } from '../../../redux/selectors/user-state';
 import { Button } from '../Button/Button';
 
-import { ROUTES } from '../../../utils/constants/routes';
+import { AUTH_MENU_ROUTES, MAIN_ROUTE, ROUTES } from '../../../utils/constants/routes';
 import './Menu.css';
 import { Image } from '../Image/Image';
 
@@ -28,17 +28,17 @@ export const MenuComponent = () => {
             <Menu>
                 <Menu.Button className="menu-item menu-item_button">
                     <Image
-                        className="image"
+                        className="image image_icon"
                         imagePath={imageMenuButton}
                     />
                 </Menu.Button>
                 <Menu.Items className="menu-items">
-                    {ROUTES.map((item) => (
+                    {[...(userName ? ROUTES : AUTH_MENU_ROUTES), MAIN_ROUTE].map((item) => (
                         <Menu.Item key={item.name}>
                             {({ active }) => (
                                 <Link
                                     key={`${item.name}-link`}
-                                    to={item.link}
+                                    to={item.path}
                                     className={cn('menu-item', { 'menu-item_active': active })}
                                 >
                                     {item.name}
@@ -55,7 +55,7 @@ export const MenuComponent = () => {
                     onClick={() => dispatch(logoutRequested())}
                 >
                     <Image
-                        className="image"
+                        className="image image_icon"
                         imagePath={logoutButton}
                     />
                 </Button>

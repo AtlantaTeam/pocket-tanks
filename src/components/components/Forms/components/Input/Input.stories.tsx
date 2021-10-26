@@ -32,7 +32,7 @@ const TemplateWithLabel: ComponentStory<
         <form className="form">
             <div className="form__fields-group">
                 <Input
-                    className="input input_white"
+                    className="input input_normal"
                     placeholder="Ваш логин"
                     name="login"
                 />
@@ -48,7 +48,7 @@ const TemplateWithLabel: ComponentStory<
             </div>
             <div className="form__fields-group">
                 <Input
-                    className="input input_white"
+                    className="input input_normal"
                     placeholder="Ваш пароль"
                     name="password"
                 />
@@ -68,7 +68,7 @@ const TemplateWithLabel: ComponentStory<
 
 export const InputWhite = Template.bind({});
 InputWhite.args = {
-    className: 'input input_white',
+    className: 'input input_normal',
     placeholder: 'Pocket Tanks',
     type: 'text',
     defaultValue: 'Ввод',
@@ -82,7 +82,7 @@ InputTransparent.args = {
 
 export const InputWithLabels = TemplateWithLabel.bind({});
 InputWithLabels.args = {
-    className: 'input input_white',
+    className: 'input input_normal',
     placeholder: 'Pocket Tanks',
     type: 'text',
     defaultValue: 'Ввод',

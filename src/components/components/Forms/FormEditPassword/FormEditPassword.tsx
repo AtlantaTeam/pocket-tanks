@@ -54,7 +54,7 @@ export const FormEditPassword = () => {
                         <div className="form-tab__wrap form-tab__wrap_password">
                             <div className="form-tab__block">
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Введите старый пароль"
                                     name="oldPassword"
                                     id="oldPassword"
@@ -64,7 +64,7 @@ export const FormEditPassword = () => {
                                     viewError={errors.oldPassword && touched.oldPassword}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Новый пароль"
                                     name="newPassword"
                                     id="newPassword"
@@ -74,7 +74,7 @@ export const FormEditPassword = () => {
                                     viewError={errors.newPassword && touched.newPassword}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Повторите пароль"
                                     name="secondNewPassword"
                                     id="secondNewPassword"

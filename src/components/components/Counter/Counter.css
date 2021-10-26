@@ -8,7 +8,7 @@
 }
 
 .field-counter__wrap {
-    border: 3px solid var(--white);
+    border: 3px solid var(--foreground);
     border-radius: 5px;
     display: flex;
     height: 50%;
@@ -30,8 +30,8 @@
     width: 40%;
     height: 100%;
     border: none;
-    border-right: 3px solid var(--white);
-    border-left: 3px solid var(--white);
+    border-right: 3px solid var(--foreground);
+    border-left: 3px solid var(--foreground);
     outline: none;
     font-family: "Play", sans-serif;
     font-style: normal;
@@ -59,7 +59,7 @@
     left: 6px;
     bottom: 11px;
     border: 12px solid transparent;
-    border-right: 16px solid var(--white);
+    border-right: 16px solid var(--foreground);
 }
 
 .triangle-left::after {
@@ -68,7 +68,7 @@
     bottom: 11px;
     right: 6px;
     border: 12px solid transparent;
-    border-left: 16px solid var(--white);
+    border-left: 16px solid var(--foreground);
 }
 
 input[type="number"].field-counter__input {

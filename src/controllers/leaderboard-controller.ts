@@ -1,12 +1,12 @@
-import { leaderboadAPI } from 'api/leaderboard-api';
+import { leaderboadAPI } from '../api/leaderboard-api';
 
-export const addUserResults = async (name: string, points: number) => {
+export const addUserResults = async (name: string, tankpoints: number) => {
     const response = await leaderboadAPI.add({
         data: {
-            points,
+            tankpoints,
             name,
         },
-        ratingFieldName: 'points',
+        ratingFieldName: 'tankpoints',
     });
     // console.log(response);
     return response.data;
@@ -14,7 +14,7 @@ export const addUserResults = async (name: string, points: number) => {
 
 export const getLeaderBoard = async () => {
     const response = await leaderboadAPI.getLeaderBoard({
-        ratingFieldName: 'points',
+        ratingFieldName: 'tankpoints',
         cursor: 0,
         limit: 10,
     });

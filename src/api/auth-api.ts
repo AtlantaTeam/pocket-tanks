@@ -1,8 +1,7 @@
-import axios, { AxiosTransformer } from 'axios';
-import { httpToServer, HTTPService, httpToAPI } from '../modules/http-service/http-service';
-import { AUTH_ROUTES, OAUTH_AUTHORIZE_URL } from '../constants/api-routes';
+import { HTTPService, httpToAPI, httpToServer } from '../modules/http-service/http-service';
+import { AUTH_ROUTES } from '../constants/api-routes';
 import type {
-    UserInfoResponse, IDResponse, EmptyResponse, OAuthServiceIdResponse,
+    EmptyResponse, IDResponse, OAuthServiceIdResponse, UserInfoResponse,
 } from './types';
 import { OAuthData } from './types';
 
@@ -37,11 +36,11 @@ export class AuthAPI {
         );
     }
 
-    login(formData: FormData, isCleanCookies = false) {
+    login(formData: FormData) {
         return this.http.request.post<EmptyResponse>(
             AUTH_ROUTES.LOGIN,
             formData,
-            isCleanCookies ? this.http.configFormDataAsJSONAndCleanCookies : this.http.configFormDataAsJSON,
+            this.http.configFormDataAsJSON,
         );
     }
 
