@@ -91,7 +91,7 @@ const serverApp = https
 const initDB = async () => {
     // console.log(process.env);
     try {
-        if (IS_POPULATE_DB !== 'false') {
+        if (IS_POPULATE_DB === 'true') {
             await sequelize.sync({ force: true });
             try {
                 await populateDB();
