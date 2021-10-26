@@ -9,7 +9,7 @@ export interface ForumInputProps {
     onChange: (text: string) => void;
 }
 
-export const ForumInput = (props: ForumInputProps) => (
+export const ForumInput = React.forwardRef((props: ForumInputProps, ref: React.ForwardedRef<HTMLTextAreaElement>) => (
     <>
         {props.type === 'text'
             ? (
@@ -23,6 +23,7 @@ export const ForumInput = (props: ForumInputProps) => (
                 />
             ) : (
                 <textarea
+                    ref={ref}
                     className={`forum-input forum-input_${props.type}`}
                     maxLength={350}
                     placeholder={props.placeholder}
@@ -31,4 +32,4 @@ export const ForumInput = (props: ForumInputProps) => (
                 />
             )}
     </>
-);
+));

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Popup, PopupProps } from '../../Popup/Popup';
 import { ForumInput } from '../ForumInput/ForumInput';
@@ -15,6 +15,13 @@ export interface NewSimpleModalProps {
 export const NewSimpleModal = (props: NewSimpleModalProps) => {
     const [titleText, setTitleText] = useState<string>('');
     const [messageText, setMessageText] = useState<string>('');
+    const [selection, keepSelection] = useState<[number, number]>([0, 0]);
+
+    const textareaRef = React.createRef<HTMLTextAreaElement>();
+
+    useEffect(() => {
+        textareaRef.current?.setSelectionRange(...selection);
+    }, [selection]);
 
     return (
         <Popup
@@ -39,6 +46,7 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                     onChange={setTitleText}
                 />
                 <ForumInput
+                    ref={textareaRef}
                     type="textarea"
                     placeholder="Сообщение"
                     text={messageText}
@@ -46,7 +54,13 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                 />
                 <EmojiBar
                     onSelect={(emoji: string) => {
-                        setMessageText(messageText + emoji);
+                        if (!textareaRef.current) {
+                            return;
+                        }
+                        const { selectionStart: start, selectionEnd: end } = textareaRef.current;
+                        const text = `${messageText.slice(0, start)}${emoji}${messageText.slice(end)}`;
+                        setMessageText(text);
+                        keepSelection([start + 2, start + 2]);
                     }}
                 />
             </>
