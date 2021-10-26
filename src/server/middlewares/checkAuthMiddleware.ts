@@ -16,6 +16,7 @@ export const checkAuth = () => (
 ) => {
     const { authCookie, uuid } = req.cookies;
     if (authCookie && uuid) {
+        console.log('req.cookies:checkAuth', JSON.stringify(req.cookies));
         httpToAPI.httpTransport.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
         const authServerToAPI = new AuthAPI(httpToAPI);
         const userServerToAPI = new UserAPI(httpToAPI);
