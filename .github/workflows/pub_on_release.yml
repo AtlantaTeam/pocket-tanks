@@ -29,16 +29,6 @@ jobs:
             USER: ${{ secrets.USER }}
             TAG: ${GITHUB_REF:11}
         steps:
-            - name: run ssh command to deploy
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.HOST }}
-                  username: ${{ secrets.USER }}
-                  key: ${{ secrets.SSH_KEY }}
-                  script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/${{ secrets.DOCKER_NAME }}:.+$/${{ secrets.DOCKER_NAME }}:${{ github.ref }}-${{ github.run_id }}/' docker-compose.yml && 
-                          docker-compose up --no-deps --build -d app
-        
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
@@ -52,3 +42,12 @@ jobs:
             - name: Push image to docker.io
                 # Пушим образ в registry
               run: docker push $LOGIN/$NAME:$TAG-${{ github.run_id }}
+            - name: run ssh command to deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: cd /home/$USER/pocketanks && 
+                          sed -i -E 's/---[0-9]+$/---${{ github.run_id }}/' docker-compose.yml && 
+                          docker-compose up --no-deps --build -d app
