@@ -142,7 +142,7 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
     authServerToAPI.logout()
         .then((response: AxiosResponse) => {
             res.clearCookie('authCookie');
-            res.clearCookie('uuid');
+            res.clearCookie('uuidForAuth');
             deleteUserAuth(res);
             deleteAuthServerToAPI(res);
             delete httpToAPI.httpTransport.defaults.headers.Cookie;
