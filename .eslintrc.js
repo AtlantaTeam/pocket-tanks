@@ -31,6 +31,7 @@ module.exports = {
             comments: 120,
         }],
         '@typescript-eslint/indent': ["error", 4],
+        '@typescript-eslint/no-misused-promises': 'off',
         // Indent JSX with 4 spaces
         "react/jsx-indent": ["error", 4],
         // Indent props with 4 spaces

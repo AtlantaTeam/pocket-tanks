@@ -2,7 +2,7 @@ import { LEADER_BOARD_ROUTES } from 'constants/api-routes';
 import {
     EmptyResponse, GetLeaderBoardRequest, LeaderBoardRequest, LeaderBoardResponse,
 } from './types';
-import { HTTPService, httpToAPI, httpToServer } from '../modules/http-service/http-service';
+import { HTTPService, httpToServer } from '../modules/http-service/http-service';
 
 export class LeaderBoardAPI {
     public http: HTTPService;

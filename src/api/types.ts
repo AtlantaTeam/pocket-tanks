@@ -38,7 +38,7 @@ export type EmptyRequest = undefined;
 
 export type LeaderBoardRequest = {
     data: {
-        points: number,
+        tankpoints: number,
         name: string,
     },
     ratingFieldName: string
@@ -53,6 +53,6 @@ export type GetLeaderBoardRequest = {
 export type LeaderBoardResponse = {
     data: {
         name: string,
-        points: number,
+        tankpoints: number,
     }
 }[];

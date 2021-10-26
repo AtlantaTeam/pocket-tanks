@@ -22,21 +22,15 @@ export type Route = {
     component: JSX.Element,
 };
 
+// Должен быть последним для Switch
+export const MAIN_ROUTE = {
+    name: 'Главная страница',
+    path: '/',
+    exact: true,
+    component: Main,
+};
+
 export const ROUTES = [
-    {
-        name: 'Вход',
-        path: '/login',
-        exact: true,
-        component: withAuthState(false, '/profile', Login),
-
-    },
-    {
-        name: 'Регистрация',
-        path: '/signup',
-        exact: true,
-        component: withAuthState(false, '/profile', SignUp),
-
-    },
     {
         name: 'Игра',
         path: '/game',
@@ -70,11 +64,19 @@ export const ROUTES = [
         exact: true,
         component: withAuthState(true, '/login', Forum),
     },
-    // Должен быть последним для Switch
-    {
-        name: 'Главная страница',
-        path: '/',
-        exact: true,
-        component: Main,
-    },
 ] as const;
+
+export const AUTH_MENU_ROUTES = [{
+    name: 'Вход',
+    path: '/login',
+    exact: true,
+    component: withAuthState(false, '/profile', Login),
+
+},
+{
+    name: 'Регистрация',
+    path: '/signup',
+    exact: true,
+    component: withAuthState(false, '/profile', SignUp),
+
+}] as const;

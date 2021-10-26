@@ -1,24 +1,42 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { ThreadAttributes } from 'db/models/Thread';
 
+import { MessageAttributes } from 'db/models/Message';
+import { forumAPI } from 'api/forum-api';
+import { NewSimpleModal } from 'components/components/Forum/NewSimpleModal/NewSimpleModal';
+import { useSelector } from 'react-redux';
+import { Tabs } from 'components/components/Tabs/Tabs';
+import { Spinner } from 'components/Pages/Profile/Profile';
+import { getUserNickname } from '../../../redux/selectors/user-state';
 import { Page } from '../components/Page/Page';
 import { Title } from '../../components/Title/Title';
 import { Button } from '../../components/Button/Button';
 import { Thread } from '../../components/Forum/Thread/Thread';
-import { NewThreadModal } from '../../components/Forum/NewThreadModal/NewThreadModal';
-import { NewMessageModal } from '../../components/Forum/NewMessageModal/NewMessageModal';
 
 import { sendNotificationDefault } from '../../../modules/notifications/notifications';
 
 import './Forum.css';
 
-import { dummy, MessageData } from './mock-data';
-
 export type ForumModalState = null | 'thread' | 'message';
-export type RepliedMessageId = MessageData['id'] | null;
+export type RepliedMessage = MessageAttributes | null;
+export type RepliedThread = ThreadAttributes | null;
 
 export const Forum = () => {
     const [modalState, setModalState] = useState<ForumModalState>(null);
-    const [repliedMessageId, setRepliedMessageId] = useState<RepliedMessageId>(null);
+    const [repliedMessage, setRepliedMessage] = useState<RepliedMessage>(null);
+    const [threadList, setThreadList] = useState<ThreadAttributes[]>([]);
+    const [currentThread, setCurrentThread] = useState<RepliedThread>(null);
+    const userName = useSelector(getUserNickname) || '';
+
+    useEffect(() => {
+        forumAPI.getAllThreads()
+            .then((response) => {
+                setThreadList(response.data);
+                return true;
+            }).catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     const pushThreadModal = useCallback(() => {
         setModalState('thread');
@@ -32,27 +50,80 @@ export const Forum = () => {
         setModalState(null);
     }, [setModalState]);
 
-    const sendReply = useCallback((id: string | null) => {
-        setRepliedMessageId(id);
+    const sendReply = useCallback((msg: MessageAttributes | null) => {
+        setRepliedMessage(msg);
         pushMessageModal();
-    }, [setRepliedMessageId]);
+    }, [setRepliedMessage]);
 
     const renderModal = (state: ForumModalState) => {
         switch (state) {
             case 'thread':
                 return (
-                    <NewThreadModal
-                        action={() => sendNotificationDefault('New thread')}
+                    <NewSimpleModal
+                        name="Новая тема"
+                        title="Тема"
+                        buttonText="Создать"
+                        action={(title: string, text: string) => {
+                            if (!title || !text) {
+                                sendNotificationDefault('Укажите Название и Сообщение для новой темы');
+                                return;
+                            }
+                            forumAPI.createThread({
+                                author: userName,
+                                title,
+                                messages: [{
+                                    author: userName,
+                                    title,
+                                    text,
+                                    parent_id: null,
+                                }],
+                            }).then((response) => {
+                                sendNotificationDefault('Новая тема создана');
+                                setThreadList([...threadList, response.data]);
+                                return true;
+                            }).catch((err) => {
+                                sendNotificationDefault('Ошибка');
+                            });
+                        }}
                         onCrossPress={dismissModal}
                     />
                 );
             case 'message':
                 return (
-                    <NewMessageModal
-                        action={() => sendNotificationDefault(`Reply for message ${String(repliedMessageId)}`)}
+                    <NewSimpleModal
+                        name="Новое сообщение"
+                        title="Заголовок"
+                        buttonText="Отправить"
+                        action={(title: string, text: string) => {
+                            if (!text) {
+                                sendNotificationDefault('Укажите текст сообщения!');
+                                return;
+                            }
+                            if (repliedMessage) {
+                                forumAPI.createMessage({
+                                    author: userName,
+                                    title,
+                                    text,
+                                    thread_id: repliedMessage.thread_id,
+                                    parent_id: repliedMessage.id,
+                                }).then((response) => {
+                                    sendNotificationDefault(`Reply for message ${String(repliedMessage.id)}`);
+                                    const curThread = threadList.filter(
+                                        (thread) => (thread.id === repliedMessage.thread_id),
+                                    )[0];
+                                    curThread.messages = [response.data];
+                                    setCurrentThread({ ...curThread });
+                                    return true;
+                                }).catch((err) => {
+                                    sendNotificationDefault('Ошибка создания сообщения');
+                                });
+                            } else {
+                                sendNotificationDefault('Ошибка: не выбрано сообщение');
+                            }
+                        }}
                         onCrossPress={() => {
                             dismissModal();
-                            setRepliedMessageId(null);
+                            setRepliedMessage(null);
                         }}
                     />
                 );
@@ -70,15 +141,20 @@ export const Forum = () => {
                 />
                 <div className="forum__content">
                     <div className="forum__threads-container">
-                        {dummy.map((thread) => (
-                            <Thread
-                                key={thread.id}
-                                id={thread.id}
-                                title={thread.title}
-                                messages={thread.messages}
-                                reply={(id) => sendReply(id)}
-                            />
-                        ))}
+                        {
+                            !threadList?.length
+                                ? <Spinner />
+                                : threadList.map((thread) => (
+                                    <Thread
+                                        key={thread.id}
+                                        id={thread.id}
+                                        title={thread.title}
+                                        messages={thread.messages}
+                                        updateThread={currentThread}
+                                        reply={(msg) => sendReply(msg)}
+                                    />
+                                ))
+                        }
                     </div>
                 </div>
                 <Button

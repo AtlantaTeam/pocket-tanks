@@ -12,7 +12,9 @@ import selfSigned from 'openssl-self-signed-certificate';
 import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import cookieParser from 'cookie-parser';
-
+import { sequelize } from 'db';
+import { forumRouter } from 'db/routes/forumRouter';
+import { populateDB } from 'db/seeds/seeder';
 import { csrf } from './middlewares/csrf';
 import { csp } from './middlewares/csp';
 
@@ -25,28 +27,31 @@ import { authRouter } from './routers/authRouter';
 import { errorsMiddleware } from './middlewares/errorsMiddleware';
 import { userRouter } from './routers/userRouter';
 
+const { NODE_ENV, IS_POPULATE_DB } = process.env;
+const IS_DEV = NODE_ENV === 'development';
+
 // Эта функция возвращает middleware для локального девсервера и HMR
 // Она должна работать только для режима разработки
 function getWebpackMiddlewares(
     config: webpack.Configuration,
 ): RequestHandler[] {
-    const compiler = webpack({
-        ...config,
-        mode: 'development',
-    });
+    if (IS_DEV) {
+        const compiler = webpack({
+            ...config,
+            mode: 'development',
+        });
 
-    return [
-        // Middleware для Webpack-билда проекта в реальном времени. Низкоуровневый аналог webpack-dev-server
-        devMiddleware(compiler),
-        // Middleware для HMR
-        hotMiddleware(compiler, { path: '/__webpack_hmr' }),
-    ] as RequestHandler[];
+        return [
+            // Middleware для Webpack-билда проекта в реальном времени. Низкоуровневый аналог webpack-dev-server
+            devMiddleware(compiler),
+            // Middleware для HMR
+            hotMiddleware(compiler, { path: '/__webpack_hmr' }),
+        ] as RequestHandler[];
+    }
+    return [];
 }
 
 const app = express();
-const { NODE_ENV } = process.env;
-
-const IS_DEV = NODE_ENV === 'development';
 
 const rootDir = process.cwd();
 
@@ -66,6 +71,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(checkAuth())
     .use('/', authRouter)
     .use('/', userRouter)
+    .use('/', forumRouter)
     .get(
         '/*',
         [
@@ -77,12 +83,35 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(compression)
     .use(errorsMiddleware);
 
-let serverApp = http.createServer(app);
+// let serverApp = http.createServer(app);
 
-if (IS_DEV) {
-    serverApp = https
-        .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
-}
+const serverApp = https
+    .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+
+const initDB = async () => {
+    // console.log(process.env);
+    try {
+        if (IS_POPULATE_DB !== 'false') {
+            await sequelize.sync({ force: true });
+            try {
+                await populateDB();
+                console.log('Populate DB: Ok!');
+            } catch (err) {
+                console.log('Populate DB Error: ', err);
+            }
+        } else {
+            await sequelize.sync();
+        }
+        console.log('Inited DB: Ok!');
+    } catch (err) {
+        console.log('sequelize err:', err);
+    }
+};
+initDB()
+    .then(() => true)
+    .catch((err) => {
+        console.log('Failed to init DB', err);
+    });
 
 const server = serverApp;
 

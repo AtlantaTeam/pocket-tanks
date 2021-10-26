@@ -1,0 +1,16 @@
+# docker-compose.yaml
+version: "3"
+
+services:
+    postgresdev:
+        image: postgres:12
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./postgresdata:/var/lib/postgresql/data
+            # Если у вас есть схема БД, которую можно подгрузить на старте, — передайте её
+#            - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+        restart: always
+        env_file: ./dev.env
+
+

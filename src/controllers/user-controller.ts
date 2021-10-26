@@ -1,7 +1,5 @@
 import { objectToCamel } from 'ts-case-convert';
-import { fetchUserAvatar } from '../components/Pages/fetchMethods/fetchUserAvatar';
 import { userAPI } from '../api/user-api';
-import { Avatar } from '../api/types';
 
 export const changeProfile = async (formData: FormData) => {
     const response = await userAPI.changeProfile(formData);

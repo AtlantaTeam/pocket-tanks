@@ -36,7 +36,7 @@ export const LeaderBoard = () => {
                             key={item?.data?.name}
                             className="leader-name"
                         >
-                            {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.points}`}
+                            {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.tankpoints}`}
                         </div>
                     ))
                 }

@@ -38,7 +38,10 @@ export const GameModes = {
     MOVE: 'move',
 };
 
-const getWorker = () => (isServer ? false : new Worker(new URL('./Worker', import.meta.url)));
+const getWorker = () => (isServer || !window.Worker || !window.OffscreenCanvasRenderingContext2D
+    ? false
+    : new Worker(new URL('./Worker', import.meta.url))
+);
 const worker = getWorker();
 
 const isSoundOn = () => {

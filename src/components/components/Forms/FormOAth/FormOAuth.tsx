@@ -20,7 +20,7 @@ export const FormOAuth = () => {
                 setClientServiceId(serviceId);
                 return serviceId;
             }).catch((err) => {
-
+                console.log(err);
             });
     }, [clientServiceId]);
 
