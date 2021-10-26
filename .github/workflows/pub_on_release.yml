@@ -36,7 +36,7 @@ jobs:
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/$NAME:.+$/$NAME:$TAG-${{ github.run_id }}/' docker-compose.yml && 
+                          sed -i -E 's/${{ secrets.DOCKER_NAME }}:.+$/${{ secrets.DOCKER_NAME }}:${{ github.ref }}-${{ github.run_id }}/' docker-compose.yml && 
                           docker-compose up --no-deps --build -d app
         
             - name: Login to docker.io
