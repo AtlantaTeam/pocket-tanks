@@ -30,6 +30,10 @@ export type IDResponse = {
     id: number;
 };
 
+export type ThemeResponse = {
+    theme: string;
+};
+
 export type EmptyResponse = undefined;
 
 export type ErrorResponse = AxiosError;

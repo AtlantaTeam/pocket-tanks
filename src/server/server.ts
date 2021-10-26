@@ -13,7 +13,7 @@ import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import cookieParser from 'cookie-parser';
 import { sequelize } from 'db';
-import { forumRouter } from 'db/routes/forumRouter';
+import { dbRouter } from 'db/routes/dbRouter';
 import { populateDB } from 'db/seeds/seeder';
 import { csrf } from './middlewares/csrf';
 import { csp } from './middlewares/csp';
@@ -71,7 +71,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(checkAuth())
     .use('/', authRouter)
     .use('/', userRouter)
-    .use('/', forumRouter)
+    .use('/', dbRouter)
     .get(
         '/*',
         [

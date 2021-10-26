@@ -1,5 +1,5 @@
 .tab-panels {
-    color: #fff;
+    color: var(--foreground);
     margin-top: 30px;
     width: 600px;
 }
@@ -7,7 +7,7 @@
 .tab-list {
     width: 600px;
     height: 50px;
-    border: 3px solid #ffffff;
+    border: 3px solid var(--foreground);
     box-sizing: border-box;
     border-radius: 5px;
     display: flex;
@@ -18,7 +18,7 @@
 
 .tab {
     background-color: transparent;
-    color: #fff;
+    color: var(--foreground);
     line-height: 40px;
     border-radius: 1px;
     border: none;
@@ -35,6 +35,6 @@
 }
 
 .tab_selected {
-    background-color: var(--white);
-    color: var(--black);
+    background-color: var(--foreground);
+    color: var(--background);
 }

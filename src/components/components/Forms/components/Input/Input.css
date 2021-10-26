@@ -13,24 +13,24 @@
     cursor: pointer;
 }
 
-.input_white {
-    color: #121210;
+.input_normal {
+    color: var(--background);
     margin-top: 5px;
     margin-bottom: 5px;
-    background-color: var(--white);
+    background-color: var(--foreground);
 }
 
-.input_white::placeholder {
-    color: #aaa9ad;
+.input_normal::placeholder {
+    color: var(--placeholder);
 }
 
-.input_black {
-    color: #fff;
-    border: 1px solid #fff;
+.input_inverted {
+    color: var(--foreground);
+    border: 1px solid var(--foreground);
 }
 
-.input_black::placeholder {
-    color: #aaa9ad;
+.input_inverted::placeholder {
+    color: var(--placeholder);
     opacity: .3;
 }
 

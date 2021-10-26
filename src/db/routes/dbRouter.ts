@@ -5,9 +5,9 @@ import { UserVotes } from 'db/models/UserVotes';
 import { Op } from 'sequelize';
 import { Thread } from '../models/Thread';
 
-export const forumRouter = Router();
+export const dbRouter = Router();
 
-forumRouter.post('/thread/create', async (req, res, next) => {
+dbRouter.post('/thread/create', async (req, res, next) => {
     try {
         res.status(201).json(await Thread.create(req.body, {
             include: [{ model: Message }],
@@ -17,7 +17,7 @@ forumRouter.post('/thread/create', async (req, res, next) => {
     }
 });
 
-forumRouter.get('/thread/:id/messages', async (req, res, next) => {
+dbRouter.get('/thread/:id/messages', async (req, res, next) => {
     try {
         res.json(
             await Message.findAll({
@@ -31,7 +31,7 @@ forumRouter.get('/thread/:id/messages', async (req, res, next) => {
     }
 });
 
-forumRouter.post('/message/create', async (req, res, next) => {
+dbRouter.post('/message/create', async (req, res, next) => {
     try {
         res.status(201).json(await Message.create(req.body));
     } catch (e) {
@@ -39,7 +39,7 @@ forumRouter.post('/message/create', async (req, res, next) => {
     }
 });
 
-forumRouter.post('/message/:id/vote', async (req, res, next) => {
+dbRouter.post('/message/:id/vote', async (req, res, next) => {
     try {
         const { ratingVote, userId } = req.body;
         if (!ratingVote) {
@@ -88,7 +88,7 @@ forumRouter.post('/message/:id/vote', async (req, res, next) => {
     }
 });
 
-forumRouter.get('/threads', async (req, res, next) => {
+dbRouter.get('/threads', async (req, res, next) => {
     try {
         res.json(await Thread.findAll());
     } catch (e) {
@@ -96,9 +96,37 @@ forumRouter.get('/threads', async (req, res, next) => {
     }
 });
 
-forumRouter.get('/thread/:id', async (req, res, next) => {
+dbRouter.get('/thread/:id', async (req, res, next) => {
     try {
         res.json(await Thread.findByPk(req.params.id));
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.get('/user/:id/theme', async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: { remote_id: req.params.id },
+        });
+        res.json({ theme: user?.get('theme') || 'night' });
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.post('/user/:id/theme', async (req, res, next) => {
+    try {
+        const { theme } = req.body;
+        const user = await User.findOne({
+            where: { remote_id: req.params.id },
+        });
+        if (user) {
+            user.set('theme', theme);
+            res.status(201).json(await user.save());
+        } else {
+            throw new Error('Failed to set theme');
+        }
     } catch (e) {
         next(e);
     }

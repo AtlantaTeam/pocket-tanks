@@ -1,6 +1,7 @@
 import { HTTPService, httpToServer } from '../modules/http-service/http-service';
 import { USER_ROUTES } from '../constants/api-routes';
 import type { UserInfoResponse, EmptyResponse } from './types';
+import { ThemeResponse } from './types';
 
 export class UserAPI {
     public http: HTTPService;
@@ -35,6 +36,24 @@ export class UserAPI {
     getUserAvatar() {
         return this.http.request.get<string>(
             USER_ROUTES.GET_AVATAR,
+        );
+    }
+
+    getTheme(userId: number) {
+        return this.http.request.get<ThemeResponse>(
+            USER_ROUTES.THEME(userId),
+        );
+    }
+
+    setTheme(userId: number, theme: string) {
+        return this.http.request.post<EmptyResponse>(
+            USER_ROUTES.THEME(userId),
+            { theme },
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                },
+            },
         );
     }
 }

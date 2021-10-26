@@ -27,6 +27,7 @@ export const USER_ROUTES = {
     CHANGE_AVATAR: '/user/profile/avatar',
     CHANGE_PASSWORD: '/user/password',
     GET_AVATAR: '/user/avatar',
+    THEME: (id: number) => (`/user/${id}/theme`),
 } as const;
 
 export type UserRoute = typeof USER_ROUTES[keyof typeof USER_ROUTES];
