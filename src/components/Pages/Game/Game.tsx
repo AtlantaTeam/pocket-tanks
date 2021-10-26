@@ -5,7 +5,6 @@ import { Image } from 'components/components/Image/Image';
 import gamePlayMusic from 'audio/gameplay.mp3';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
-import { RESOURCES_BASE_URL } from 'constants/api-routes';
 import { floor, rotateFigure } from 'utils/canvas';
 import { SoundButton } from 'components/components/SoundButton/SoundButton';
 import { addUserResults } from '../../../controllers/leaderboard-controller';
@@ -28,7 +27,11 @@ import {
     getWeapons,
 } from '../../../redux/selectors/game-state';
 import {
-    changeAngle, changeEnemyPoints, changeMoves, changePlayerPoints, changePower,
+    changeAngle,
+    changeEnemyPoints,
+    changeMoves,
+    changePlayerPoints,
+    changePower,
     increaseAngle,
     increaseEnemyPoints,
     increasePlayerPoints,
@@ -251,7 +254,7 @@ const Game = () => {
         <>
             <div className="game_wrapper">
                 <canvas
-                    className="canvas canvas_light"
+                    className="canvas"
                     ref={canvasRef}
                     onMouseMove={(e) => {
                         if (game.leftTank?.isActive && !game.isFireMode && game.ctx) {

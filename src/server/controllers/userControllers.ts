@@ -9,6 +9,8 @@ import {
 } from 'server/utils/userLocals';
 import { getUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import { objectToCamel } from 'ts-case-convert';
+import { Thread } from 'db/models/Thread';
+import { dbRouter } from 'db/routes/dbRouter';
 import {
     BASE_URL,
     RESOURCES_BASE_URL,

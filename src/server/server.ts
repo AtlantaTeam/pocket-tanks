@@ -13,7 +13,7 @@ import devMiddleware from 'webpack-dev-middleware';
 import hotMiddleware from 'webpack-hot-middleware';
 import cookieParser from 'cookie-parser';
 import { sequelize } from 'db';
-import { forumRouter } from 'db/routes/forumRouter';
+import { dbRouter } from 'db/routes/dbRouter';
 import { populateDB } from 'db/seeds/seeder';
 import { csrf } from './middlewares/csrf';
 import { csp } from './middlewares/csp';
@@ -71,7 +71,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(checkAuth())
     .use('/', authRouter)
     .use('/', userRouter)
-    .use('/', forumRouter)
+    .use('/', dbRouter)
     .get(
         '/*',
         [
@@ -83,15 +83,16 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(compression)
     .use(errorsMiddleware);
 
-// let serverApp = http.createServer(app);
-
-const serverApp = https
-    .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+let serverApp = http.createServer(app);
+if (IS_DEV) {
+    serverApp = https
+        .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+}
 
 const initDB = async () => {
-    // console.log(process.env);
+    console.log(process.env);
     try {
-        if (IS_POPULATE_DB !== 'false') {
+        if (IS_POPULATE_DB === 'true') {
             await sequelize.sync({ force: true });
             try {
                 await populateDB();

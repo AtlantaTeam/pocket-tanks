@@ -46,7 +46,7 @@ export const SoundButton = (props: SoundProps) => {
             }}
         >
             <Image
-                className="image"
+                className="image image_icon"
                 imagePath={isSound ? imageSoundOn : imageSoundOff}
             />
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}

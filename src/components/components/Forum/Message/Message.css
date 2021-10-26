@@ -1,13 +1,13 @@
 .message {
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--white);
+    border: 1px solid var(--foreground);
     border-radius: 5px;
     padding: 10px 16px;
     margin-bottom: 10px;
     font-family: 'Play', sans-serif;
     font-size: 18px;
-    color: var(--white);
+    color: var(--foreground);
     overflow: hidden;
 }
 
@@ -49,14 +49,14 @@
 
 .message__vote_up {
     border-top: none;
-    border-bottom: 11px solid var(--white);
+    border-bottom: 11px solid var(--foreground);
     &:hover {
         border-bottom-color: var(--main);
     }
 }
 
 .message__vote_down {
-    border-top: 11px solid var(--white);
+    border-top: 11px solid var(--foreground);
     border-bottom: none;
     &:hover {
         border-top-color: var(--main);

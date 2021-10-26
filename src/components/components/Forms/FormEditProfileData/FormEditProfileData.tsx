@@ -74,7 +74,7 @@ export const FormEditProfileData = () => {
                         <div className="form-tab__wrap form-tab__wrap_password">
                             <div className="form-tab__block">
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваше имя в игре"
                                     name="display_name"
                                     id="display_name"
@@ -84,7 +84,7 @@ export const FormEditProfileData = () => {
                                     viewError={errors.display_name && touched.display_name}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваш e-mail"
                                     name="email"
                                     id="email"
@@ -94,7 +94,7 @@ export const FormEditProfileData = () => {
                                     viewError={errors.email && touched.email}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваш логин"
                                     name="login"
                                     id="login"
@@ -104,7 +104,7 @@ export const FormEditProfileData = () => {
                                     viewError={errors.login && touched.login}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваше имя"
                                     name="first_name"
                                     id="first_name"
@@ -114,7 +114,7 @@ export const FormEditProfileData = () => {
                                     viewError={errors.first_name && touched.first_name}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваша фамилия"
                                     name="second_name"
                                     id="second_name"
@@ -124,7 +124,7 @@ export const FormEditProfileData = () => {
                                     viewError={errors.second_name && touched.second_name}
                                 />
                                 <FieldSet
-                                    className="input input_black"
+                                    className="input input_inverted"
                                     placeholder="Ваш телефон"
                                     name="phone"
                                     id="phone"

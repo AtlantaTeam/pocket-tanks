@@ -1,12 +1,12 @@
-# docker-compose.yaml
+# docker-compose.yml
 version: "3"
 
 services:
     app:
-        # Этим ключом мы скажем docker-compose, чтобы он собирал докерфайл, который
-        # находится в папке рядом с docker-compose.yaml
-        build:
-            context: .
+        image: akkord/pocketanks:POCKET-TANKS-31-39-40
+
+#        build:
+#            context: .
         # Зависимость от сервиса postgres
         depends_on:
             - postgres
