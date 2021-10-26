@@ -26,6 +26,7 @@ jobs:
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
             NAME: ${{ secrets.DOCKER_NAME }}
+            USER: ${{ secrets.USER }}
         steps:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
@@ -40,3 +41,10 @@ jobs:
             - name: Push image to docker.io
                 # Пушим образ в registry
               run: docker push $LOGIN/$NAME:${GITHUB_REF:11}
+            - name: run ssh command to deploy
+              uses: appleboy/ssh-action@master
+              with:
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USER }}
+                key: ${{ secrets.SSH_KEY }}
+                script: cat /home/$USER/package.json
