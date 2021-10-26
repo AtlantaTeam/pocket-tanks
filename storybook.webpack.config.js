@@ -21,6 +21,8 @@ module.exports = {
             constants: path.join(__dirname, 'src/constants'),
             assets: path.join(__dirname, 'static/assets'),
             images: path.join(__dirname, 'static/images'),
+            audio: path.join(__dirname, 'static/audio'),
+            controllers: path.join(__dirname, 'src/contollers'),
         },
     },
     output: {

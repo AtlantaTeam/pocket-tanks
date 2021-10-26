@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { OAUTH_AUTHORIZE_URL, SERVER_URL } from 'constants/api-routes';
 import { objectToCamel } from 'ts-case-convert';
-import { authAPIDirectToAPI } from 'api/auth-api';
+import { authAPIDirectToAPI } from '../../../../api/auth-api';
 import { Button } from '../../Button/Button';
 
 import { Image } from '../../Image/Image';

@@ -5,10 +5,10 @@ import { Image } from 'components/components/Image/Image';
 import gamePlayMusic from 'audio/gameplay.mp3';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
-import { RESOURCES_BASE_URL } from 'constants/api-routes';
 import { floor, rotateFigure } from 'utils/canvas';
 import { SoundButton } from 'components/components/SoundButton/SoundButton';
-import { addUserResults } from 'controllers/leaderboard-controller';
+import { addUserResults } from '../../../controllers/leaderboard-controller';
+import { avatarFulfilled } from '../../../redux/actions/user-state/get-avatar';
 import { GameModes, GamePlay, TanksWeapons } from './GamePlay';
 import './Game.css';
 import { Button } from '../../components/Button/Button';
@@ -27,7 +27,11 @@ import {
     getWeapons,
 } from '../../../redux/selectors/game-state';
 import {
-    changeAngle, changeEnemyPoints, changeMoves, changePlayerPoints, changePower,
+    changeAngle,
+    changeEnemyPoints,
+    changeMoves,
+    changePlayerPoints,
+    changePower,
     increaseAngle,
     increaseEnemyPoints,
     increasePlayerPoints,
@@ -35,7 +39,8 @@ import {
     selectWeapon,
     setWeapons,
 } from '../../../redux/actions/game-state';
-import { getUserAvatar, getUserNickname } from '../../../redux/selectors/user-state';
+import { getUserAvatar, getUserAvatarResourse, getUserNickname } from '../../../redux/selectors/user-state';
+import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
     const weapons: Weapon[] = [];
@@ -73,7 +78,8 @@ const Game = () => {
     const enemyPoints = useSelector(getEnemyPoints);
     const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
-    const avatarPath = avatar ? `${RESOURCES_BASE_URL}${avatar}` : imgAvatarPlaceHolder;
+    const userAvatarResourse = useSelector(getUserAvatarResourse);
+    const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
         const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
         activeTank.power = power;
@@ -89,6 +95,24 @@ const Game = () => {
             dispatch(removeWeaponById(selectedWeapon.id));
         }
     };
+
+    const [avatarImgState, setAvatarImg] = useState({ img: avatarPath });
+
+    useEffect(() => {
+        if (!avatar && userAvatarResourse) {
+            getUserAvatarController()
+                .then((data) => {
+                    setAvatarImg({ img: data });
+                    dispatch(avatarFulfilled(data));
+                    return data;
+                })
+                .catch((err) => {
+                    throw new Error(err);
+                });
+        } else {
+            setAvatarImg({ img: avatarPath });
+        }
+    }, []);
 
     useEffect(() => {
         if (isStart) {
@@ -230,7 +254,7 @@ const Game = () => {
         <>
             <div className="game_wrapper">
                 <canvas
-                    className="canvas canvas_light"
+                    className="canvas"
                     ref={canvasRef}
                     onMouseMove={(e) => {
                         if (game.leftTank?.isActive && !game.isFireMode && game.ctx) {
@@ -253,7 +277,7 @@ const Game = () => {
                 <div className="controls_wrapper">
                     <div className="avatar_group-left">
                         <div className="player_name color-main">{userName}</div>
-                        <Image className="image_avatar" imagePath={avatarPath} />
+                        <Image className="image_avatar" imagePath={avatarImgState.img} />
                         <div className="player_points">{playerPoints}</div>
                     </div>
                     <div className="control_buttons">

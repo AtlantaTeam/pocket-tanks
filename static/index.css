@@ -12,14 +12,28 @@ body {
     --overlay_warning-op15: #f9a60026;
     --overlay-fade-op85: #000000d9;
 
+    --game_background: linear-gradient(
+        to bottom,
+        #154277 0%,
+        #576e71 30%,
+        #e1c45e 70%,
+        #b26339 100%
+    );
     --background: #121210;
     --foreground: #ffffff;
     --placeholder: #aaa9ad;
     --icon-filter: none;
 }
 
-:root [data-theme="alternative"] {
-    --background: #ececec;
+:root [data-theme="light"] {
+    --game_background: linear-gradient(
+        to bottom,
+        #79b1f5 0%,
+        #88c2c9 30%,
+        #e1c45e 70%,
+        #b26339 100%
+    );
+    --background: #d9d8d8;
     --foreground: #0c0c0c;
     --placeholder: #6c6464;
     --icon-filter: invert(95%);

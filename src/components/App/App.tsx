@@ -19,8 +19,6 @@ import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
-
-import { checkStateRequested } from '../../redux/actions/user-state/check-state';
 import { cleanError } from '../../redux/actions/user-state/clean-error';
 import { getErrorText } from '../../redux/selectors/user-state';
 
@@ -29,30 +27,9 @@ export const App = () => {
 
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(checkStateRequested());
-    // }, []);
-
     return (
         <div className="app">
             <MenuComponent />
-            <Switch>
-                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map((item) => (
-                    <Route
-                        exact
-                        path={item.link}
-                        key={`${item.name}-route`}
-                    >
-                        <ErrorBoundary
-                            key={`${item.name}-error`}
-                        >
-                            <item.component
-                                key={`${item.name}-component`}
-                            />
-                        </ErrorBoundary>
-                    </Route>
-                ))}
-            </Switch>
             <FullscreenButton />
             <ThemeSwitch />
             <Popup
@@ -67,6 +44,23 @@ export const App = () => {
             />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <ToastContainer {...toastContainerProps} />
+            <Switch>
+                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map(({ ...item }) => (
+                    <Route
+                        key={`${item.name}-route`}
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...item}
+                    >
+                        <ErrorBoundary
+                            key={`${item.name}-error`}
+                        >
+                            <item.component
+                                key={`${item.name}-component`}
+                            />
+                        </ErrorBoundary>
+                    </Route>
+                ))}
+            </Switch>
         </div>
     );
 };

@@ -9,28 +9,10 @@
     height: calc(100vh - 300px);
     width: calc(100vw - 150px);
     margin: 0 auto;
-}
-
-.canvas_light {
-    /* день */
-    background: linear-gradient(
-        to bottom,
-        #79b1f5 0%,
-        #88c2c9 30%,
-        #e1c45e 70%,
-        #b26339 100%
-    );
-}
-
-.canvas_dark {
-    /* вечер */
-    background: linear-gradient(
-        to bottom,
-        #154277 0%,
-        #576e71 30%,
-        #e1c45e 70%,
-        #b26339 100%
-    );
+    background: var(--game_background);
+    border: 3px solid var(--foreground);
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .controls_wrapper {

@@ -9,10 +9,10 @@ RUN apt update && apt install -y netcat
 WORKDIR /var/www
 
 # Копируем wait-for
-#COPY utils/wait-for.sh wait-for.sh
+COPY utils/wait-for.sh wait-for.sh
 
 # даём ему прав на запуск
-#RUN chmod +x wait-for.sh
+RUN chmod +x wait-for.sh
 
 COPY ./dist dist
 
@@ -26,4 +26,4 @@ RUN npm i --only=prod
 
 EXPOSE $PORT
 
-CMD node index.js
+#CMD node index.js

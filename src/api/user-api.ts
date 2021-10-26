@@ -1,8 +1,9 @@
-import { httpToAPI, HTTPService } from '../modules/http-service/http-service';
+import { HTTPService, httpToServer } from '../modules/http-service/http-service';
 import { USER_ROUTES } from '../constants/api-routes';
 import type { UserInfoResponse, EmptyResponse } from './types';
+import { ThemeResponse } from './types';
 
-class UserAPI {
+export class UserAPI {
     public http: HTTPService;
 
     constructor(httpInstance: HTTPService) {
@@ -31,6 +32,30 @@ class UserAPI {
             this.http.configFormDataAsJSON,
         );
     }
+
+    getUserAvatar() {
+        return this.http.request.get<string>(
+            USER_ROUTES.GET_AVATAR,
+        );
+    }
+
+    getTheme(userId: number) {
+        return this.http.request.get<ThemeResponse>(
+            USER_ROUTES.THEME(userId),
+        );
+    }
+
+    setTheme(userId: number, theme: string) {
+        return this.http.request.post<EmptyResponse>(
+            USER_ROUTES.THEME(userId),
+            { theme },
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                },
+            },
+        );
+    }
 }
 
-export const userAPI = new UserAPI(httpToAPI);
+export const userAPI = new UserAPI(httpToServer);
