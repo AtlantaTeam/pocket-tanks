@@ -83,10 +83,11 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use(compression)
     .use(errorsMiddleware);
 
-// let serverApp = http.createServer(app);
-
-const serverApp = https
-    .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+let serverApp = http.createServer(app);
+if (IS_DEV) {
+    serverApp = https
+        .createServer({ key: selfSigned.key, cert: selfSigned.cert }, app);
+}
 
 const initDB = async () => {
     // console.log(process.env);

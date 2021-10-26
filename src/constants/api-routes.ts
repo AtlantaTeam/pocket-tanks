@@ -7,9 +7,7 @@ export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
 export const OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
 
-// поменять при деплои в облако
-export const SERVER_URL = IS_DEV ? 'https://localhost:5000' : 'https://localhost:5000';
-// https://pocketanks.herokuapp.com
+export const SERVER_URL = IS_DEV ? 'https://localhost:5000/' : 'https://atlanta-pocketanks-07.ya-praktikum.tech/';
 
 export const AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',
