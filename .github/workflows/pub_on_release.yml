@@ -27,7 +27,18 @@ jobs:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
             NAME: ${{ secrets.DOCKER_NAME }}
             USER: ${{ secrets.USER }}
+            TAG: ${GITHUB_REF:11}
         steps:
+            - name: run ssh command to deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: cd /home/$USER/pocketanks && 
+                          sed -i -E 's/$NAME:.+$/$NAME:$TAG-${{ github.run_id }}/' docker-compose.yml && 
+                          docker-compose up --no-deps --build -d app
+        
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
@@ -37,16 +48,7 @@ jobs:
               run: npm i && npm run build
             - name: Build image
                 # Собираем image и называем его так как указано в hub.docker т.е. login/repository:version
-              run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11}-${{ github.run_id }} -f Dockerfile .
+              run: docker build -t $LOGIN/$NAME:$TAG-${{ github.run_id }} -f Dockerfile .
             - name: Push image to docker.io
                 # Пушим образ в registry
-              run: docker push $LOGIN/$NAME:${GITHUB_REF:11}-${{ github.run_id }}
-            - name: run ssh command to deploy
-              uses: appleboy/ssh-action@master
-              with:
-                  host: ${{ secrets.HOST }}
-                  username: ${{ secrets.USER }}
-                  key: ${{ secrets.SSH_KEY }}
-                  script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/$NAME:${GITHUB_REF:11}.+$/$NAME:${GITHUB_REF:11}-${{ github.run_id }}/' docker-compose.yml && 
-                          docker-compose up --no-deps --build -d app
+              run: docker push $LOGIN/$NAME:$TAG-${{ github.run_id }}
