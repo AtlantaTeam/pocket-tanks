@@ -9,23 +9,24 @@ on:
     workflow_dispatch:
 
 jobs:
-#    run_tests:
-#        runs-on: [ubuntu-latest]
-#        steps:
-#            # Чекаутим код
-#            - uses: actions/checkout@v2
-#            - name: Install packages
-#              run: npm i
+    #    run_tests:
+    #        runs-on: [ubuntu-latest]
+    #        steps:
+    #            # Чекаутим код
+    #            - uses: actions/checkout@v2
+    #            - name: Install packages
+    #              run: npm i
     #            - name: Run tests
     #              run: npm run validate
 
     build_and_pub:
         # Если тесты были пройдены успешно
-#        needs: [run_tests]
+        #        needs: [run_tests]
         runs-on: [ubuntu-latest]
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
             NAME: ${{ secrets.DOCKER_NAME }}
+            USER: ${{ secrets.USER }}
         steps:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
@@ -40,3 +41,10 @@ jobs:
             - name: Push image to docker.io
                 # Пушим образ в registry
               run: docker push $LOGIN/$NAME:${GITHUB_REF:11}
+            - name: run ssh command to deploy
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.SSH_KEY }}
+                  script: cd /home/$USER/pocketanks && docker-compose build app && docker-compose up --no-deps -d app
