@@ -3,19 +3,10 @@ import axios, { AxiosResponse } from 'axios';
 import fs from 'fs';
 import formidable from 'formidable';
 import FormData from 'form-data';
-import {
-    getUserInfo,
-    setUserInfo,
-} from 'server/utils/userLocals';
+import { getUserInfo, setUserInfo } from 'server/utils/userLocals';
 import { getUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import { objectToCamel } from 'ts-case-convert';
-import { Thread } from 'db/models/Thread';
-import { dbRouter } from 'db/routes/dbRouter';
-import {
-    BASE_URL,
-    RESOURCES_BASE_URL,
-    USER_ROUTES,
-} from '../../constants/api-routes';
+import { BASE_URL, RESOURCES_BASE_URL, USER_ROUTES } from '../../constants/api-routes';
 
 export const changeProfileController = (
     req: Request,
@@ -65,8 +56,8 @@ export const changeAvatarController = (
             },
         );
 
-        const { authCookie, uuid } = req.cookies;
-        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookieForAuth, uuidForAuth } = req.cookies;
+        axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         axios.defaults.withCredentials = true;
         axios.defaults.headers['content-type'] = req.headers['content-type'];
         // eslint-disable-next-line promise/no-promise-in-callback
@@ -115,8 +106,8 @@ export const getUserAvatarController = (
 ) => {
     const userInfo = getUserInfo(res);
     if (userInfo && 'avatar' in userInfo) {
-        const { authCookie, uuid } = req.cookies;
-        axios.defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookieForAuth, uuidForAuth } = req.cookies;
+        axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         axios.defaults.withCredentials = true;
         axios
             .get(

@@ -28,7 +28,6 @@ export const serverRenderMiddleware = (
     next: NextFunction,
 ) => {
     const location = req.url;
-    const xsrf = req.csrfToken();
     const context: StaticRouterContext = {};
 
     const { store } = initializeStore(
@@ -40,9 +39,9 @@ export const serverRenderMiddleware = (
         const userInfo = getUserInfo(res);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
-        const { authCookie, uuid } = req.cookies;
-        if (authCookie && uuid) {
-            const cookie = `authCookie=${authCookie as string}; uuid=${uuid as string}`;
+        const { authCookieForAuth, uuidForAuth } = req.cookies;
+        if (authCookieForAuth && uuidForAuth) {
+            const cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
             store.dispatch(setAuthCookie(cookie));
         }
     }
@@ -50,7 +49,10 @@ export const serverRenderMiddleware = (
     const renderApp = () => {
         const jsx = (
             <Provider store={store}>
-                <StaticRouter context={context} location={location}>
+                <StaticRouter
+                    context={context}
+                    location={location}
+                >
                     <App />
                 </StaticRouter>
             </Provider>
@@ -63,7 +65,6 @@ export const serverRenderMiddleware = (
             return;
         }
         res
-            .cookie('XSRF-TOKEN', xsrf)
             .status(context.statusCode || 200)
             .send(getHtml(reactHtml, reduxState));
     };
@@ -90,9 +91,7 @@ export const serverRenderMiddleware = (
                     storeItem: store,
                     match,
                 };
-                dataRequirements.push(
-                    fetchMethod(data),
-                );
+                dataRequirements.push(fetchMethod(data));
             }
             return Boolean(match);
         }
@@ -122,7 +121,9 @@ function getHtml(reactHtml: string, reduxState = {}) {
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
-                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+                window.__INITIAL_STATE__ = ${JSON.stringify(
+        reduxState,
+    )}
             </script>
             <script defer src="/main.js"></script>
         </body>
