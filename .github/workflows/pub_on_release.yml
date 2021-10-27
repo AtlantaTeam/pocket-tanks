@@ -50,5 +50,5 @@ jobs:
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/:${{ env.RELEASE_VERSION }}---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
+                          sed -i -E 's/:[a-zA-Z-]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
                           docker-compose up --no-deps --build -d app
