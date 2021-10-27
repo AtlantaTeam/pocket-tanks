@@ -2,12 +2,8 @@ import path from 'path';
 import webpack, { Configuration, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-import {
-    IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR,
-} from './env';
+import { IS_DEV, SRC_DIR, STATIC_DIR } from './env';
 
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
@@ -47,12 +43,17 @@ export const clientConfig: Configuration = {
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: IS_DEV ? '"development"' : '"production"',
+            },
+        }),
         new MiniCssExtractPlugin({
             filename: 'css/style.css',
         }),
         // Plugin для HMR
-        new webpack.HotModuleReplacementPlugin(),
-    ].filter(Boolean),
+        IS_DEV && (new webpack.HotModuleReplacementPlugin()),
+    ].filter(Boolean) as any,
 
     devtool: 'source-map',
 

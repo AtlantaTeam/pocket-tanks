@@ -3,7 +3,7 @@ version: "3"
 
 services:
     app:
-        image: akkord/pocketanks:POCKET-TANKS-COOKIE---1387110714
+        image: akkord/pocketanks:POCKET-TANKS-COOKIE---1387808588
 
         #        build:
 #            context: .
