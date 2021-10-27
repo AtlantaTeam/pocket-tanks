@@ -34,7 +34,9 @@ jobs:
                 # Чекаутим код 
             - uses: actions/checkout@v2
             - name: Set env
-              run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+              run: echo "RELEASE_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+            - name: Set env
+              run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
             - name: Make dist
               run: npm i && npm run build
             - name: Build image
@@ -50,5 +52,5 @@ jobs:
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/:[a-zA-Z-]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
+                          sed -i -E 's/:[a-zA-Z-0-9.]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
                           docker-compose up --no-deps --build -d app
