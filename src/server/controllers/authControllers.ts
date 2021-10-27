@@ -53,11 +53,11 @@ export const loginController = (req: Request, res: Response, next: NextFunction)
 };
 
 export const addUserResultsController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuidForAuth } = req.cookies;
-    if (authCookie && uuidForAuth) {
+    const { authCookieForAuth, uuidForAuth } = req.cookies;
+    if (authCookieForAuth && uuidForAuth) {
         httpToAPI
             .httpTransport
-            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
+            .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
         leaderboadAPIDirectToAPI.addUserResults(req.body)
             .then((response) => {
@@ -70,11 +70,11 @@ export const addUserResultsController = (req: Request, res: Response, next: Next
 };
 
 export const getAllLeaderboardController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuidForAuth } = req.cookies;
-    if (authCookie && uuidForAuth) {
+    const { authCookieForAuth, uuidForAuth } = req.cookies;
+    if (authCookieForAuth && uuidForAuth) {
         httpToAPI
             .httpTransport
-            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
+            .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
         leaderboadAPIDirectToAPI.getLeaderBoard(req.body)
             .then((response) => {
@@ -128,11 +128,11 @@ export const signUpController = (req: Request, res: Response, next: NextFunction
 };
 
 export const getUserInfoController = (req: Request, res: Response, next: NextFunction) => {
-    const { authCookie, uuidForAuth } = req.cookies;
-    if (authCookie && uuidForAuth) {
+    const { authCookieForAuth, uuidForAuth } = req.cookies;
+    if (authCookieForAuth && uuidForAuth) {
         httpToAPI
             .httpTransport
-            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
+            .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         const authServerToAPI = new AuthAPI(httpToAPI);
         getUserInfoRequest(req, res, next, authServerToAPI);
         res.status(200).send(getUserInfo(res));
@@ -147,7 +147,7 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
     const authServerToAPI = getAuthServerToAPI(res);
     authServerToAPI.logout()
         .then((response: AxiosResponse) => {
-            res.clearCookie('authCookie');
+            res.clearCookie('authCookieForAuth');
             res.clearCookie('uuidForAuth');
             deleteUserAuth(res);
             deleteAuthServerToAPI(res);

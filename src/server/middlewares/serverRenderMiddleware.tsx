@@ -39,9 +39,9 @@ export const serverRenderMiddleware = (
         const userInfo = getUserInfo(res);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
-        const { authCookie, uuidForAuth } = req.cookies;
-        if (authCookie && uuidForAuth) {
-            const cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
+        const { authCookieForAuth, uuidForAuth } = req.cookies;
+        if (authCookieForAuth && uuidForAuth) {
+            const cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
             store.dispatch(setAuthCookie(cookie));
         }
     }

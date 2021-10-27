@@ -18,11 +18,11 @@ export const checkAuth = () => (
     res: Response,
     next: NextFunction,
 ) => {
-    const { authCookie, uuidForAuth } = req.cookies;
-    if (authCookie && uuidForAuth) {
+    const { authCookieForAuth, uuidForAuth } = req.cookies;
+    if (authCookieForAuth && uuidForAuth) {
         httpToAPI
             .httpTransport
-            .defaults.headers.Cookie = `authCookie=${authCookie as string}; uuid=${uuidForAuth as string}`;
+            .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         const authServerToAPI = new AuthAPI(httpToAPI);
         const userServerToAPI = new UserAPI(httpToAPI);
         authServerToAPI
