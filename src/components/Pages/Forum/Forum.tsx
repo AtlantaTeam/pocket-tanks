@@ -81,7 +81,7 @@ export const Forum = () => {
                                 sendNotificationDefault('Новая тема создана');
                                 setThreadList([...threadList, response.data]);
                                 return true;
-                            }).catch((err) => {
+                            }).catch(() => {
                                 sendNotificationDefault('Ошибка');
                             });
                         }}
@@ -114,7 +114,7 @@ export const Forum = () => {
                                     curThread.messages = [response.data];
                                     setCurrentThread({ ...curThread });
                                     return true;
-                                }).catch((err) => {
+                                }).catch(() => {
                                     sendNotificationDefault('Ошибка создания сообщения');
                                 });
                             } else {

@@ -7,6 +7,7 @@ import fireSound from 'audio/fire.wav';
 import explosionMissSound from 'audio/explosion-miss.wav';
 import explosionHitSound from 'audio/explosion-hit.wav';
 import { mediaSafePlay } from 'utils/utils';
+import { sendBotAngryMessage, sendBotHappyMessage } from 'modules/bot-messages/bot-messages';
 import { Coords, Weapon } from './types';
 import { Ground } from './Ground';
 import { Tank } from './Tank';
@@ -98,6 +99,8 @@ export class GamePlay {
 
     explosionHitSoundEl: HTMLAudioElement | undefined;
 
+    damageAmount: number;
+
     constructor(canvasRef: RefObject<HTMLCanvasElement>, allWeapons: TanksWeapons,
         calcPoints: () => void, isGameOver: () => void) {
         this.canvasRef = canvasRef;
@@ -109,6 +112,7 @@ export class GamePlay {
         const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
         this.innerWidth = width - 150;
         this.innerHeight = height - 300;
+        this.damageAmount = 0;
     }
 
     changeTankPosition = (delta: number, dispatch: Dispatch) => {
@@ -353,6 +357,7 @@ export class GamePlay {
                 }
                 this.bullet.hittedTank.jumpOnHit(this.bullet.power, this.bullet.gravity, this.bullet.dx);
                 this.calcPoints();
+                this.damageAmount += this.bullet.power;
             } else if (isSoundOn()) {
                 mediaSafePlay(this.explosionMissSoundEl);
             }
@@ -364,8 +369,18 @@ export class GamePlay {
             this.bullet?.draw(ctx);
             return;
         }
+        this.sendBotMessage();
+        this.damageAmount = 0;
         this.bullet = undefined;
         this.changeActiveTank();
+    };
+
+    sendBotMessage = () => {
+        if (this.damageAmount >= 900 && this.leftTank?.isActive) {
+            sendBotAngryMessage();
+        } else if (this.damageAmount >= 450 && !this.leftTank?.isActive) {
+            sendBotHappyMessage();
+        }
     };
 
     botFire = () => {
