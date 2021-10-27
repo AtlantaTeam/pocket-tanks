@@ -114,6 +114,7 @@ function getHtml(reactHtml: string, reduxState = {}) {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>Pocket-Tanks || SSR</title>
+            <link rel="icon" type="image/svg+xml" href="favicon.svg">
             <link href="css/style.css" rel="stylesheet">
         </head>
         <body>
