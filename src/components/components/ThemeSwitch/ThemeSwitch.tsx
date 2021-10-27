@@ -50,7 +50,7 @@ export const ThemeSwitch = () => {
             onClick={handleClick}
         >
             <Image
-                className={cn('image image_icon', { 'image_flip-x': theme })}
+                className={cn('image image_icon', { 'image_flip-x': theme === 'light' })}
                 imagePath={themeSwitchButton}
             />
         </Button>
