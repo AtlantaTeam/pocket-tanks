@@ -1,0 +1,14 @@
+.emoji-bar {
+    cursor: pointer;
+    user-select: none;
+    font-size: 24px;
+    background-color: var(--foreground);
+    width: 450px;
+    border-radius: 5px;
+    padding: 10px 16px;
+    margin-bottom: 30px;
+    text-align: center;
+    & .emoji-bar__item {
+        padding: 0 10px;
+    }
+}

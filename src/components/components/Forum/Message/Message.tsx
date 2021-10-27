@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 import { forumAPI } from 'api/forum-api';
@@ -31,7 +31,7 @@ export const Message = (props: MessageProps) => {
                     sendNotificationDefault('Ваш голос засчитан');
                 }
                 return true;
-            }).catch((err) => {
+            }).catch(() => {
                 sendNotificationDefault(`Ошибка: Не удалось проголосовать за сообщение id:${msgId}`);
             });
         } else {

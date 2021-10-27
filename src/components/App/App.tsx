@@ -27,10 +27,6 @@ export const App = () => {
 
     const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     dispatch(checkStateRequested());
-    // }, []);
-
     return (
         <div className="app">
             <MenuComponent />

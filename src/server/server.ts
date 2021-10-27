@@ -3,7 +3,6 @@ import express, { RequestHandler } from 'express';
 import cors from 'cors';
 import http from 'http';
 import https from 'https';
-import fs from 'fs';
 
 import compression from 'compression';
 import 'babel-polyfill';
@@ -15,7 +14,6 @@ import cookieParser from 'cookie-parser';
 import { sequelize } from 'db';
 import { dbRouter } from 'db/routes/dbRouter';
 import { populateDB } from 'db/seeds/seeder';
-import { csrf } from './middlewares/csrf';
 import { csp } from './middlewares/csp';
 
 import { serverRenderMiddleware } from './middlewares/serverRenderMiddleware';

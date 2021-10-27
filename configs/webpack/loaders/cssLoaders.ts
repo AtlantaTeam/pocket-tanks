@@ -21,7 +21,7 @@ const loaders = [
             },
         },
     },
-];
+].filter(Boolean) as any;
 
 export const cssLoaders = {
     client: {
