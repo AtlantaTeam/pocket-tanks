@@ -3,10 +3,9 @@ import webpack, { Configuration, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 import {
-    IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR,
+    IS_DEV, SRC_DIR, STATIC_DIR,
 } from './env';
 
 import { fileLoaders } from './loaders/fileLoaders';
@@ -49,6 +48,15 @@ export const clientConfig: Configuration = {
     plugins: [
         new MiniCssExtractPlugin({
             filename: 'css/style.css',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: '**/*',
+                    context: path.join(STATIC_DIR, 'images/favicon'),
+                    to: '.',
+                },
+            ],
         }),
         // Plugin для HMR
         new webpack.HotModuleReplacementPlugin(),
