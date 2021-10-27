@@ -3,9 +3,9 @@ version: "3"
 
 services:
     app:
-        image: akkord/pocketanks:POCKET-TANKS-31-39-40
+        image: akkord/pocketanks:POCKET-TANKS-COOKIE---1387808588
 
-#        build:
+        #        build:
 #            context: .
         # Зависимость от сервиса postgres
         depends_on:
@@ -15,6 +15,7 @@ services:
         # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
         ports:
             - "5000:5000"
+            - "9229:9229"
         # Проброс файлов, откуда с хоста, куда в контейнер
 #        volumes:
 #            - ./shared:/var/www/shared

@@ -31,16 +31,18 @@ jobs:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-                # Чекаутим код
+                # Чекаутим код 
             - uses: actions/checkout@v2
+            - name: Set env
+              run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
             - name: Make dist
               run: npm i && npm run build
             - name: Build image
                 # Собираем image и называем его так как указано в hub.docker т.е. login/repository:version
-              run: docker build -t $LOGIN/$NAME:${GITHUB_REF:11}---${{ github.run_id }} -f Dockerfile .
+              run: docker build -t $LOGIN/$NAME:${{ env.RELEASE_VERSION }}---${{ github.run_id }} -f Dockerfile .
             - name: Push image to docker.io
                 # Пушим образ в registry
-              run: docker push $LOGIN/$NAME:${GITHUB_REF:11}---${{ github.run_id }}
+              run: docker push $LOGIN/$NAME:${{ env.RELEASE_VERSION }}---${{ github.run_id }}
             - name: run ssh command to deploy
               uses: appleboy/ssh-action@master
               with:
@@ -48,5 +50,5 @@ jobs:
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/---[0-9]+$/---${{ github.run_id }}/' docker-compose.yml && 
+                          sed -i -E 's/:${{ env.RELEASE_VERSION }}---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
                           docker-compose up --no-deps --build -d app

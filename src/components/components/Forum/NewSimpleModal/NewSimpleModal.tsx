@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Popup, PopupProps } from '../../Popup/Popup';
 import { ForumInput } from '../ForumInput/ForumInput';
+import { EmojiBar } from '../EmojiBar/EmojiBar';
 
 export interface NewSimpleModalProps {
     action: (title: string, text: string) => void;
@@ -14,6 +15,13 @@ export interface NewSimpleModalProps {
 export const NewSimpleModal = (props: NewSimpleModalProps) => {
     const [titleText, setTitleText] = useState<string>('');
     const [messageText, setMessageText] = useState<string>('');
+    const [selection, keepSelection] = useState<[number, number]>([0, 0]);
+
+    const textareaRef = React.createRef<HTMLTextAreaElement>();
+
+    useEffect(() => {
+        textareaRef.current?.setSelectionRange(...selection);
+    }, [selection]);
 
     return (
         <Popup
@@ -34,15 +42,25 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                 <ForumInput
                     type="text"
                     placeholder={props.title}
-                    onChange={(text: string) => {
-                        setTitleText(text);
-                    }}
+                    text={titleText}
+                    onChange={setTitleText}
                 />
                 <ForumInput
+                    ref={textareaRef}
                     type="textarea"
                     placeholder="Сообщение"
-                    onChange={(text: string) => {
+                    text={messageText}
+                    onChange={setMessageText}
+                />
+                <EmojiBar
+                    onSelect={(emoji: string) => {
+                        if (!textareaRef.current) {
+                            return;
+                        }
+                        const { selectionStart: start, selectionEnd: end } = textareaRef.current;
+                        const text = `${messageText.slice(0, start)}${emoji}${messageText.slice(end)}`;
                         setMessageText(text);
+                        keepSelection([start + 2, start + 2]);
                     }}
                 />
             </>
