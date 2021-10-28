@@ -27,7 +27,7 @@ export const ThemeSwitch = () => {
             }).catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [userId]);
 
     const handleClick = () => {
         const themeValue = theme === 'night' ? 'light' : 'night';

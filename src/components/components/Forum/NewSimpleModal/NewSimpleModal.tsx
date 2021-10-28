@@ -61,6 +61,7 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                         const text = `${messageText.slice(0, start)}${emoji}${messageText.slice(end)}`;
                         setMessageText(text);
                         keepSelection([start + 2, start + 2]);
+                        textareaRef.current.focus();
                     }}
                 />
             </>

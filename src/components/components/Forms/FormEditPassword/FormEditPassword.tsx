@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 
 import { ERRORS } from 'utils/constants/errorsForms';
 
+import { sendNotificationDefault } from 'modules/notifications/notifications';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
@@ -46,6 +47,7 @@ export const FormEditPassword = () => {
                 const formData = new FormData();
                 Object.keys(values).forEach((key) => formData.append(key, values[key]));
                 dispatch(changePasswordRequested(formData));
+                sendNotificationDefault('Данные изменены!');
             }}
         >
             {({ errors, touched }) => (

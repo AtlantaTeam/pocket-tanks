@@ -87,7 +87,7 @@ if (IS_DEV) {
 }
 
 const initDB = async () => {
-    console.log(process.env);
+    // console.log(process.env);
     try {
         if (IS_POPULATE_DB === 'true') {
             await sequelize.sync({ force: true });

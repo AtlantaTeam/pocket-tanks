@@ -31,11 +31,11 @@ jobs:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-                # Чекаутим код 
+                # Чекаутим код
             - uses: actions/checkout@v2
-            - name: Set env
+            - name: Set env RELEASE_NAME
               run: echo "RELEASE_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-            - name: Set env
+            - name: Set env RELEASE_VERSION
               run: echo "RELEASE_VERSION=${GITHUB_REF:11}" >> $GITHUB_ENV
             - name: Make dist
               run: npm i && npm run build
@@ -51,6 +51,6 @@ jobs:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USER }}
                   key: ${{ secrets.SSH_KEY }}
-                  script: cd /home/$USER/pocketanks && 
-                          sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml && 
+                  script: cd /home/$USER/pocketanks &&
+                          sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
                           docker-compose up --no-deps --build -d app

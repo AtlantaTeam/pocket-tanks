@@ -7,6 +7,7 @@ import { ERRORS } from 'utils/constants/errorsForms';
 
 import { PATTERNS } from 'utils/constants/regex';
 
+import { sendNotificationDefault } from 'modules/notifications/notifications';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
@@ -66,6 +67,7 @@ export const FormEditProfileData = () => {
                 const formData = new FormData();
                 Object.keys(values).forEach((key) => formData.append(key, values[key]));
                 dispatch(changeProfileRequested(formData));
+                sendNotificationDefault('Данные изменены!');
             }}
         >
             {({ errors, touched }) => (

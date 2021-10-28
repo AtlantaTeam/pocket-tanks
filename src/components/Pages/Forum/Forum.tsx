@@ -107,7 +107,6 @@ export const Forum = () => {
                                     thread_id: repliedMessage.thread_id,
                                     parent_id: repliedMessage.id,
                                 }).then((response) => {
-                                    sendNotificationDefault(`Reply for message ${String(repliedMessage.id)}`);
                                     const curThread = threadList.filter(
                                         (thread) => (thread.id === repliedMessage.thread_id),
                                     )[0];
