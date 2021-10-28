@@ -6,6 +6,7 @@ import '../Forms.css';
 
 import { Image } from 'components/components/Image/Image';
 import { ButtonSubmit } from 'components/components/Button/Button';
+import { sendNotificationDefault } from 'modules/notifications/notifications';
 import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
@@ -76,6 +77,7 @@ export const FormLoadAvatar = () => {
                         const formData = new FormData(form);
                         dispatch(changeAvatarRequested(formData));
                         dispatch(avatarFulfilled(null));
+                        sendNotificationDefault('Данные изменены!');
                     }
                 }
             >

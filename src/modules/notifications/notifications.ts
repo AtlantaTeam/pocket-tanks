@@ -7,7 +7,7 @@ export const sendNotificationDefault = (text: string) => {
     toast(text, {
         className: 'notification_default',
         progressClassName: 'notification-progress_default',
-        position: toast.POSITION.BOTTOM_CENTER,
+        position: toast.POSITION.BOTTOM_RIGHT,
     });
 };
 
