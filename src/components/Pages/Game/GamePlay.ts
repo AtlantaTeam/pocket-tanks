@@ -116,7 +116,7 @@ export class GamePlay {
     }
 
     changeTankPosition = (delta: number, dispatch: Dispatch) => {
-        if (!this.leftTank || !this.rightTank) {
+        if (!this.leftTank || !this.rightTank || !this.leftTank.isActive) {
             return;
         }
         this.activateMode(GameModes.MOVE);
@@ -126,7 +126,7 @@ export class GamePlay {
     };
 
     changeTankPower = (delta: number, dispatch: Dispatch) => {
-        if (!this.leftTank || !this.rightTank) {
+        if (!this.leftTank || !this.rightTank || !this.leftTank.isActive) {
             return;
         }
         const [activeTank] = this.getActiveAndTargetTanks(this.leftTank, this.rightTank);

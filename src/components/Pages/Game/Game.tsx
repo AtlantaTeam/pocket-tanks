@@ -68,6 +68,7 @@ const Game = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isStart, setIsStart] = useState(true);
     const [isGameOver, setIsGameOver] = useState(false);
+    const [isUserTankActive, setUserTankActive] = useState(true);
     const dispatch = useDispatch();
     const selectedWeapon = useSelector(getSelectedWeapon);
     const weapons = useSelector(getWeapons);
@@ -90,11 +91,15 @@ const Game = () => {
     }
 
     const fire = () => {
-        if (game.leftTank?.isActive && !game.isFireMode) {
+        if (isUserTankActive) {
             game.onFire(selectedWeapon);
             dispatch(removeWeaponById(selectedWeapon.id));
         }
     };
+
+    useEffect(() => {
+        setUserTankActive(!!(game && game.leftTank?.isActive && !game.isFireMode));
+    });
 
     const [avatarImgState, setAvatarImg] = useState({ img: avatarPath });
 
@@ -153,10 +158,15 @@ const Game = () => {
                     }
                 },
                 () => {
+                    if (!game.leftTank || !game.rightTank) {
+                        return;
+                    }
                     if (!isGameOver && !game.leftTank?.weapons?.length
                             && !game.rightTank?.weapons?.length && !game.isFireMode) {
                         setIsGameOver(true);
                     }
+                    const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
+                    setUserTankActive(!game.isFireMode && activeTank === game.leftTank);
                 },
             );
             if (isImagesLoaded) {
@@ -171,6 +181,9 @@ const Game = () => {
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
+            if (!game.leftTank?.isActive) {
+                return;
+            }
             if ((e.key !== 'ArrowRight' && e.key !== 'ArrowLeft'
                     && e.key !== 'ArrowUp' && e.key !== 'ArrowDown'
                     && e.key !== ' '
@@ -287,20 +300,20 @@ const Game = () => {
                                 label="Мощность"
                                 value={power}
                                 leftStepHandler={() => {
-                                    game.changeTankPower(-1, dispatch);
+                                    isUserTankActive && game.changeTankPower(-1, dispatch);
                                 }}
                                 rightStepHandler={() => {
-                                    game.changeTankPower(1, dispatch);
+                                    isUserTankActive && game.changeTankPower(1, dispatch);
                                 }}
                             />
                             <Counter
                                 label="Наклон"
                                 value={floor(((angle < 0 ? -angle : 2 * Math.PI - angle) * 180) / Math.PI)}
                                 leftStepHandler={() => {
-                                    dispatch(increaseAngle(Math.PI / 180));
+                                    isUserTankActive && dispatch(increaseAngle(Math.PI / 180));
                                 }}
                                 rightStepHandler={() => {
-                                    dispatch(increaseAngle(-Math.PI / 180));
+                                    isUserTankActive && dispatch(increaseAngle(-Math.PI / 180));
                                 }}
                             />
                         </div>
@@ -309,7 +322,7 @@ const Game = () => {
                                 selectedWeapon={selectedWeapon}
                                 weapons={weapons}
                                 onChange={(value: Weapon) => {
-                                    dispatch(selectWeapon(value));
+                                    isUserTankActive && dispatch(selectWeapon(value));
                                 }}
                                 label="Оружие"
                                 listPosition="top"
@@ -318,12 +331,12 @@ const Game = () => {
                                 label="Движение"
                                 value={moves}
                                 leftStepHandler={() => {
-                                    if (moves > 0) {
+                                    if (moves > 0 && isUserTankActive) {
                                         game.changeTankPosition(-150, dispatch);
                                     }
                                 }}
                                 rightStepHandler={() => {
-                                    if (moves > 0) {
+                                    if (moves > 0 && isUserTankActive) {
                                         game.changeTankPosition(150, dispatch);
                                     }
                                 }}
@@ -331,9 +344,8 @@ const Game = () => {
 
                         </div>
                         <Button
-                            className="big_red_button"
+                            className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
                             type="button"
-                            // text="Огонь!"
                             onClick={fire}
                         />
                     </div>
