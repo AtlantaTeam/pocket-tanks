@@ -5,6 +5,10 @@ import {
     ComponentMeta,
 } from '@storybook/react';
 
+import { Provider } from 'react-redux';
+import { getInitialState } from '../../../../redux/reducers/getInitalState';
+import { initializeStore } from '../../../../redux/store';
+
 import { FormSignUp } from './FormSignUp';
 import { WrapperCenter } from '../../WrapperCenter/WrapperCenter';
 
@@ -13,12 +17,16 @@ export default {
     component: FormSignUp,
 } as ComponentMeta<typeof FormSignUp>;
 
+const { store } = initializeStore(getInitialState());
+
 const Template: ComponentStory<typeof FormSignUp> = () => (
-    <WrapperCenter className="wrapper-center wrapper-center_full-screen-big">
-        <Router>
-            <FormSignUp />
-        </Router>
-    </WrapperCenter>
+    <Provider store={store}>
+        <WrapperCenter className="wrapper-center wrapper-center_full-screen-black">
+            <Router>
+                <FormSignUp />
+            </Router>
+        </WrapperCenter>
+    </Provider>
 );
 
 export const FormSignUpTemplate = Template.bind({});

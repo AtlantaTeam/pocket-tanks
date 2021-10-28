@@ -23,6 +23,8 @@ module.exports = {
             images: path.join(__dirname, 'static/images'),
             audio: path.join(__dirname, 'static/audio'),
             controllers: path.join(__dirname, 'src/contollers'),
+            api: path.join(__dirname, 'src/api'),
+            modules: path.join(__dirname, 'src/modules'),
         },
     },
     output: {
