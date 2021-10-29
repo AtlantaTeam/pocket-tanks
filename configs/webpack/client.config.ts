@@ -59,6 +59,10 @@ export const clientConfig: Configuration = {
                     context: path.join(STATIC_DIR, 'images/favicon'),
                     to: '.',
                 },
+                {
+                    from: path.join(STATIC_DIR, 'assets/robots.txt'),
+                    to: '.',
+                },
             ],
         }),
         // Plugin для HMR
