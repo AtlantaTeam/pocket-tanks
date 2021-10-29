@@ -23,6 +23,7 @@ export const Counter = (props: CounterProps) => {
                 <button
                     type="button"
                     aria-hidden="true"
+                    aria-label={props.label}
                     className="triangle-right"
                     onClick={props.leftStepHandler}
                 />
@@ -37,6 +38,7 @@ export const Counter = (props: CounterProps) => {
                 <button
                     type="button"
                     aria-hidden="true"
+                    aria-label={props.label}
                     className="triangle-left"
                     onClick={props.rightStepHandler}
                 />

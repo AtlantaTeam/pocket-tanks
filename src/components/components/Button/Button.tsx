@@ -16,6 +16,7 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => (
     <button
         type="button"
+        aria-label={props.text}
         onClick={props.onClick}
         onSubmit={props.onSubmit}
         className={props.className}
@@ -28,6 +29,7 @@ export const Button = (props: ButtonProps) => (
 export const ButtonSubmit = (props: ButtonProps) => (
     <button
         type="submit"
+        aria-label={props.text}
         onClick={props.onClick}
         onSubmit={props.onSubmit}
         className={props.className}
