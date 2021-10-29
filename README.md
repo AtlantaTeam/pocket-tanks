@@ -1,10 +1,11 @@
 # Игра Pocket Tanks
-### [Открыть игру на Heroku](https://pocketanks.herokuapp.com/)
+### [Открыть игру в Yandex Cloud](https://atlanta-pocketanks-07.ya-praktikum.tech//)
 
 ## Дизайн
 ### [Дизайн в Фигме](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
 
 ## Установка
+Убедиться, что у вас установлены docker и docker-compose. 
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
@@ -12,19 +13,27 @@ npm install
 ```
 
 ```sh
-npm run start
+npm run docker:stage
 ```
 
-Игра откроется автоматически на http://localhost:9000
+Игра запустится на https://localhost:5000
 
-## Тестирование
+## Тестирование + Линтеры
+<a name="install"></a>
+<a name="installstart"></a>
+```sh
+npm run validate
+```
+
+## Отдельно Тестирование
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
 npm run test
 ```
 
-## Линтеры
+
+## Отдельно Линтеры
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh

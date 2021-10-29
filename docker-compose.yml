@@ -3,7 +3,8 @@ version: "3"
 
 services:
     app:
-        image: akkord/pocketanks:POCKET-TANKS-COOKIE---1387808588
+        image: akkord/pocketanks:main---1397659157
+
 
         #        build:
 #            context: .
@@ -15,7 +16,6 @@ services:
         # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
         ports:
             - "5000:5000"
-            - "9229:9229"
         # Проброс файлов, откуда с хоста, куда в контейнер
 #        volumes:
 #            - ./shared:/var/www/shared

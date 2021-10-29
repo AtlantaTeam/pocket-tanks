@@ -39,7 +39,11 @@ import {
     selectWeapon,
     setWeapons,
 } from '../../../redux/actions/game-state';
-import { getUserAvatar, getUserAvatarResourse, getUserNickname } from '../../../redux/selectors/user-state';
+import {
+    getUserAvatar,
+    getUserAvatarResourse,
+    getUserNickname,
+} from '../../../redux/selectors/user-state';
 import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
@@ -60,7 +64,7 @@ const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => 
 
 const weaponsAmount = 10;
 let allWeapons: TanksWeapons = generateRandomWeapons([Bullet], weaponsAmount);
-let game: GamePlay;
+let game: GamePlay | undefined;
 let isImagesLoaded = false;
 let canPointsSentToLeaderBoard = false;
 
@@ -91,7 +95,7 @@ const Game = () => {
     }
 
     const fire = () => {
-        if (isUserTankActive) {
+        if (game && isUserTankActive) {
             game.onFire(selectedWeapon);
             dispatch(removeWeaponById(selectedWeapon.id));
         }
@@ -142,7 +146,7 @@ const Game = () => {
                 canvasRef,
                 allWeapons,
                 () => {
-                    if (!game.leftTank || !game.rightTank || !game.bullet) {
+                    if (!game || !game.leftTank || !game.rightTank || !game.bullet) {
                         return;
                     }
                     if (game.leftTank === game.bullet.hittedTank) {
@@ -158,7 +162,7 @@ const Game = () => {
                     }
                 },
                 () => {
-                    if (!game.leftTank || !game.rightTank) {
+                    if (!game || !game.leftTank || !game.rightTank) {
                         return;
                     }
                     if (!isGameOver && !game.leftTank?.weapons?.length
@@ -177,11 +181,18 @@ const Game = () => {
             }
             setIsStart(false);
         }
+        return () => {
+            if (!isStart && game && game.rafTimerId) {
+                cancelAnimationFrame(game.rafTimerId);
+                game = undefined;
+                console.log('Stop Game!');
+            }
+        };
     }, [isStart]);
 
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
-            if (!game.leftTank?.isActive) {
+            if (!game?.leftTank?.isActive) {
                 return;
             }
             if ((e.key !== 'ArrowRight' && e.key !== 'ArrowLeft'
@@ -270,7 +281,7 @@ const Game = () => {
                     className="canvas"
                     ref={canvasRef}
                     onMouseMove={(e) => {
-                        if (game.leftTank?.isActive && !game.isFireMode && game.ctx) {
+                        if (game && game.leftTank?.isActive && !game.isFireMode && game.ctx) {
                             const { angle: curAngle } = rotateFigure(
                                 game.ctx,
                                 floor(e.clientX - e.currentTarget.offsetLeft),
@@ -282,8 +293,8 @@ const Game = () => {
                             dispatch(changeAngle(curAngle));
                         }
                     }}
-                    onWheel={(e) => (game.changeTankPower(e.deltaY > 0 ? -1 : 1, dispatch))}
-                    onMouseLeave={() => (game.isAngleMode && game.activateMode(GameModes.IDLE))}
+                    onWheel={(e) => (game?.changeTankPower(e.deltaY > 0 ? -1 : 1, dispatch))}
+                    onMouseLeave={() => (game?.isAngleMode && game?.activateMode(GameModes.IDLE))}
                     onClick={fire}
                 />
 
@@ -300,10 +311,10 @@ const Game = () => {
                                 label="Мощность"
                                 value={power}
                                 leftStepHandler={() => {
-                                    isUserTankActive && game.changeTankPower(-1, dispatch);
+                                    isUserTankActive && game?.changeTankPower(-1, dispatch);
                                 }}
                                 rightStepHandler={() => {
-                                    isUserTankActive && game.changeTankPower(1, dispatch);
+                                    isUserTankActive && game?.changeTankPower(1, dispatch);
                                 }}
                             />
                             <Counter
@@ -332,12 +343,12 @@ const Game = () => {
                                 value={moves}
                                 leftStepHandler={() => {
                                     if (moves > 0 && isUserTankActive) {
-                                        game.changeTankPosition(-150, dispatch);
+                                        game?.changeTankPosition(-150, dispatch);
                                     }
                                 }}
                                 rightStepHandler={() => {
                                     if (moves > 0 && isUserTankActive) {
-                                        game.changeTankPosition(150, dispatch);
+                                        game?.changeTankPosition(150, dispatch);
                                     }
                                 }}
                             />
@@ -347,6 +358,7 @@ const Game = () => {
                             className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
                             type="button"
                             onClick={fire}
+                            label="Огонь"
                         />
                     </div>
                     <div className="avatar_group-right">

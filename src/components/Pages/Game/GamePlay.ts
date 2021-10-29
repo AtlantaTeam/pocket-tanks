@@ -101,6 +101,8 @@ export class GamePlay {
 
     damageAmount: number;
 
+    rafTimerId: number | undefined;
+
     constructor(canvasRef: RefObject<HTMLCanvasElement>, allWeapons: TanksWeapons,
         calcPoints: () => void, isGameOver: () => void) {
         this.canvasRef = canvasRef;
@@ -220,7 +222,7 @@ export class GamePlay {
     };
 
     animate = () => {
-        requestAnimationFrame(this.animate);
+        this.rafTimerId = requestAnimationFrame(this.animate);
         const now = performance.now();
         this.isGameOver();
         if (now - this.prevTimestamp < 15

@@ -53,4 +53,5 @@ jobs:
                   key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks &&
                           sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
-                          docker-compose up --no-deps --build -d app
+                          docker-compose up --no-deps --build -d app &&
+                          docker image prune -a -f

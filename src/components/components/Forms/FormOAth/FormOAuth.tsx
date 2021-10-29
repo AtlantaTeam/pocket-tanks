@@ -35,7 +35,7 @@ export const FormOAuth = () => {
                 <Button
                     className="button button_yandex-logo"
                     type="submit"
-
+                    label="Войти через Яндекс"
                 >
                     <Image
                         className="image image_yandex-logo"
