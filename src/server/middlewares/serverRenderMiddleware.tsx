@@ -113,6 +113,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <meta name="description" content="Игра Pocket Tanks.
+            Проектная работа студентов курса Yandex Praktikum Middle Frontend Developer">
             <title>Pocket-Tanks || SSR</title>
             <link rel="icon" type="image/svg+xml" href="favicon.svg">
             <link href="css/style.css" rel="stylesheet">
