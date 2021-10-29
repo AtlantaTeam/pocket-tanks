@@ -48,6 +48,7 @@ export const ThemeSwitch = () => {
             type="button"
             className="theme-switch"
             onClick={handleClick}
+            label="Сменить тему сайта"
         >
             <Image
                 className={cn('image image_icon', { 'image_flip-x': theme === 'light' })}

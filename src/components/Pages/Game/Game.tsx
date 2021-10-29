@@ -347,6 +347,7 @@ const Game = () => {
                             className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
                             type="button"
                             onClick={fire}
+                            label="Огонь"
                         />
                     </div>
                     <div className="avatar_group-right">

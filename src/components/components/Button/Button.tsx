@@ -5,6 +5,7 @@ import './Button.css';
 export interface ButtonProps {
     type: undefined | 'button' | 'submit' | 'reset';
     text?: string;
+    label?: string;
     className?: string;
     children?: JSX.Element[] | JSX.Element;
     imagePath?: string;
@@ -16,10 +17,10 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => (
     <button
         type="button"
-        aria-label={props.text}
         onClick={props.onClick}
         onSubmit={props.onSubmit}
         className={props.className}
+        aria-label={props.label || props.text}
     >
         {props.text}
         {props.children}

@@ -12,6 +12,7 @@ export const FullscreenButton = () => {
         <Button
             type="button"
             className="button_fullscreen"
+            label="На весь экран"
             onClick={() => {
                 if (!document) {
                     return;

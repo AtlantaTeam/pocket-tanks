@@ -26,7 +26,7 @@ export const MenuComponent = () => {
     return (
         <>
             <Menu>
-                <Menu.Button className="menu-item menu-item_button">
+                <Menu.Button className="menu-item menu-item_button" aria-label="Меню">
                     <Image
                         className="image image_icon"
                         imagePath={imageMenuButton}
@@ -52,6 +52,7 @@ export const MenuComponent = () => {
                 <Button
                     type="button"
                     className="menu-logout"
+                    label="Выход"
                     onClick={() => dispatch(logoutRequested())}
                 >
                     <Image

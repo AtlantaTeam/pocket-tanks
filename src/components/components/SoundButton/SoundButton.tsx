@@ -40,6 +40,7 @@ export const SoundButton = (props: SoundProps) => {
     return (
         <Button
             type="button"
+            label="Звук"
             className="button_sound"
             onClick={() => {
                 setIsSound(!isSound);
