@@ -4,7 +4,7 @@ ENV PORT=5000
 
 ENV NODE_ENV production
 
-RUN apt update && apt install -y netcat
+RUN apt update && apt install -y netcat && npm install pm2 -g
 
 WORKDIR /var/www
 
