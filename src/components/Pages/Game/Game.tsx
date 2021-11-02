@@ -282,14 +282,10 @@ const Game = () => {
                     ref={canvasRef}
                     onMouseMove={(e) => {
                         if (game && game.leftTank?.isActive && !game.isFireMode && game.ctx) {
-                            const { angle: curAngle } = rotateFigure(
-                                game.ctx,
-                                floor(e.clientX - e.currentTarget.offsetLeft),
-                                floor(e.clientY - e.currentTarget.offsetTop),
-                                game.leftTank.gunpointX,
-                                game.leftTank.gunpointY,
+                            const curAngle = Math.atan2(
+                                floor(e.clientY - e.currentTarget.offsetTop) - game.leftTank.gunpointY,
+                                floor(e.clientX - e.currentTarget.offsetLeft) - game.leftTank.gunpointX,
                             );
-                            game.ctx.restore();
                             dispatch(changeAngle(curAngle));
                         }
                     }}

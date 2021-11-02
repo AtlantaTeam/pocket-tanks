@@ -7,7 +7,7 @@ import fireSound from 'audio/fire.wav';
 import explosionMissSound from 'audio/explosion-miss.wav';
 import explosionHitSound from 'audio/explosion-hit.wav';
 import { mediaSafePlay } from 'utils/utils';
-import { sendBotAngryMessage, sendBotHappyMessage } from 'modules/bot-messages/bot-messages';
+import { sendBotAngryMessage, sendBotHappyMessage, sendBotSarcasmMessage } from 'modules/bot-messages/bot-messages';
 import { Coords, Weapon } from './types';
 import { Ground } from './Ground';
 import { Tank } from './Tank';
@@ -378,7 +378,9 @@ export class GamePlay {
     };
 
     sendBotMessage = () => {
-        if (this.damageAmount >= 900 && this.leftTank?.isActive) {
+        if (this.leftTank?.isActive && this.leftTank === this.bullet?.hittedTank) {
+            sendBotSarcasmMessage();
+        } else if (this.damageAmount >= 900 && this.leftTank?.isActive) {
             sendBotAngryMessage();
         } else if (this.damageAmount >= 450 && !this.leftTank?.isActive) {
             sendBotHappyMessage();
