@@ -1,5 +1,5 @@
 # Игра Pocket Tanks
-### [Открыть игру в Yandex Cloud](https://atlanta-pocketanks-07.ya-praktikum.tech//)
+### [Открыть игру в Yandex Cloud](https://atlanta-pocketanks-07.ya-praktikum.tech)
 
 ## Дизайн
 ### [Дизайн в Фигме](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
