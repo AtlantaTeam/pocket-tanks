@@ -6,7 +6,8 @@ export const OAUTH_YANDEX_CLIENT_ID = '887cdbde4dde4d469bb5b47a2f128288';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'pocketanks.ru';
-export const SERVER_URL = `https://${SERVER_DOMAIN}/`;
+export const SERVER_URL = `https://${SERVER_DOMAIN}`;
+export const YANDEX_REDIRECT_URI = `${SERVER_URL}/oauth/yandex`;
 
 export const AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',

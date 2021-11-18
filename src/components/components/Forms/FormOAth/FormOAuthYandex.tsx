@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'i18n';
-import { OAUTH_AUTHORIZE_URL, OAUTH_YANDEX_CLIENT_ID, SERVER_URL } from 'constants/api-routes';
+import {
+    OAUTH_AUTHORIZE_URL, OAUTH_YANDEX_CLIENT_ID, SERVER_URL, YANDEX_REDIRECT_URI,
+} from 'constants/api-routes';
 import { objectToCamel } from 'ts-case-convert';
 
 import { authAPIDirectToAPI } from '../../../../api/auth-api';
@@ -12,19 +14,20 @@ import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg'
 import './FormOAuth.css';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
-const OAUTH_SUFFIX = 'oauth/yandex';
 
 export const FormOAuthYandex = () => {
     const [clientServiceId, setClientServiceId] = useState(OAUTH_YANDEX_CLIENT_ID);
+    const [redirectUri, setRedirectUri] = useState(YANDEX_REDIRECT_URI);
     const { t } = useTranslation();
 
     // For local Yandex API
     useEffect(() => {
         if (IS_DEV) {
-            authAPIDirectToAPI.getServiceId(`${SERVER_URL}${OAUTH_SUFFIX}`)
+            authAPIDirectToAPI.getServiceId(`${SERVER_URL}`)
                 .then(({ data }) => {
                     const { serviceId } = objectToCamel(data);
                     setClientServiceId(serviceId);
+                    setRedirectUri(SERVER_URL);
                     return serviceId;
                 }).catch((err) => {
                     console.log(err);
@@ -39,7 +42,7 @@ export const FormOAuthYandex = () => {
             <Text className="text" text={t('enterWith')} />
 
             <a
-                href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${SERVER_URL}${OAUTH_SUFFIX}`}
+                href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${redirectUri}`}
                 target="_self"
             >
                 <Button

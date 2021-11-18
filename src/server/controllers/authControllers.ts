@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import type { NextFunction, Request, Response } from 'express';
 
 import { getUserInfoRequest } from 'server/utils/getUserInfoRequest';
-import { SERVER_URL } from 'constants/api-routes';
+import { SERVER_URL, YANDEX_REDIRECT_URI } from 'constants/api-routes';
 import { OAuthData, UserInfoResponse } from 'api/types';
 import { LeaderBoardAPI } from 'api/leaderboard-api';
 import { User } from 'db/models/User';
@@ -12,6 +12,8 @@ import { AuthAPI } from '../../api/auth-api';
 import { deleteUserAuth, getUserInfo } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
+
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 export const saveUserToDB = (userData: UserInfoResponse) => {
     if (userData) {
@@ -92,7 +94,7 @@ export const loginWithOAuthController = (req: Request, res: Response, next: Next
         const authServerToAPI = getAuthServerToAPI(res);
         const postData: OAuthData = {
             code,
-            redirect_uri: SERVER_URL,
+            redirect_uri: IS_DEV ? SERVER_URL : YANDEX_REDIRECT_URI,
         };
         authServerToAPI.loginWithOAuth(postData)
             .then((response) => {

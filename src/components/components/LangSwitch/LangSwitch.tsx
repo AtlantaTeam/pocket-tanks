@@ -15,9 +15,6 @@ const getLangId = (lang: string) => {
 export const LangSwitch = () => {
     const userId = useSelector(getUserId);
     const userLang = useSelector(getUserLang);
-    if (document.documentElement.lang !== i18n.resolvedLanguage) {
-        document.documentElement.lang = i18n.resolvedLanguage;
-    }
     const [lang, setLang] = useState<string>(i18n.resolvedLanguage || i18n.language);
     const { t } = useTranslation();
 
