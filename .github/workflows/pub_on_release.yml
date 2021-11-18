@@ -55,3 +55,7 @@ jobs:
                           sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
                           docker-compose up --no-deps --build -d app &&
                           docker image prune -a -f
+
+
+#    echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+#    ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '

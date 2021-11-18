@@ -2,6 +2,7 @@ export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
 
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
 export const OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
+export const OAUTH_YANDEX_CLIENT_ID = '887cdbde4dde4d469bb5b47a2f128288';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
 export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'pocketanks.ru';

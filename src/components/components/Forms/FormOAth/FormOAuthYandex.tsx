@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'i18n';
-import { OAUTH_AUTHORIZE_URL, SERVER_URL } from 'constants/api-routes';
+import { OAUTH_AUTHORIZE_URL, OAUTH_YANDEX_CLIENT_ID, SERVER_URL } from 'constants/api-routes';
 import { objectToCamel } from 'ts-case-convert';
+
 import { authAPIDirectToAPI } from '../../../../api/auth-api';
 
 import { Button } from '../../Button/Button';
-
 import { Image } from '../../Image/Image';
 import { Text } from '../../Text/Text';
 import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg';
@@ -17,15 +17,20 @@ export const FormOAuthYandex = () => {
     const [clientServiceId, setClientServiceId] = useState('');
     const { t } = useTranslation();
 
+    // For local Yandex API
     useEffect(() => {
-        authAPIDirectToAPI.getServiceId(`${SERVER_URL}${OAUTH_SUFFIX}`)
-            .then(({ data }) => {
-                const { serviceId } = objectToCamel(data);
-                setClientServiceId(serviceId);
-                return serviceId;
-            }).catch((err) => {
-                console.log(err);
-            });
+        if (process.env.NODE_ENV !== 'production') {
+            authAPIDirectToAPI.getServiceId(`${SERVER_URL}${OAUTH_SUFFIX}`)
+                .then(({ data }) => {
+                    const { serviceId } = objectToCamel(data);
+                    setClientServiceId(serviceId);
+                    return serviceId;
+                }).catch((err) => {
+                    console.log(err);
+                });
+        } else {
+            setClientServiceId(OAUTH_YANDEX_CLIENT_ID);
+        }
     }, [clientServiceId]);
 
     return (
