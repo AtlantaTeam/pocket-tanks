@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'i18n';
 import { OAUTH_AUTHORIZE_URL, SERVER_URL } from 'constants/api-routes';
 import { objectToCamel } from 'ts-case-convert';
 import { authAPIDirectToAPI } from '../../../../api/auth-api';
+
 import { Button } from '../../Button/Button';
 
 import { Image } from '../../Image/Image';
-
 import { Text } from '../../Text/Text';
 import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg';
 import './FormOAuth.css';
 
 export const FormOAuth = () => {
     const [clientServiceId, setClientServiceId] = useState('');
+    const { t } = useTranslation();
 
     useEffect(() => {
         authAPIDirectToAPI.getServiceId(SERVER_URL)
@@ -26,7 +28,7 @@ export const FormOAuth = () => {
 
     return (
         <form className="form-oauth">
-            <Text className="text" text="Войти с помощью" />
+            <Text className="text" text={t('enterWith')} />
 
             <a
                 href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${SERVER_URL}`}
@@ -35,7 +37,7 @@ export const FormOAuth = () => {
                 <Button
                     className="button button_yandex-logo"
                     type="submit"
-                    label="Войти через Яндекс"
+                    label={t('enterWithYandex')}
                 >
                     <Image
                         className="image image_yandex-logo"

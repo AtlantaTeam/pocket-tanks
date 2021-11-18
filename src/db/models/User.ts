@@ -8,10 +8,11 @@ export interface UserAttributes {
     remote_id: number;
     name: string;
     theme: string;
+    lang: string;
     created_at: Date,
     updated_at: Date,
 }
-export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'created_at' | 'updated_at' | 'theme' >;
+export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'created_at' | 'updated_at' | 'theme' | 'lang' >;
 
 @Table({
     tableName: 'users',
@@ -27,6 +28,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     @Default('night')
     @Column
     theme?: string;
+
+    @Default('')
+    @Column
+    lang?: string;
 
     @Default(Date.now())
     @CreatedAt

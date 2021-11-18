@@ -3,3 +3,4 @@ node_modules
 .storybook
 postgresdata
 stage/postgresdata
+AWS

@@ -34,6 +34,10 @@ export type ThemeResponse = {
     theme: string;
 };
 
+export type LangResponse = {
+    lang: string;
+};
+
 export type EmptyResponse = undefined;
 
 export type ErrorResponse = AxiosError;

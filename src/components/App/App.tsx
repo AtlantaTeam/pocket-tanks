@@ -17,6 +17,7 @@ import { AUTH_MENU_ROUTES, MAIN_ROUTE, ROUTES } from 'utils/constants/routes';
 
 import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
+import { i18n, useTranslation } from 'i18n';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
 import { cleanError } from '../../redux/actions/user-state/clean-error';
@@ -24,8 +25,8 @@ import { getErrorText } from '../../redux/selectors/user-state';
 
 export const App = () => {
     const userStateError = useSelector(getErrorText);
-
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     return (
         <div className="app">
@@ -37,9 +38,9 @@ export const App = () => {
                 action={() => {
                     dispatch(cleanError());
                 }}
-                title="Ошибка"
+                title={t('error')}
                 textContent={userStateError as string}
-                buttonText="Закрыть"
+                buttonText={t('close')}
                 overlayType="warning"
             />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './SoundButton.css';
+import { useTranslation } from 'i18n';
 import imageSoundOff from 'images/soundOff.svg';
 import imageSoundOn from 'images/soundOn.svg';
 import { Image } from 'components/components/Image/Image';
@@ -15,6 +16,7 @@ export type SoundProps = {
 export const SoundButton = (props: SoundProps) => {
     const [isSound, setIsSound] = useState(true);
     const soundRef = useRef<HTMLAudioElement>(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const soundEl = soundRef.current;
@@ -40,7 +42,7 @@ export const SoundButton = (props: SoundProps) => {
     return (
         <Button
             type="button"
-            label="Звук"
+            label={t('sound')}
             className="button_sound"
             onClick={() => {
                 setIsSound(!isSound);

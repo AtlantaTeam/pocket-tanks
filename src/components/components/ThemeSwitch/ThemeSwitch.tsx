@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
+import { useTranslation } from 'i18n';
 import themeSwitchButton from 'images/theme-switch.svg';
 import { userAPI } from 'api/user-api';
 import { useSelector } from 'react-redux';
@@ -12,6 +13,7 @@ import './ThemeSwitch.css';
 export const ThemeSwitch = () => {
     const [theme, setTheme] = useState<string>('night');
     const userId = useSelector(getUserId);
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!userId) {
@@ -48,7 +50,7 @@ export const ThemeSwitch = () => {
             type="button"
             className="theme-switch"
             onClick={handleClick}
-            label="Сменить тему сайта"
+            label={t('changeTheme')}
         >
             <Image
                 className={cn('image image_icon', { 'image_flip-x': theme === 'light' })}

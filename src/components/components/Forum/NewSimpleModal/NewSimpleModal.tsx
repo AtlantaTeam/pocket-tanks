@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { useTranslation } from 'i18n';
 import { Popup, PopupProps } from '../../Popup/Popup';
 import { ForumInput } from '../ForumInput/ForumInput';
 import { EmojiBar } from '../EmojiBar/EmojiBar';
@@ -16,7 +17,7 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
     const [titleText, setTitleText] = useState<string>('');
     const [messageText, setMessageText] = useState<string>('');
     const [selection, keepSelection] = useState<[number, number]>([0, 0]);
-
+    const { t } = useTranslation();
     const textareaRef = React.createRef<HTMLTextAreaElement>();
 
     useEffect(() => {
@@ -28,8 +29,7 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
             isOpen
             action={() => {
                 props.action(titleText, messageText);
-                if ((props.title === 'Тема' && titleText && messageText)
-                    || (props.title === 'Заголовок' && messageText)) {
+                if (titleText && messageText) {
                     props.onCrossPress();
                 }
             }}
@@ -48,7 +48,7 @@ export const NewSimpleModal = (props: NewSimpleModalProps) => {
                 <ForumInput
                     ref={textareaRef}
                     type="textarea"
-                    placeholder="Сообщение"
+                    placeholder={t('message')}
                     text={messageText}
                     onChange={setMessageText}
                 />

@@ -131,3 +131,31 @@ dbRouter.post('/user/:id/theme', async (req, res, next) => {
         next(e);
     }
 });
+
+dbRouter.get('/user/:id/lang', async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: { remote_id: req.params.id },
+        });
+        res.json({ lang: user?.get('lang') });
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.post('/user/:id/lang', async (req, res, next) => {
+    try {
+        const { lang } = req.body;
+        const user = await User.findOne({
+            where: { remote_id: req.params.id },
+        });
+        if (user) {
+            user.set('lang', lang);
+            res.status(201).json(await user.save());
+        } else {
+            throw new Error('Failed to set lang');
+        }
+    } catch (e) {
+        next(e);
+    }
+});

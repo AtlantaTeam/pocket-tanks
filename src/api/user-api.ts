@@ -1,6 +1,6 @@
 import { HTTPService, httpToServer } from '../modules/http-service/http-service';
 import { USER_ROUTES } from '../constants/api-routes';
-import type { UserInfoResponse, EmptyResponse } from './types';
+import type { UserInfoResponse, EmptyResponse, LangResponse } from './types';
 import { ThemeResponse } from './types';
 
 export class UserAPI {
@@ -49,6 +49,24 @@ export class UserAPI {
         return this.http.request.post<EmptyResponse>(
             USER_ROUTES.THEME(userId),
             { theme },
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                },
+            },
+        );
+    }
+
+    getLang(userId: number) {
+        return this.http.request.get<LangResponse>(
+            USER_ROUTES.LANG(userId),
+        );
+    }
+
+    setLang(userId: number, lang: string) {
+        return this.http.request.post<EmptyResponse>(
+            USER_ROUTES.LANG(userId),
+            { lang },
             {
                 headers: {
                     'Content-type': 'application/json; charset=utf-8',

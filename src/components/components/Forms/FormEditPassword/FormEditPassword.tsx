@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { ERRORS } from 'utils/constants/errorsForms';
 
 import { sendNotificationDefault } from 'modules/notifications/notifications';
+import { useTranslation } from 'i18n';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
@@ -32,7 +33,7 @@ export const FormEditPasswordSchema = Yup.object().shape({
 
 export const FormEditPassword = () => {
     const isLoading = useSelector(getUserLoaderState);
-
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     return (
@@ -47,7 +48,7 @@ export const FormEditPassword = () => {
                 const formData = new FormData();
                 Object.keys(values).forEach((key) => formData.append(key, values[key]));
                 dispatch(changePasswordRequested(formData));
-                sendNotificationDefault('Данные изменены!');
+                sendNotificationDefault(t('updated'));
             }}
         >
             {({ errors, touched }) => (
@@ -57,31 +58,31 @@ export const FormEditPassword = () => {
                             <div className="form-tab__block">
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Введите старый пароль"
+                                    placeholder={t('enterOldPassword')}
                                     name="oldPassword"
                                     id="oldPassword"
                                     type="password"
-                                    labelText="Старый пароль"
+                                    labelText={t('oldPassword')}
                                     errorText={errors.oldPassword}
                                     viewError={errors.oldPassword && touched.oldPassword}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Новый пароль"
+                                    placeholder={t('enterNewPassword')}
                                     name="newPassword"
                                     id="newPassword"
                                     type="password"
-                                    labelText="Придумайте новый пароль"
+                                    labelText={t('newPassword')}
                                     errorText={errors.newPassword}
                                     viewError={errors.newPassword && touched.newPassword}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Повторите пароль"
+                                    placeholder={t('secondNewPassword')}
                                     name="secondNewPassword"
                                     id="secondNewPassword"
                                     type="password"
-                                    labelText="Повторите новый пароль"
+                                    labelText={t('secondNewPassword')}
                                     errorText={errors.secondNewPassword}
                                     viewError={errors.secondNewPassword && touched.secondNewPassword}
                                 />
@@ -92,7 +93,7 @@ export const FormEditPassword = () => {
                         <ButtonSubmit
                             className="button button_orange"
                             type="submit"
-                            text="Изменить"
+                            text={t('update')}
                             isLoading={isLoading}
                         />
                     </div>

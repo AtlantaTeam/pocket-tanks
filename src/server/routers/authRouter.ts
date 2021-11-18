@@ -11,7 +11,7 @@ import {
 
 const authRouter = Router();
 
-authRouter.get('/', loginWithOAuthController);
+authRouter.get('/oauth/yandex', loginWithOAuthController);
 
 authRouter.post(LEADER_BOARD_ROUTES.ADD, addUserResultsController);
 

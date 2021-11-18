@@ -26,7 +26,7 @@ const Template: ComponentStory<typeof Counter> = (args) => (
 export const CounterTemplate = Template.bind({});
 
 CounterTemplate.args = {
-    label: 'Сила мысли',
+    label: 'Thought power',
     name: 'counter',
     leftStepHandler: () => {},
     rightStepHandler: () => {},

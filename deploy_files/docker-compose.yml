@@ -3,7 +3,7 @@ version: "3"
 
 services:
     app:
-        image: akkord/pocketanks:main---1397659157
+        image: akkord/pocketanks:1.0.4---1411996692
 
 
         #        build:
@@ -38,6 +38,40 @@ services:
             - prod.env
         networks:
             - awesome
+
+#    webserver:
+#        image: nginx:mainline-alpine
+#        container_name: webserver
+#        restart: unless-stopped
+#        ports:
+#            - "80:80"
+#        volumes:
+##            - web-root:/var/www
+#            - ./nginx-conf:/etc/nginx/conf.d
+#            - certbot-etc:/etc/letsencrypt
+#            - certbot-var:/var/lib/letsencrypt
+#        depends_on:
+#            - app
+#        networks:
+#            - awesome
+
+#    certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#            - certbot-etc:/etc/letsencrypt
+#            - certbot-var:/var/lib/letsencrypt
+#        depends_on:
+#            - webserver
+#        command: certonly --webroot --webroot-path=/var/www --email andyshart@yandex.ru --agree-tos --no-eff-email --staging -d pocketanks.ru
+#        networks:
+#            - awesome
+
+#volumes:
+#    certbot-etc:
+#    certbot-var:
+#    web-root:
+
 
 # Настройки созданной сети между сервисами
 networks:

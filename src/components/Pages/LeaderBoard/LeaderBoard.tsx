@@ -1,13 +1,16 @@
 import { Title } from 'components/components/Title/Title';
 import React, { useEffect, useState } from 'react';
-import './LeaderBoard.css';
+import { useTranslation } from 'i18n';
 
+import './LeaderBoard.css';
+import { Spinner } from 'components/Pages/Profile/Profile';
 import { getLeaderBoard } from '../../../controllers/leaderboard-controller';
 import { LeaderBoardResponse } from '../../../api/types';
 import { Page } from '../components/Page/Page';
 
 export const LeaderBoard = () => {
     const [players, setPlayers] = useState<LeaderBoardResponse>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         getLeaderBoard()
@@ -26,11 +29,11 @@ export const LeaderBoard = () => {
             <div className="leader-board__wrapper">
                 <Title
                     className="title title_middle leader-board__title"
-                    text="Лучшие стрелки"
+                    text={t('bestOfTheBest')}
                 />
                 <div className="leader-board__container">
                     {
-                        players.map((item, index) => (
+                        players?.length ? players.map((item, index) => (
                             <div
                                 key={item?.data?.name}
                                 className="leader-board__item"
@@ -38,6 +41,7 @@ export const LeaderBoard = () => {
                                 {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.tankpoints}`}
                             </div>
                         ))
+                            : <Spinner />
                     }
                 </div>
             </div>

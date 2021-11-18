@@ -1,9 +1,10 @@
+import { i18n } from 'i18n';
 import { Ground } from './Ground';
 import { Tank } from './Tank';
 import { floor } from '../../../utils/canvas';
 
 export class Bullet {
-    static readonly label = 'Ядро';
+    static readonly label = i18n.t('bullet');
 
     radius: number;
 

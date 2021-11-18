@@ -2,15 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import './FormLoadAvatar.css';
-import '../Forms.css';
+import { useTranslation } from 'i18n';
 
+import '../Forms.css';
 import { Image } from 'components/components/Image/Image';
 import { ButtonSubmit } from 'components/components/Button/Button';
 import { sendNotificationDefault } from 'modules/notifications/notifications';
+
 import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
-
 import { getUserLoaderState, getUserAvatar, getUserAvatarResourse } from '../../../../redux/selectors/user-state';
 import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
 import { getUserAvatar as getUserAvatarController } from '../../../../controllers/user-controller';
@@ -18,14 +19,14 @@ import { avatarFulfilled } from '../../../../redux/actions/user-state/get-avatar
 
 export const FormLoadAvatar = () => {
     const fileInput = useRef<HTMLInputElement>(null);
-
+    const { t } = useTranslation();
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
     const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
-        message: 'Аватар еще не выбран',
+        message: t('avatarIsEmpty'),
         className: 'load-message',
         img: initialStateAvatar,
     });
@@ -37,7 +38,7 @@ export const FormLoadAvatar = () => {
             getUserAvatarController()
                 .then((data) => {
                     setState({
-                        message: avatar ? 'Новый аватар не выбран' : 'Аватар еще не выбран',
+                        message: avatar ? t('newAvatarIsEmpty') : t('avatarIsEmpty'),
                         className: 'load-message',
                         img: data,
                     });
@@ -49,7 +50,7 @@ export const FormLoadAvatar = () => {
                 });
         } else {
             setState({
-                message: 'Новый аватар не выбран',
+                message: t('newAvatarIsEmpty'),
                 className: 'load-message',
                 img: initialStateAvatar,
             });
@@ -67,7 +68,7 @@ export const FormLoadAvatar = () => {
                         event.preventDefault();
                         if (fileInput && fileInput.current?.files?.length === 0) {
                             setState({
-                                message: 'Нужно выбрать файл',
+                                message: t('fileIsEmpty'),
                                 className: 'load-message load-message_error',
                                 img: initialStateAvatar,
                             });
@@ -77,14 +78,14 @@ export const FormLoadAvatar = () => {
                         const formData = new FormData(form);
                         dispatch(changeAvatarRequested(formData));
                         dispatch(avatarFulfilled(null));
-                        sendNotificationDefault('Данные изменены!');
+                        sendNotificationDefault(t('updated'));
                     }
                 }
             >
                 <div className="form-tab__container">
                     <div className="form-tab__wrap">
                         <Image className="image_avatar" imagePath={state.img} />
-                        <Label className="label label_avatar" text="Загрузите аватар" inputName="avatar">
+                        <Label className="label label_avatar" text={t('loadAvatar')} inputName="avatar">
                             <input
                                 ref={fileInput}
                                 id="avatar"
@@ -96,13 +97,13 @@ export const FormLoadAvatar = () => {
                                     (event) => {
                                         if (event.target?.files?.[0]) {
                                             setState({
-                                                message: `Файл загружен: ${event.target.files[0].name}`,
+                                                message: `${t('fileUploaded')}: ${event.target.files[0].name}`,
                                                 className: 'load-message',
                                                 img: URL.createObjectURL(event.target.files[0]),
                                             });
                                         } else {
                                             setState({
-                                                message: 'Ошибка, попробуйте еще раз',
+                                                message: t('errorTryAgain'),
                                                 className: 'load-message load-message_error',
                                                 img: initialStateAvatar,
                                             });
@@ -118,7 +119,7 @@ export const FormLoadAvatar = () => {
                     <ButtonSubmit
                         className="button button_orange"
                         type="submit"
-                        text="Изменить"
+                        text={t('update')}
                         isLoading={isLoading}
                     />
                 </div>

@@ -42,14 +42,14 @@ const TemplateWithChildren: ComponentStory<
 
 export const ButtonOrange = Template.bind({});
 ButtonOrange.args = {
-    text: 'Текст',
+    text: 'Text',
     className: 'button button_orange',
     type: 'button',
 };
 
 export const ButtonLightOrange = Template.bind({});
 ButtonLightOrange.args = {
-    text: 'Текст',
+    text: 'Text',
     className: 'button button_light-orange',
     type: 'button',
 };

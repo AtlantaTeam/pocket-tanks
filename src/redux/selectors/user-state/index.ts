@@ -23,6 +23,14 @@ export const getUserNickname = (state: State) => {
     return userProfile.displayName || userProfile.firstName;
 };
 
+export const getUserLang = (state: State) => {
+    const userProfile = getUserProfile(state);
+    if (!userProfile || !('language' in userProfile)) {
+        return null;
+    }
+    return userProfile.language;
+};
+
 export const getUserAvatarResourse = (state: State) => {
     const userProfile = getUserProfile(state);
     if (!userProfile || !('avatar' in userProfile)) {
