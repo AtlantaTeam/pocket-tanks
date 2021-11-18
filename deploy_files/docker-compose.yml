@@ -3,7 +3,7 @@ version: "3"
 
 services:
     app:
-        image: akkord/pocketanks:1.0.4---1411996692
+        image: akkord/pocketanks:POCKET-TANKS-50-51---1477709277
 
 
         #        build:

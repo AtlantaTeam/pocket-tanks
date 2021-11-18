@@ -26,7 +26,7 @@ jobs:
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
             NAME: ${{ secrets.DOCKER_NAME }}
-            USER: ${{ secrets.USER }}
+            USER: ${{ secrets.USER_AWS }}
         steps:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io

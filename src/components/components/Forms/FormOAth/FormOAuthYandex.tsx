@@ -11,12 +11,14 @@ import { Text } from '../../Text/Text';
 import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg';
 import './FormOAuth.css';
 
-export const FormOAuth = () => {
+const OAUTH_SUFFIX = 'oauth/yandex';
+
+export const FormOAuthYandex = () => {
     const [clientServiceId, setClientServiceId] = useState('');
     const { t } = useTranslation();
 
     useEffect(() => {
-        authAPIDirectToAPI.getServiceId(SERVER_URL)
+        authAPIDirectToAPI.getServiceId(`${SERVER_URL}${OAUTH_SUFFIX}`)
             .then(({ data }) => {
                 const { serviceId } = objectToCamel(data);
                 setClientServiceId(serviceId);
@@ -31,7 +33,7 @@ export const FormOAuth = () => {
             <Text className="text" text={t('enterWith')} />
 
             <a
-                href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${SERVER_URL}`}
+                href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${SERVER_URL}${OAUTH_SUFFIX}`}
                 target="_self"
             >
                 <Button
