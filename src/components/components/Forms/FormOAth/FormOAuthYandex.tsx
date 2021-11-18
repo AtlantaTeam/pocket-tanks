@@ -11,15 +11,16 @@ import { Text } from '../../Text/Text';
 import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg';
 import './FormOAuth.css';
 
+const IS_DEV = process.env.NODE_ENV === 'development';
 const OAUTH_SUFFIX = 'oauth/yandex';
 
 export const FormOAuthYandex = () => {
-    const [clientServiceId, setClientServiceId] = useState('');
+    const [clientServiceId, setClientServiceId] = useState(OAUTH_YANDEX_CLIENT_ID);
     const { t } = useTranslation();
 
     // For local Yandex API
     useEffect(() => {
-        if (process.env.NODE_ENV !== 'production') {
+        if (IS_DEV) {
             authAPIDirectToAPI.getServiceId(`${SERVER_URL}${OAUTH_SUFFIX}`)
                 .then(({ data }) => {
                     const { serviceId } = objectToCamel(data);
