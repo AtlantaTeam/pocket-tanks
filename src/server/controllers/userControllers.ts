@@ -17,7 +17,10 @@ export const changeProfileController = (
 ) => {
     const userServerToAPI = getUserServerToAPI(res);
     userServerToAPI
-        .changeProfile(req.body)
+        .changeProfile({
+            ...req.body,
+            phone: '+7 (111) 111-11-11',
+        })
         .then((userInfo) => {
             setUserInfo(res, objectToCamel(userInfo.data));
             res.status(200);
