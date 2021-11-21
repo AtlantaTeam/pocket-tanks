@@ -2,14 +2,27 @@ import type { AxiosError } from 'axios';
 
 export type UserInfoResponse = {
     id: number;
+    localId: number;
     firstName: string;
     secondName: string;
     displayName: string;
     login: string;
     email: string;
-    phone: string;
+    // phone?: string;
     avatar: string;
     imgAvatarBase64: string;
+    defaultAvatarId: string;
+    userProvider: string;
+};
+
+export type YandexUserInfoResponse = {
+    id: number,
+    firstName: string;
+    lastName: string;
+    displayName: string;
+    login: string;
+    defaultEmail: string;
+    defaultAvatarId: number;
 };
 
 export type Avatar = {
@@ -28,6 +41,7 @@ export type OAuthData = {
 
 export type IDResponse = {
     id: number;
+    localId: number;
 };
 
 export type ThemeResponse = {
@@ -38,16 +52,25 @@ export type LangResponse = {
     lang: string;
 };
 
-export type EmptyResponse = undefined;
+export type YandexTokenResponse = {
+    'access_token': string;
+    'refresh_token': string;
+    'token_type': string;
+    'expires_in': number;
+    'error_description': string;
+    'error': string;
+};
 
 export type ErrorResponse = AxiosError;
+
+export type EmptyResponse = undefined;
 
 export type EmptyRequest = undefined;
 
 export type LeaderBoardRequest = {
     data: {
         tankpoints: number,
-        name: string,
+        userId: number,
     },
     ratingFieldName: string
 };

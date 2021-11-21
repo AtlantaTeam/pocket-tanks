@@ -1,9 +1,15 @@
+import axios from 'axios';
 import { HTTPService, httpToAPI, httpToServer } from '../modules/http-service/http-service';
-import { AUTH_ROUTES } from '../constants/api-routes';
+import {
+    PRAKTIKUM_AUTH_ROUTES,
+    YANDEX_OAUTH_CLIENT_ID,
+    YANDEX_OAUTH_CLIENT_SECRET,
+    YANDEX_OAUTH_TOKEN, YANDEX_OAUTH_USER_INFO,
+} from '../constants/api-routes';
 import type {
     EmptyResponse, IDResponse, OAuthServiceIdResponse, UserInfoResponse,
 } from './types';
-import { OAuthData } from './types';
+import { OAuthData, YandexTokenResponse, YandexUserInfoResponse } from './types';
 
 export class AuthAPI {
     public http: HTTPService;
@@ -14,19 +20,19 @@ export class AuthAPI {
 
     getUserInfo() {
         return this.http.request.get<UserInfoResponse>(
-            AUTH_ROUTES.GET_USER_INFO,
+            PRAKTIKUM_AUTH_ROUTES.GET_USER_INFO,
         );
     }
 
     getServiceId(redirectUri: string) {
         return this.http.request.get<OAuthServiceIdResponse>(
-            `${AUTH_ROUTES.GET_OAUTH_SERVICE_ID}?redirect_uri=${redirectUri}`,
+            `${PRAKTIKUM_AUTH_ROUTES.GET_OAUTH_SERVICE_ID}?redirect_uri=${redirectUri}`,
         );
     }
 
-    loginWithOAuth(data: OAuthData) {
+    loginWithOAuthPraktikum(data: OAuthData) {
         return this.http.request.post<EmptyResponse>(
-            AUTH_ROUTES.OAUTH_LOGIN,
+            PRAKTIKUM_AUTH_ROUTES.OAUTH_LOGIN,
             data,
             {
                 headers: {
@@ -36,9 +42,34 @@ export class AuthAPI {
         );
     }
 
+    getOAuthYandexToken(code: string) {
+        return axios.post<YandexTokenResponse>(
+            YANDEX_OAUTH_TOKEN,
+            (new URLSearchParams(`grant_type=authorization_code&code=${code}&client_id=${YANDEX_OAUTH_CLIENT_ID}`
+                + `&client_secret=${YANDEX_OAUTH_CLIENT_SECRET}`)),
+            {
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                },
+            },
+        );
+    }
+
+    getOAuthYandexUserInfo(token: string) {
+        return axios.get<YandexUserInfoResponse>(
+            YANDEX_OAUTH_USER_INFO,
+            {
+                headers: {
+                    'Content-type': 'application/json; charset=utf-8',
+                    Authorization: `OAuth ${token}`,
+                },
+            },
+        );
+    }
+
     login(formData: FormData) {
         return this.http.request.post<EmptyResponse>(
-            AUTH_ROUTES.LOGIN,
+            PRAKTIKUM_AUTH_ROUTES.LOGIN,
             formData,
             this.http.configFormDataAsJSON,
         );
@@ -46,7 +77,7 @@ export class AuthAPI {
 
     signup(formData: FormData) {
         return this.http.request.post<IDResponse>(
-            AUTH_ROUTES.SIGNUP,
+            PRAKTIKUM_AUTH_ROUTES.SIGNUP,
             formData,
             this.http.configFormDataAsJSON,
         );
@@ -54,7 +85,7 @@ export class AuthAPI {
 
     logout() {
         return this.http.request.post<EmptyResponse>(
-            AUTH_ROUTES.LOGOUT,
+            PRAKTIKUM_AUTH_ROUTES.LOGOUT,
         );
     }
 }

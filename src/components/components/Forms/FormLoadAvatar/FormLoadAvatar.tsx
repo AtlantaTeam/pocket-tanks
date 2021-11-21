@@ -12,7 +12,12 @@ import { sendNotificationDefault } from 'modules/notifications/notifications';
 import imgAvatarPlaceHolder from '../../../../../static/images/avatar-placeholder.svg';
 
 import { Label } from '../components/Input/components/Label/Label';
-import { getUserLoaderState, getUserAvatar, getUserAvatarResourse } from '../../../../redux/selectors/user-state';
+import {
+    getUserLoaderState,
+    getUserAvatar,
+    getUserAvatarResourse,
+    getUserProvider,
+} from '../../../../redux/selectors/user-state';
 import { changeAvatarRequested } from '../../../../redux/actions/user-state/change-avatar';
 import { getUserAvatar as getUserAvatarController } from '../../../../controllers/user-controller';
 import { avatarFulfilled } from '../../../../redux/actions/user-state/get-avatar';
@@ -22,6 +27,7 @@ export const FormLoadAvatar = () => {
     const { t } = useTranslation();
     const isLoading = useSelector(getUserLoaderState);
     const avatar = useSelector(getUserAvatar);
+    const userProvider = useSelector(getUserProvider);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
     const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
 
@@ -85,44 +91,67 @@ export const FormLoadAvatar = () => {
                 <div className="form-tab__container">
                     <div className="form-tab__wrap">
                         <Image className="image_avatar" imagePath={state.img} />
-                        <Label className="label label_avatar" text={t('loadAvatar')} inputName="avatar">
-                            <input
-                                ref={fileInput}
-                                id="avatar"
-                                name="avatar"
-                                type="file"
-                                accept="image/jpeg"
-                                className="input-avatar"
-                                onChange={
-                                    (event) => {
-                                        if (event.target?.files?.[0]) {
-                                            setState({
-                                                message: `${t('fileUploaded')}: ${event.target.files[0].name}`,
-                                                className: 'load-message',
-                                                img: URL.createObjectURL(event.target.files[0]),
-                                            });
-                                        } else {
-                                            setState({
-                                                message: t('errorTryAgain'),
-                                                className: 'load-message load-message_error',
-                                                img: initialStateAvatar,
-                                            });
+                        {
+                            !userProvider
+                            && (
+                                <Label className="label label_avatar" text={t('loadAvatar')} inputName="avatar">
+                                    <input
+                                        ref={fileInput}
+                                        id="avatar"
+                                        name="avatar"
+                                        type="file"
+                                        accept="image/jpeg"
+                                        className="input-avatar"
+                                        onChange={
+                                            (event) => {
+                                                if (event.target?.files?.[0]) {
+                                                    setState({
+                                                        message: `${t('fileUploaded')}: ${event.target.files[0].name}`,
+                                                        className: 'load-message',
+                                                        img: URL.createObjectURL(event.target.files[0]),
+                                                    });
+                                                } else {
+                                                    setState({
+                                                        message: t('errorTryAgain'),
+                                                        className: 'load-message load-message_error',
+                                                        img: initialStateAvatar,
+                                                    });
+                                                }
+                                            }
                                         }
-                                    }
-                                }
-                            />
-                        </Label>
+                                    />
+                                </Label>
+                            )
+                        }
                     </div>
-                    <span className={state.className}>{state.message}</span>
+                    {
+                        userProvider
+                            ? (
+                                <span className={state.className}>
+                                    {`${userProvider.toUpperCase()} ${t('noAvatarToChange')} `
+                                + `${userProvider.toUpperCase()} `}
+                                </span>
+
+                            )
+                            : <span className={state.className}>{state.message}</span>
+                    }
                 </div>
-                <div>
-                    <ButtonSubmit
-                        className="button button_orange"
-                        type="submit"
-                        text={t('update')}
-                        isLoading={isLoading}
-                    />
-                </div>
+                {
+                    userProvider
+                        ? (
+                            <div className="no-button" />
+                        )
+                        : (
+                            <div>
+                                <ButtonSubmit
+                                    className="button button_orange"
+                                    type="submit"
+                                    text={t('update')}
+                                    isLoading={isLoading}
+                                />
+                            </div>
+                        )
+                }
             </form>
         </>
     );

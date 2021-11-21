@@ -9,6 +9,8 @@ export const EN = {
     enterNewPassword: 'Create new password',
     newPassword: 'New password',
     secondNewPassword: 'Repeat new password',
+    noPasswordToChange: 'user can change password only from user account in',
+    noAvatarToChange: 'user can change avatar only from user account in',
     update: 'Update',
     yourDisplayName: 'Your display name',
     displayName: 'Display Name',
@@ -110,4 +112,5 @@ export const EN = {
     ohComeOn: 'Oh, come on!',
 
     bullet: 'Bullet',
+    nothing: 'Nothing here',
 };

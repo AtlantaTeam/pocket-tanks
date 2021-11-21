@@ -6,7 +6,9 @@ import FormData from 'form-data';
 import { getUserInfo, setUserInfo } from 'server/utils/userLocals';
 import { getUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import { objectToCamel } from 'ts-case-convert';
-import { BASE_URL, RESOURCES_BASE_URL, USER_ROUTES } from '../../constants/api-routes';
+import {
+    BASE_URL, RESOURCES_BASE_URL, USER_ROUTES, YANDEX_OAUTH_AVATAR,
+} from '../../constants/api-routes';
 
 export const changeProfileController = (
     req: Request,
@@ -105,29 +107,31 @@ export const getUserAvatarController = (
     next: NextFunction,
 ) => {
     const userInfo = getUserInfo(res);
+    const { authCookieForAuth, uuidForAuth, yandexToken } = req.cookies;
+    const avatarURL = yandexToken
+        ? `${YANDEX_OAUTH_AVATAR.replace(':avatarId', userInfo.defaultAvatarId)}`
+        : `${RESOURCES_BASE_URL}${encodeURIComponent(userInfo.avatar)}`;
+    axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
+
     if (userInfo && 'avatar' in userInfo) {
-        const { authCookieForAuth, uuidForAuth } = req.cookies;
-        axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
         axios.defaults.withCredentials = true;
-        axios
-            .get(
-                `${RESOURCES_BASE_URL}${encodeURIComponent(
-                    userInfo.avatar,
-                )}`,
-                { responseType: 'arraybuffer' },
-            )
-            .then((img: AxiosResponse) => {
-                const contentType = String(
-                    img.headers['content-type'],
-                );
-                const imgSrc = `data:${contentType};base64,${Buffer.from(
-                    img.data,
-                ).toString('base64')}`;
-                res.status(200);
-                res.send(imgSrc);
-                return imgSrc;
-            })
+        axios.get(avatarURL, { responseType: 'arraybuffer' })
+            .then(translateImageToBase64())
             .catch((err) => next(err));
     }
     res.status(404);
+
+    function translateImageToBase64() {
+        return (img: AxiosResponse) => {
+            const contentType = String(
+                img.headers['content-type'],
+            );
+            const imgSrc = `data:${contentType};base64,${Buffer.from(
+                img.data,
+            ).toString('base64')}`;
+            res.status(200);
+            res.send(imgSrc);
+            return imgSrc;
+        };
+    }
 };

@@ -39,14 +39,15 @@ export const FormEditDataSchema = Yup.object().shape({
         .min(2, ERRORS.ERROR_TEXT)
         .max(50, ERRORS.ERROR_TEXT)
         .required(ERRORS.ERROR_REQUIRED_FIELD),
-    phone: Yup.string()
-        .matches(new RegExp(PATTERNS.PATTERN_PHONE),
-            { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+    // phone: Yup.string()
+    //     .matches(new RegExp(PATTERNS.PATTERN_PHONE),
+    //         { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
+    //     .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
 export const FormEditProfileData = () => {
     const userProfile = useSelector(getUserProfile) as UserInfoResponse;
+    const { userProvider } = userProfile;
     const isLoading = useSelector(getUserLoaderState);
     const dispatch = useDispatch();
     const { t } = useTranslation();
@@ -59,7 +60,7 @@ export const FormEditProfileData = () => {
                 login: userProfile.login ?? '',
                 first_name: userProfile.firstName ?? '',
                 second_name: userProfile.secondName ?? '',
-                phone: userProfile.phone ?? '',
+                // phone: userProfile.phone ?? '',
             }}
             validationSchema={FormEditDataSchema}
             onSubmit={(values) => {
@@ -83,6 +84,7 @@ export const FormEditProfileData = () => {
                                     labelText={t('displayName')}
                                     errorText={errors.display_name}
                                     viewError={errors.display_name && touched.display_name}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
@@ -93,6 +95,7 @@ export const FormEditProfileData = () => {
                                     labelText={t('email')}
                                     errorText={errors.email}
                                     viewError={errors.email && touched.email}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
@@ -103,6 +106,7 @@ export const FormEditProfileData = () => {
                                     labelText={t('login')}
                                     errorText={errors.login}
                                     viewError={errors.login && touched.login}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
@@ -113,6 +117,7 @@ export const FormEditProfileData = () => {
                                     labelText={t('firstName')}
                                     errorText={errors.first_name}
                                     viewError={errors.first_name && touched.first_name}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
@@ -123,16 +128,7 @@ export const FormEditProfileData = () => {
                                     labelText={t('secondName')}
                                     errorText={errors.second_name}
                                     viewError={errors.second_name && touched.second_name}
-                                />
-                                <FieldSet
-                                    className="input input_inverted"
-                                    placeholder={t('yourPhone')}
-                                    name="phone"
-                                    id="phone"
-                                    type="phone"
-                                    labelText={t('phone')}
-                                    errorText={errors.phone}
-                                    viewError={errors.phone && touched.phone}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <div className="form__fields-group">
                                     <LangSwitch />
@@ -140,14 +136,22 @@ export const FormEditProfileData = () => {
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <ButtonSubmit
-                            className="button button_orange"
-                            type="submit"
-                            text={t('update')}
-                            isLoading={isLoading}
-                        />
-                    </div>
+                    {
+                        userProvider
+                            ? (
+                                <div className="no-button" />
+                            )
+                            : (
+                                <div>
+                                    <ButtonSubmit
+                                        className="button button_orange"
+                                        type="submit"
+                                        text={t('update')}
+                                        isLoading={isLoading}
+                                    />
+                                </div>
+                            )
+                    }
                 </Form>
             )}
         </Formik>

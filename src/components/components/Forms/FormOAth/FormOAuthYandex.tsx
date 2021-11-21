@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'i18n';
 import {
-    OAUTH_AUTHORIZE_URL, OAUTH_YANDEX_CLIENT_ID, SERVER_URL, YANDEX_REDIRECT_URI,
+    YANDEX_OAUTH_AUTHORIZE_URL, YANDEX_OAUTH_CLIENT_ID, SERVER_URL, YANDEX_REDIRECT_URI,
 } from 'constants/api-routes';
 import { objectToCamel } from 'ts-case-convert';
 
@@ -16,13 +16,13 @@ import './FormOAuth.css';
 const IS_DEV = process.env.NODE_ENV === 'development';
 
 export const FormOAuthYandex = () => {
-    const [clientServiceId, setClientServiceId] = useState(OAUTH_YANDEX_CLIENT_ID);
+    const [clientServiceId, setClientServiceId] = useState(YANDEX_OAUTH_CLIENT_ID);
     const [redirectUri, setRedirectUri] = useState(YANDEX_REDIRECT_URI);
     const { t } = useTranslation();
 
     // For local Yandex API
     useEffect(() => {
-        if (IS_DEV) {
+        if (IS_DEV && false) {
             authAPIDirectToAPI.getServiceId(`${SERVER_URL}`)
                 .then(({ data }) => {
                     const { serviceId } = objectToCamel(data);
@@ -33,7 +33,7 @@ export const FormOAuthYandex = () => {
                     console.log(err);
                 });
         } else {
-            setClientServiceId(OAUTH_YANDEX_CLIENT_ID);
+            setClientServiceId(YANDEX_OAUTH_CLIENT_ID);
         }
     }, [clientServiceId]);
 
@@ -42,7 +42,7 @@ export const FormOAuthYandex = () => {
             <Text className="text" text={t('enterWith')} />
 
             <a
-                href={`${OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${redirectUri}`}
+                href={`${YANDEX_OAUTH_AUTHORIZE_URL}&client_id=${clientServiceId}&redirect_uri=${redirectUri}`}
                 target="_self"
             >
                 <Button

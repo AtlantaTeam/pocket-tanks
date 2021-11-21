@@ -16,7 +16,16 @@ export const LeaderBoard = () => {
         getLeaderBoard()
             .then((data: LeaderBoardResponse) => {
                 console.log('Results successfully fetched from LeaderBoard!');
-                setPlayers(data);
+                if (!data?.length) {
+                    setPlayers([{
+                        data: {
+                            name: t('nothing'),
+                            tankpoints: 0,
+                        },
+                    }]);
+                } else {
+                    setPlayers(data);
+                }
                 return true;
             })
             .catch(() => {
@@ -38,7 +47,12 @@ export const LeaderBoard = () => {
                                 key={item?.data?.name}
                                 className="leader-board__item"
                             >
-                                {`${String(index + 1)}   ${item?.data?.name}: ${item?.data?.tankpoints}`}
+                                {
+                                    item?.data?.tankpoints
+                                        ? `${String(index + 1)}     `
+                                            + `${item?.data?.name}: ${item?.data?.tankpoints || ''}`
+                                        : `${item?.data?.name}`
+                                }
                             </div>
                         ))
                             : <Spinner />

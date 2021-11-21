@@ -40,7 +40,9 @@ import {
     selectWeapon,
     setWeapons,
 } from '../../../redux/actions/game-state';
-import { getUserAvatar, getUserAvatarResourse, getUserNickname } from '../../../redux/selectors/user-state';
+import {
+    getUserAvatar, getUserAvatarResourse, getUserId, getUserNickname,
+} from '../../../redux/selectors/user-state';
 import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
 const generateRandomWeapons = (bulletTypes: typeof Bullet[], amount: number) => {
@@ -79,6 +81,7 @@ const Game = () => {
     const moves = useSelector(getMoves);
     const playerPoints = useSelector(getPlayerPoints);
     const enemyPoints = useSelector(getEnemyPoints);
+    const userId = useSelector(getUserId);
     const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
@@ -374,9 +377,9 @@ const Game = () => {
                     if (isGameOver) {
                         if (playerPoints > enemyPoints) {
                             winnerText = userName || t('youAreWinner');
-                            if (canPointsSentToLeaderBoard) {
+                            if (canPointsSentToLeaderBoard && userId) {
                                 canPointsSentToLeaderBoard = false;
-                                addUserResults(userName, playerPoints)
+                                addUserResults(userId, playerPoints)
                                     .then(() => {
                                         console.log('Results successfully sent to LeaderBoard!');
                                         return true;

@@ -19,6 +19,9 @@ const languages = {
         .use(LanguageDetector)
         .use(initReactI18next)
         .init({
+            detection: {
+                order: ['htmlTag'],
+            },
             fallbackLng: 'en',
             supportedLngs: ['en', 'ru'],
             load: 'languageOnly',

@@ -16,6 +16,11 @@ export const getUserInfo = async () => {
     return objectToCamel(response.data);
 };
 
+export const getYandexUserInfo = async (token: string) => {
+    const response = await authAPI.getOAuthYandexUserInfo(token);
+    return objectToCamel(response.data);
+};
+
 export const logout = async () => {
     const response = await authAPI.logout();
     return response.data;

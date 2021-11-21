@@ -9,6 +9,8 @@ export const RU = {
     enterNewPassword: 'Придумайте новый пароль',
     newPassword: 'Новый пароль',
     secondNewPassword: 'Повторите новый пароль',
+    noPasswordToChange: 'пользователю можно поменять пароль только из учетной записи',
+    noAvatarToChange: 'пользователю можно поменять аватар только из учетной записи',
     update: 'Изменить',
     yourDisplayName: 'Ваше имя в игре',
     displayName: 'Имя в игре',
@@ -110,4 +112,5 @@ export const RU = {
     ohComeOn: 'Да как так то?',
 
     bullet: 'Ядро',
+    nothing: 'Пока пусто',
 };

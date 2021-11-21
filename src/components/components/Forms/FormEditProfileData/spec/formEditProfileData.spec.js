@@ -15,7 +15,7 @@ describe('<FormEditProfileData />', () => {
         login: 'login',
         firstName: 'firstName',
         secondName: 'secondName',
-        phone: 'phone',
+        // phone: 'phone',
     };
 
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('<FormEditProfileData />', () => {
                 login: userInfo.login,
                 first_name: userInfo.firstName,
                 second_name: userInfo.secondName,
-                phone: userInfo.phone,
+                // phone: userInfo.phone,
             });
     });
 
@@ -57,7 +57,7 @@ describe('<FormEditProfileData />', () => {
             login: 'login',
             first_name: 'first_name',
             second_name: 'second_name',
-            phone: 'phone',
+            // phone: 'phone',
         });
 
         const formData = new FormData();
@@ -66,7 +66,7 @@ describe('<FormEditProfileData />', () => {
         formData.append('login', 'login');
         formData.append('first_name', 'first_name');
         formData.append('second_name', 'second_name');
-        formData.append('phone', 'phone');
+        // formData.append('phone', 'phone');
 
         expect(store.getActions()).toEqual([
             changeProfileRequested(formData),

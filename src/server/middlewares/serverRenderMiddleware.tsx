@@ -79,7 +79,7 @@ export const serverRenderMiddleware = (
         .runSaga(rootSaga)
         .toPromise()
         .then(() => (userInfo ? User.findOne({
-            where: { remote_id: userInfo.id },
+            where: { id: userInfo.localId },
         }) : null))
         .then((userFromDB) => {
             if (userFromDB) {

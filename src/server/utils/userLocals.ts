@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { UserInfoResponse } from '../../api/types';
+import { UserInfoResponse, YandexUserInfoResponse } from '../../api/types';
 
 export const isUserAuth = (res: Response) => !!res.locals.isUserAuth;
 
@@ -15,4 +15,13 @@ export const getUserInfo = (res: Response) => res.locals.userInfo as UserInfoRes
 
 export const setUserInfo = (res: Response, user: UserInfoResponse) => {
     res.locals.userInfo = user;
+};
+
+export const setYandexUserInfo = (res: Response, user: YandexUserInfoResponse) => {
+    res.locals.userInfo = {
+        ...user,
+        email: user?.defaultEmail,
+        secondName: user?.lastName,
+        avatar: '',
+    };
 };

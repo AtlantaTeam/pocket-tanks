@@ -1,10 +1,11 @@
-import { AUTH_ROUTES, LEADER_BOARD_ROUTES } from 'constants/api-routes';
+import { PRAKTIKUM_AUTH_ROUTES } from 'constants/api-routes';
 import Router from 'express';
 
 import {
-    addUserResultsController, getAllLeaderboardController,
     getUserInfoController,
-    loginController, loginWithOAuthController,
+    loginController,
+    loginWithOAuthController,
+    loginWithOAuthYandexController,
     logoutController,
     signUpController,
 } from '../controllers/authControllers';
@@ -13,18 +14,14 @@ const authRouter = Router();
 
 authRouter.get('/', loginWithOAuthController);
 
-authRouter.get('/oauth/yandex', loginWithOAuthController);
+authRouter.get('/oauth/yandex', loginWithOAuthYandexController);
 
-authRouter.post(LEADER_BOARD_ROUTES.ADD, addUserResultsController);
+authRouter.post(PRAKTIKUM_AUTH_ROUTES.LOGIN, loginController);
 
-authRouter.post(LEADER_BOARD_ROUTES.GET_ALL, getAllLeaderboardController);
+authRouter.post(PRAKTIKUM_AUTH_ROUTES.SIGNUP, signUpController);
 
-authRouter.post(AUTH_ROUTES.LOGIN, loginController);
+authRouter.get(PRAKTIKUM_AUTH_ROUTES.GET_USER_INFO, getUserInfoController);
 
-authRouter.post(AUTH_ROUTES.SIGNUP, signUpController);
-
-authRouter.get(AUTH_ROUTES.GET_USER_INFO, getUserInfoController);
-
-authRouter.post(AUTH_ROUTES.LOGOUT, logoutController);
+authRouter.post(PRAKTIKUM_AUTH_ROUTES.LOGOUT, logoutController);
 
 export { authRouter };

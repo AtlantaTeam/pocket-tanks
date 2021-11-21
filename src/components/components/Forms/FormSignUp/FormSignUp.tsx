@@ -34,10 +34,10 @@ export const SignUpSchema = Yup.object().shape({
         .min(2, ERRORS.ERROR_TEXT)
         .max(50, ERRORS.ERROR_TEXT)
         .required(ERRORS.ERROR_REQUIRED_FIELD),
-    phone: Yup.string()
-        .matches(new RegExp(PATTERNS.PATTERN_PHONE),
-            { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+    // phone: Yup.string()
+    //     .matches(new RegExp(PATTERNS.PATTERN_PHONE),
+    //         { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
+    //     .required(ERRORS.ERROR_REQUIRED_FIELD),
     password: Yup.string()
         .min(6, ERRORS.ERROR_PASSWORD)
         .max(50, ERRORS.ERROR_PASSWORD)
@@ -66,7 +66,7 @@ export const FormSignUp = () => {
                     login: '',
                     first_name: '',
                     second_name: '',
-                    phone: '',
+                    // phone: '',
                     password: '',
                     password_again: '',
                 }}
@@ -118,16 +118,6 @@ export const FormSignUp = () => {
                             labelText={t('secondName')}
                             errorText={errors.second_name}
                             viewError={errors.second_name && touched.second_name}
-                        />
-                        <FieldSet
-                            className="input input_normal"
-                            placeholder={t('yourPhone')}
-                            name="phone"
-                            id="phone"
-                            type="phone"
-                            labelText={t('phone')}
-                            errorText={errors.phone}
-                            viewError={errors.phone && touched.phone}
                         />
                         <FieldSet
                             className="input input_normal"
