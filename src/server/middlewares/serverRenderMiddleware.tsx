@@ -53,6 +53,7 @@ export const serverRenderMiddleware = (
 
     const renderApp = () => {
         const userLang = user?.get('lang') || i18n.resolvedLanguage || i18n.language;
+        const userTheme = user?.get('theme') || i18n.resolvedLanguage || i18n.language;
         const jsx = (
             <Provider store={store}>
                 <StaticRouter
@@ -72,7 +73,7 @@ export const serverRenderMiddleware = (
         }
         res
             .status(context.statusCode || 200)
-            .send(getHtml(reactHtml, reduxState, userLang));
+            .send(getHtml(reactHtml, reduxState, userLang, userTheme));
     };
 
     store
@@ -122,7 +123,7 @@ export const serverRenderMiddleware = (
         .catch((err) => next(err));
 };
 
-function getHtml(reactHtml: string, reduxState = {}, lang: string | undefined) {
+function getHtml(reactHtml: string, reduxState = {}, lang: string | undefined, theme: string | undefined) {
     return `
         <!DOCTYPE html>
         <html lang="${lang || 'en'}">
@@ -136,7 +137,7 @@ function getHtml(reactHtml: string, reduxState = {}, lang: string | undefined) {
             <link rel="icon" type="image/svg+xml" href="favicon.svg">
             <link href="css/style.css" rel="stylesheet">
         </head>
-        <body>
+        <body data-theme="${theme || 'night'}">
             <div id="root">${reactHtml}</div>
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
