@@ -11,9 +11,9 @@ import { SagaMiddleware } from 'redux-saga';
 import { ROUTES } from 'utils/constants/routes';
 import { App } from 'components/App/App';
 import { User } from 'db/models/User';
-import { UserInfoResponse } from 'api/types';
+import { ErrorResponse, UserInfoResponse } from 'api/types';
 import { i18n } from 'i18n';
-import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
+import { fetchUserInfoFailed, fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
 import { loginFulfilled } from '../../redux/actions/user-state/login';
 import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
@@ -49,11 +49,13 @@ export const serverRenderMiddleware = (
             const cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
             store.dispatch(setAuthCookie(cookie));
         }
+    } else if (res.locals.error) {
+        store.dispatch(fetchUserInfoFailed(res.locals.error));
     }
 
     const renderApp = () => {
         const userLang = user?.get('lang') || i18n.resolvedLanguage || i18n.language;
-        const userTheme = user?.get('theme') || i18n.resolvedLanguage || i18n.language;
+        const userTheme = user?.get('theme');
         const jsx = (
             <Provider store={store}>
                 <StaticRouter
@@ -142,9 +144,7 @@ function getHtml(reactHtml: string, reduxState = {}, lang: string | undefined, t
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
-                window.__INITIAL_STATE__ = ${JSON.stringify(
-        reduxState,
-    )}
+                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
             </script>
             <script defer src="/main.js"></script>
         </body>

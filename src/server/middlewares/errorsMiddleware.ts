@@ -11,7 +11,8 @@ export const errorsMiddleware = (
     }
 
     const { response, message } = err;
-    res.status(response?.status || 500).send(response?.data?.reason || message);
+    // res.status(response?.status || 500).json({ error: response?.data?.reason || message });
+    res.locals.error = { message: response?.data?.reason || message };
 
     return next();
 };

@@ -85,5 +85,5 @@ export type LeaderBoardResponse = {
     data: {
         name: string,
         tankpoints: number,
-    }
+    },
 }[];

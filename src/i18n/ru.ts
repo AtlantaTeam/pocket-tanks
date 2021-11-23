@@ -113,4 +113,5 @@ export const RU = {
 
     bullet: 'Ядро',
     nothing: 'Пока пусто',
+    privacyPage: 'Конфиденциальность',
 };

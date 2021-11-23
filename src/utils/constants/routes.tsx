@@ -8,6 +8,7 @@ import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
 import { Store } from 'redux';
+import { Privacy } from 'components/Pages/Privacy/Privacy';
 import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
 import { avatarRequested } from '../../redux/actions/user-state/get-avatar';
 
@@ -29,6 +30,13 @@ export const MAIN_ROUTE = {
     path: '/',
     exact: true,
     component: Main,
+};
+
+export const PRIVACY_ROUTE = {
+    name: i18n.t('privacyPage'),
+    path: '/privacy',
+    exact: true,
+    component: Privacy,
 };
 
 export const ROUTES = [

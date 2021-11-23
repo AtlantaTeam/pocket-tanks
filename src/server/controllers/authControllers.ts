@@ -186,7 +186,9 @@ export const logoutController = (req: Request, res: Response, next: NextFunction
         clearCookiesAndLocals(res);
     } else {
         getAuthServerToAPI(res).logout()
-            .then(clearCookiesAndLocals.bind(null, res))
-            .catch((err) => next(err));
+            .then(() => clearCookiesAndLocals(res))
+            .catch((err) => {
+                clearCookiesAndLocals(res);
+            });
     }
 };

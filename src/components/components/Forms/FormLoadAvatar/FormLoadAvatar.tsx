@@ -29,7 +29,7 @@ export const FormLoadAvatar = () => {
     const avatar = useSelector(getUserAvatar);
     const userProvider = useSelector(getUserProvider);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
-    const initialStateAvatar = avatar ? `${avatar}` : imgAvatarPlaceHolder;
+    const initialStateAvatar = avatar && avatar.indexOf('DOCTYPE') === -1 ? `${avatar}` : imgAvatarPlaceHolder;
 
     const [state, setState] = useState({
         message: t('avatarIsEmpty'),
@@ -43,12 +43,14 @@ export const FormLoadAvatar = () => {
         if (!avatar && userAvatarResourse) {
             getUserAvatarController()
                 .then((data) => {
-                    setState({
-                        message: avatar ? t('newAvatarIsEmpty') : t('avatarIsEmpty'),
-                        className: 'load-message',
-                        img: data,
-                    });
-                    dispatch(avatarFulfilled(data));
+                    if (data.indexOf('DOCTYPE') === -1) {
+                        setState({
+                            message: avatar ? t('newAvatarIsEmpty') : t('avatarIsEmpty'),
+                            className: 'load-message',
+                            img: data,
+                        });
+                        dispatch(avatarFulfilled(data));
+                    }
                     return data;
                 })
                 .catch((err) => {

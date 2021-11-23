@@ -13,6 +13,8 @@ interface SpareUIProps {
     errorMessage: string;
 }
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 export function SpareUI(props: SpareUIProps) {
     const { t } = useTranslation();
 
@@ -24,7 +26,7 @@ export function SpareUI(props: SpareUIProps) {
                 imagePath={ErrorLogo}
                 alt={t('error')}
             />
-            <Text text={props.errorMessage} className="text spare-ui__message" />
+            <Text text={IS_DEV ? props.errorMessage : ''} className="text spare-ui__message" />
             <Button
                 type="button"
                 className="button button_orange"

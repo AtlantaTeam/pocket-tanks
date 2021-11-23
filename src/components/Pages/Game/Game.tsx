@@ -85,7 +85,7 @@ const Game = () => {
     const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
-    const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
+    const avatarPath = avatar && avatar.indexOf('DOCTYPE') === -1 ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
         const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
         activeTank.power = power;
@@ -112,8 +112,10 @@ const Game = () => {
         if (!avatar && userAvatarResourse) {
             getUserAvatarController()
                 .then((data) => {
-                    setAvatarImg({ img: data });
-                    dispatch(avatarFulfilled(data));
+                    if (data.indexOf('DOCTYPE') === -1) {
+                        setAvatarImg({ img: data });
+                        dispatch(avatarFulfilled(data));
+                    }
                     return data;
                 })
                 .catch((err) => {

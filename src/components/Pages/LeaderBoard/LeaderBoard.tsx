@@ -10,6 +10,7 @@ import { Page } from '../components/Page/Page';
 
 export const LeaderBoard = () => {
     const [players, setPlayers] = useState<LeaderBoardResponse>([]);
+    const [hasError, setHasError] = useState<{ error: string } | null>(null);
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -29,7 +30,7 @@ export const LeaderBoard = () => {
                 return true;
             })
             .catch(() => {
-                throw new Error('Failed to fetch results from LeaderBoard!');
+                setHasError({ error: 'Failed to fetch results from LeaderBoard!' });
             });
     }, []);
 
@@ -42,7 +43,8 @@ export const LeaderBoard = () => {
                 />
                 <div className="leader-board__container">
                     {
-                        players?.length ? players.map((item, index) => (
+                        // eslint-disable-next-line no-nested-ternary
+                        !!players?.map && players.length ? players.map((item, index) => (
                             <div
                                 key={item?.data?.name}
                                 className="leader-board__item"
@@ -55,7 +57,7 @@ export const LeaderBoard = () => {
                                 }
                             </div>
                         ))
-                            : <Spinner />
+                            : (!players?.map || hasError) ? (new Error('Error happened')) : <Spinner />
                     }
                 </div>
             </div>

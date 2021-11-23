@@ -13,6 +13,13 @@ import { httpToAPI } from '../../modules/http-service/http-service';
 import { AuthAPI } from '../../api/auth-api';
 import { setAuthServerToAPI } from '../utils/authServerToAPILocals';
 
+function clearCookiesAndSendErr(err: any, res: Response<any, Record<string, any>>, next: NextFunction) {
+    if (err.response?.status === 401) {
+        clearCookiesAndLocals(res);
+    }
+    next(err);
+}
+
 export const checkAuth = () => (
     req: Request,
     res: Response,
@@ -51,7 +58,7 @@ export const checkAuth = () => (
                 next();
                 return true;
             })
-            .catch((err) => next(err));
+            .catch((err) => clearCookiesAndSendErr(err, res, next));
     } else if (yandexToken) {
         authServerToAPI.getOAuthYandexUserInfo(yandexToken)
             .then((userInfo) => {
@@ -83,12 +90,7 @@ export const checkAuth = () => (
                 next();
                 return true;
             })
-            .catch((err) => {
-                if (err.response?.status === 401) {
-                    return clearCookiesAndLocals(res);
-                }
-                return next(err);
-            });
+            .catch((err) => clearCookiesAndSendErr(err, res, next));
     } else {
         setAuthServerToAPI(res, authServerToAPI);
         setUserServerToAPI(res, userServerToAPI);

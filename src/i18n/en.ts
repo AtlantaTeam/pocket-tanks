@@ -113,4 +113,5 @@ export const EN = {
 
     bullet: 'Bullet',
     nothing: 'Nothing here',
+    privacyPage: 'Privacy Policy',
 };
