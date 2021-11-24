@@ -18,7 +18,6 @@ export const GOOGLE_OAUTH_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || ''
 export const GOOGLE_OAUTH_AUTHORIZE_URL = 'https://accounts.google.com/o/oauth2/v2/auth?'
     + 'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+'
     + 'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&'
-    // + 'include_granted_scopes=true&'  +openid
     + 'response_type=code';
 export const GOOGLE_OAUTH_TOKEN = 'https://oauth2.googleapis.com/token';
 export const GOOGLE_OAUTH_USER_INFO = 'https://www.googleapis.com/oauth2/v2/userinfo';

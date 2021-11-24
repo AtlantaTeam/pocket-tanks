@@ -15,32 +15,8 @@ import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg'
 import imageGoogleLogo from '../../../../../static/images/google-logo-full.svg';
 import './FormOAuth.css';
 
-const IS_DEV = process.env.NODE_ENV === 'development';
-
 export const FormOAuth = () => {
-    const [yandexClientId, setYandexClientId] = useState(YANDEX_OAUTH_CLIENT_ID);
-    const [yandexRedirectUri, setYandexRedirectUri] = useState(YANDEX_REDIRECT_URI);
-    const [googleClientId, setGoogleClientId] = useState(GOOGLE_OAUTH_CLIENT_ID);
-    const [googleRedirectUri, setGoogleRedirectUri] = useState(GOOGLE_REDIRECT_URI);
     const { t } = useTranslation();
-
-    // For local Yandex API
-    useEffect(() => {
-        if (IS_DEV) {
-            setYandexRedirectUri(YANDEX_REDIRECT_URI.replace('pocketanks.ru', 'localhost:5000'));
-            setGoogleRedirectUri(GOOGLE_REDIRECT_URI.replace('pocketanks.ru', 'localhost:5000'));
-        //     authAPIDirectToAPI.getServiceId(`${SERVER_URL}`)
-        //         .then(({ data }) => {
-        //             const { serviceId } = objectToCamel(data);
-        //             setYandexClientId(serviceId);
-        //             setYandexRedirectUri(SERVER_URL);
-        //             return serviceId;
-        //         }).catch((err) => {
-        //             console.log(err);
-        //         });
-        // } else {
-        }
-    }, []);
 
     return (
         <form className="form-oauth">
@@ -48,7 +24,8 @@ export const FormOAuth = () => {
             <div className="social-button-wrapper">
                 <a
                     className="social-button"
-                    href={`${YANDEX_OAUTH_AUTHORIZE_URL}&client_id=${yandexClientId}&redirect_uri=${yandexRedirectUri}`}
+                    href={`${YANDEX_OAUTH_AUTHORIZE_URL}&client_id=${YANDEX_OAUTH_CLIENT_ID}`
+                    + `&redirect_uri=${YANDEX_REDIRECT_URI}`}
                     target="_self"
                 >
                     <Button
@@ -65,7 +42,8 @@ export const FormOAuth = () => {
 
                 <a
                     className="social-button"
-                    href={`${GOOGLE_OAUTH_AUTHORIZE_URL}&client_id=${googleClientId}&redirect_uri=${googleRedirectUri}`}
+                    href={`${GOOGLE_OAUTH_AUTHORIZE_URL}&client_id=${GOOGLE_OAUTH_CLIENT_ID}`
+                    + `&redirect_uri=${GOOGLE_REDIRECT_URI}`}
                     target="_self"
                 >
                     <Button
