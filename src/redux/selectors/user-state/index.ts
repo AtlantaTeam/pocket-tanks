@@ -9,10 +9,10 @@ export const getErrorText = (state: State) => getUserState(state).error;
 
 export const getUserId = (state: State) => {
     const userProfile = getUserProfile(state);
-    if (!userProfile || (!('id' in userProfile) && !('localId' in userProfile))) {
+    if (!userProfile || !('localId' in userProfile)) {
         return null;
     }
-    return userProfile.localId || userProfile.id;
+    return userProfile.localId;
 };
 
 export const getUserProvider = (state: State) => {

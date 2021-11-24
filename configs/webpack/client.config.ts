@@ -4,13 +4,28 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-import { IS_DEV, SRC_DIR, STATIC_DIR } from './env';
+import {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    IS_DEV,
+    SRC_DIR,
+    STATIC_DIR,
+    YANDEX_CLIENT_ID,
+    YANDEX_CLIENT_SECRET,
+} from './env';
 
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
 import { tsLoaders } from './loaders/tsLoaders';
 
 const rootDir = process.cwd();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Dotenv = require('dotenv-webpack');
+
+if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
+    require('dotenv').config({ path: './stage/dev.env' });
+}
 
 export const clientConfig: Configuration = {
     target: 'web',
@@ -44,11 +59,23 @@ export const clientConfig: Configuration = {
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: IS_DEV ? '"development"' : '"production"',
-            },
+        new Dotenv({
+            path: 'stage/dev.env',
+
         }),
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined
+            GOOGLE_CLIENT_ID,
+            GOOGLE_CLIENT_SECRET,
+            YANDEX_CLIENT_ID,
+            YANDEX_CLIENT_SECRET,
+        }),
+        //
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         NODE_ENV: IS_DEV ? '"development"' : '"production"',
+        //     },
+        // }),
         new MiniCssExtractPlugin({
             filename: 'css/style.css',
         }),

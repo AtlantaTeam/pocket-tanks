@@ -5,18 +5,20 @@ import { Optional } from 'sequelize';
 
 export interface UserAttributes {
     id: number,
-    remote_id: number;
-    yandex_id: number;
+    remote_id: string;
+    yandex_id: string;
+    google_id: string;
     name: string;
     tankpoints: number;
     theme: string;
     lang: string;
     yandex_token: string;
+    google_token: string;
     created_at: Date,
     updated_at: Date,
 }
 export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'remote_id' | 'yandex_id' | 'yandex_token'
-| 'created_at' | 'updated_at' | 'theme' | 'lang' | 'tankpoints'>;
+| 'google_id' | 'google_token' | 'created_at' | 'updated_at' | 'theme' | 'lang' | 'tankpoints'>;
 
 @Table({
     tableName: 'users',
@@ -24,11 +26,15 @@ export type UserCreationAttributes = Optional<UserAttributes, 'id' | 'remote_id'
 export class User extends Model<UserAttributes, UserCreationAttributes> {
     @Unique
     @Column
-    remote_id!: number;
+    remote_id!: string;
 
     @Unique
     @Column
-    yandex_id!: number;
+    yandex_id!: string;
+
+    @Unique
+    @Column
+    google_id!: string;
 
     @Column
     name!: string;
@@ -46,6 +52,9 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
     @Column
     yandex_token?: string;
+
+    @Column
+    google_token?: string;
 
     @Default(Date.now())
     @CreatedAt

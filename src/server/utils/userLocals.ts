@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { UserInfoResponse, YandexUserInfoResponse } from '../../api/types';
+import { GoogleUserInfoResponse, UserInfoResponse, YandexUserInfoResponse } from '../../api/types';
 
 export const isUserAuth = (res: Response) => !!res.locals.isUserAuth;
 
@@ -23,5 +23,16 @@ export const setYandexUserInfo = (res: Response, user: YandexUserInfoResponse) =
         email: user?.defaultEmail,
         secondName: user?.lastName,
         avatar: '',
+    };
+};
+
+export const setGoogleUserInfo = (res: Response, user: GoogleUserInfoResponse) => {
+    res.locals.userInfo = {
+        ...user,
+        firstName: user?.givenName,
+        secondName: user?.familyName,
+        displayName: user?.name,
+        avatar: user?.picture,
+        login: user?.email.substring(0, user?.email.indexOf('@')),
     };
 };

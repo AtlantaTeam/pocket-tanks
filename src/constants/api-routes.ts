@@ -1,17 +1,28 @@
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
 
-export const YANDEX_OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
-export const YANDEX_OAUTH_TOKEN = 'https://oauth.yandex.ru/token?grant_type=authorization_code';
-export const YANDEX_OAUTH_CLIENT_ID = '887cdbde4dde4d469bb5b47a2f128288';
-export const YANDEX_OAUTH_CLIENT_SECRET = '45b387d786eb45438b7758f0e601571f';
-export const YANDEX_OAUTH_USER_INFO = 'https://login.yandex.ru/info';
-export const YANDEX_OAUTH_AVATAR = 'https://avatars.yandex.net/get-yapic/:avatarId/islands-200';
-
 const IS_DEV = process.env.NODE_ENV === 'development';
 export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'pocketanks.ru';
 export const SERVER_URL = `https://${SERVER_DOMAIN}`;
+
+export const YANDEX_OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
+export const YANDEX_OAUTH_TOKEN = 'https://oauth.yandex.ru/token?grant_type=authorization_code';
+export const YANDEX_OAUTH_CLIENT_ID = process.env.YANDEX_CLIENT_ID || '';
+export const YANDEX_OAUTH_CLIENT_SECRET = process.env.YANDEX_CLIENT_SECRET || '';
+export const YANDEX_OAUTH_USER_INFO = 'https://login.yandex.ru/info';
+export const YANDEX_OAUTH_AVATAR = 'https://avatars.yandex.net/get-yapic/:avatarId/islands-200';
 export const YANDEX_REDIRECT_URI = `${SERVER_URL}/oauth/yandex`;
+
+export const GOOGLE_OAUTH_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+export const GOOGLE_OAUTH_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
+export const GOOGLE_OAUTH_AUTHORIZE_URL = 'https://accounts.google.com/o/oauth2/v2/auth?'
+    + 'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+'
+    + 'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&'
+    // + 'include_granted_scopes=true&'  +openid
+    + 'response_type=code';
+export const GOOGLE_OAUTH_TOKEN = 'https://oauth2.googleapis.com/token';
+export const GOOGLE_OAUTH_USER_INFO = 'https://www.googleapis.com/oauth2/v2/userinfo';
+export const GOOGLE_REDIRECT_URI = `${SERVER_URL}/oauth/google`;
 
 export const PRAKTIKUM_AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',

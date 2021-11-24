@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 
 export type UserInfoResponse = {
-    id: number;
+    id: string;
     localId: number;
     firstName: string;
     secondName: string;
@@ -15,8 +15,18 @@ export type UserInfoResponse = {
     userProvider: string;
 };
 
+export type GoogleUserInfoResponse = {
+    id: string;
+    givenName: string;
+    familyName: string;
+    name: string;
+    email: string;
+    picture: string;
+    locale: string;
+};
+
 export type YandexUserInfoResponse = {
-    id: number,
+    id: string;
     firstName: string;
     lastName: string;
     displayName: string;
@@ -52,7 +62,7 @@ export type LangResponse = {
     lang: string;
 };
 
-export type YandexTokenResponse = {
+export type OAuthTokenResponse = {
     'access_token': string;
     'refresh_token': string;
     'token_type': string;

@@ -4,7 +4,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { getUserInfoRequest } from 'server/utils/getUserInfoRequest';
 import { SERVER_URL, YANDEX_REDIRECT_URI } from 'constants/api-routes';
 import {
-    OAuthData, UserInfoResponse, YandexTokenResponse, YandexUserInfoResponse,
+    OAuthData, UserInfoResponse, OAuthTokenResponse, YandexUserInfoResponse,
 } from 'api/types';
 import { LeaderBoardAPI } from 'api/leaderboard-api';
 import { User } from 'db/models/User';
@@ -124,8 +124,6 @@ export const loginWithOAuthYandexController = (req: Request, res: Response, next
                 res.cookie('yandexToken', responseData.accessToken);
                 res.redirect('/profile');
                 return true;
-                // tokenData = responseData;
-                // return responseData.accessToken;
             })
             .catch((err) => {
                 const { response, message } = err;
@@ -133,6 +131,39 @@ export const loginWithOAuthYandexController = (req: Request, res: Response, next
                     && httpToAPI.httpTransport.defaults.headers.Cookie) {
                     delete httpToAPI.httpTransport.defaults.headers.Cookie;
                     loginWithOAuthYandexController(req, res, next);
+                } else {
+                    next(err);
+                }
+            });
+    } else {
+        next();
+    }
+};
+
+export const loginWithOAuthGoogleController = (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.code) {
+        const code: string = req.query.code as string;
+        const authServerToAPI = getAuthServerToAPI(res);
+        authServerToAPI.getOAuthGoogleToken(code)
+            .then((response) => {
+                const responseData = objectToCamel(response.data);
+                if (responseData?.error) {
+                    const { error, errorDescription } = responseData;
+                    throw new Error(`${error}: ${errorDescription}`);
+                }
+                if (!responseData.accessToken) {
+                    throw new Error('Error: Google token is empty!');
+                }
+                res.cookie('googleToken', responseData.accessToken);
+                res.redirect('/profile');
+                return true;
+            })
+            .catch((err) => {
+                const { response, message } = err;
+                if (response?.data?.reason === 'User already in system'
+                    && httpToAPI.httpTransport.defaults.headers.Cookie) {
+                    delete httpToAPI.httpTransport.defaults.headers.Cookie;
+                    loginWithOAuthGoogleController(req, res, next);
                 } else {
                     next(err);
                 }
@@ -174,6 +205,7 @@ export const clearCookiesAndLocals = (res: Response) => {
     res.clearCookie('authCookieForAuth');
     res.clearCookie('uuidForAuth');
     res.clearCookie('yandexToken');
+    res.clearCookie('googleToken');
     deleteUserAuth(res);
     deleteAuthServerToAPI(res);
     delete httpToAPI.httpTransport.defaults.headers.Cookie;

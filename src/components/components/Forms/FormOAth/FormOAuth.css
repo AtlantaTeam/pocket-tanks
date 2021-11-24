@@ -11,3 +11,12 @@
     padding-left: 50px;
     border-radius: 5px;
 }
+
+.social-button-wrapper {
+    display: flex;
+}
+
+
+.social-button {
+    margin: 10px;
+}

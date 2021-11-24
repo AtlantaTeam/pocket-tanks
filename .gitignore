@@ -3,3 +3,5 @@ node_modules
 dist
 postgresdata
 AWS
+deploy_files/prod.env
+stage/dev.env

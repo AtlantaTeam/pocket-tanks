@@ -4,7 +4,7 @@ import Router from 'express';
 import {
     getUserInfoController,
     loginController,
-    loginWithOAuthController,
+    loginWithOAuthController, loginWithOAuthGoogleController,
     loginWithOAuthYandexController,
     logoutController,
     signUpController,
@@ -15,6 +15,8 @@ const authRouter = Router();
 authRouter.get('/', loginWithOAuthController);
 
 authRouter.get('/oauth/yandex', loginWithOAuthYandexController);
+
+authRouter.get('/oauth/google', loginWithOAuthGoogleController);
 
 authRouter.post(PRAKTIKUM_AUTH_ROUTES.LOGIN, loginController);
 
