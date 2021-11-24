@@ -2,11 +2,13 @@ import { match } from 'react-router';
 import { Main } from 'components/Pages/Main/Main';
 import { Login } from 'components/Pages/Login/Login';
 import { SignUp } from 'components/Pages/SignUp/SignUp';
+import { i18n } from 'i18n';
 import Game from 'components/Pages/Game/Game';
 import { Profile } from 'components/Pages/Profile/Profile';
 import { LeaderBoard } from 'components/Pages/LeaderBoard/LeaderBoard';
 import { Forum } from 'components/Pages/Forum/Forum';
 import { Store } from 'redux';
+import { Privacy } from 'components/Pages/Privacy/Privacy';
 import { withAuthState } from '../../components/hoc/WithAuthState/WithAuthState';
 import { avatarRequested } from '../../redux/actions/user-state/get-avatar';
 
@@ -24,15 +26,22 @@ export type Route = {
 
 // Должен быть последним для Switch
 export const MAIN_ROUTE = {
-    name: 'Главная страница',
+    name: i18n.t('mainPage'),
     path: '/',
     exact: true,
     component: Main,
 };
 
+export const PRIVACY_ROUTE = {
+    name: i18n.t('privacyPage'),
+    path: '/privacy',
+    exact: true,
+    component: Privacy,
+};
+
 export const ROUTES = [
     {
-        name: 'Игра',
+        name: i18n.t('game'),
         path: '/game',
         exact: true,
         component: withAuthState(true, '/login', Game),
@@ -42,7 +51,7 @@ export const ROUTES = [
         },
     },
     {
-        name: 'Профиль',
+        name: i18n.t('profile'),
         path: '/profile',
         exact: true,
         component: withAuthState(true, '/login', Profile),
@@ -52,14 +61,14 @@ export const ROUTES = [
         },
     },
     {
-        name: 'Таблица результатов',
+        name: i18n.t('leaderBoard'),
         path: '/leaderboard',
         exact: true,
         component: withAuthState(true, '/login', LeaderBoard),
 
     },
     {
-        name: 'Форум',
+        name: i18n.t('forum'),
         path: '/forum',
         exact: true,
         component: withAuthState(true, '/login', Forum),
@@ -67,14 +76,14 @@ export const ROUTES = [
 ] as const;
 
 export const AUTH_MENU_ROUTES = [{
-    name: 'Вход',
+    name: i18n.t('signIn'),
     path: '/login',
     exact: true,
     component: withAuthState(false, '/profile', Login),
 
 },
 {
-    name: 'Регистрация',
+    name: i18n.t('registration'),
     path: '/signup',
     exact: true,
     component: withAuthState(false, '/profile', SignUp),

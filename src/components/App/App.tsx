@@ -13,10 +13,13 @@ import '../../../static/styles/fonts/fonts.css';
 import '../../../static/index.css';
 import './App.css';
 
-import { AUTH_MENU_ROUTES, MAIN_ROUTE, ROUTES } from 'utils/constants/routes';
+import {
+    AUTH_MENU_ROUTES, MAIN_ROUTE, PRIVACY_ROUTE, ROUTES,
+} from 'utils/constants/routes';
 
 import { MenuComponent } from 'components/components/Menu/Menu';
 import { Popup } from 'components/components/Popup/Popup';
+import { useTranslation } from 'i18n';
 import { FullscreenButton } from '../components/FullscreenButton/FullscreenButton';
 import { ThemeSwitch } from '../components/ThemeSwitch/ThemeSwitch';
 import { cleanError } from '../../redux/actions/user-state/clean-error';
@@ -24,8 +27,8 @@ import { getErrorText } from '../../redux/selectors/user-state';
 
 export const App = () => {
     const userStateError = useSelector(getErrorText);
-
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     return (
         <div className="app">
@@ -37,15 +40,15 @@ export const App = () => {
                 action={() => {
                     dispatch(cleanError());
                 }}
-                title="Ошибка"
+                title={t('error')}
                 textContent={userStateError as string}
-                buttonText="Закрыть"
+                buttonText={t('close')}
                 overlayType="warning"
             />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <ToastContainer {...toastContainerProps} />
             <Switch>
-                {[...AUTH_MENU_ROUTES, ...ROUTES, MAIN_ROUTE].map(({ ...item }) => (
+                {[...AUTH_MENU_ROUTES, ...ROUTES, PRIVACY_ROUTE, MAIN_ROUTE].map(({ ...item }) => (
                     <Route
                         key={`${item.name}-route`}
                         // eslint-disable-next-line react/jsx-props-no-spreading

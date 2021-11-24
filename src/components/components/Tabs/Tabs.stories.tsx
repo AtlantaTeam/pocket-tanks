@@ -29,8 +29,8 @@ const Template: ComponentStory<typeof Tabs> = (args) => (
 export const TabsElement = Template.bind({});
 TabsElement.args = {
     tabs: [
-        'Данные',
-        'Аватар',
-        'Пароль',
+        'Data',
+        'Avatar',
+        'Password',
     ],
 };

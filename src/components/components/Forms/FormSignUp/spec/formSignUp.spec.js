@@ -40,7 +40,7 @@ describe('<FormSignUp />', () => {
             login: 'login',
             first_name: 'first_name',
             second_name: 'second_name',
-            phone: 'phone',
+            // phone: 'phone',
             password: 'password',
             password_again: 'password',
         });
@@ -50,7 +50,7 @@ describe('<FormSignUp />', () => {
         formData.append('login', 'login');
         formData.append('first_name', 'first_name');
         formData.append('second_name', 'second_name');
-        formData.append('phone', 'phone');
+        // formData.append('phone', 'phone');
         formData.append('password', 'password');
         formData.append('password_again', 'password');
 

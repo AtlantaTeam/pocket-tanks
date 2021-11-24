@@ -18,6 +18,7 @@ export interface FieldSetProps{
     labelText?: string;
     viewError?: boolean | string;
     errorText?: string;
+    isReadOnly?: boolean;
 }
 
 export const FieldSet = (props: FieldSetProps) => (
@@ -29,6 +30,7 @@ export const FieldSet = (props: FieldSetProps) => (
                 name={props.name}
                 id={props.name}
                 type={props.type}
+                readOnly={props?.isReadOnly}
             />
             <Label
                 className="label"

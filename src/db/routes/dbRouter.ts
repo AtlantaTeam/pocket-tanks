@@ -3,6 +3,7 @@ import { Message } from 'db/models/Message';
 import { User } from 'db/models/User';
 import { UserVotes } from 'db/models/UserVotes';
 import { Op } from 'sequelize';
+import { LEADER_BOARD_ROUTES } from 'constants/api-routes';
 import { Thread } from '../models/Thread';
 
 export const dbRouter = Router();
@@ -55,7 +56,7 @@ dbRouter.post('/message/:id/vote', async (req, res, next) => {
             where: { id: req.params.id },
         });
         const user = await User.findOne({
-            where: { remote_id: userId },
+            where: { id: userId },
         });
         const userVote = await UserVotes.findOne({
             where: {
@@ -107,7 +108,7 @@ dbRouter.get('/thread/:id', async (req, res, next) => {
 dbRouter.get('/user/:id/theme', async (req, res, next) => {
     try {
         const user = await User.findOne({
-            where: { remote_id: req.params.id },
+            where: { id: req.params.id },
         });
         res.json({ theme: user?.get('theme') || 'night' });
     } catch (e) {
@@ -119,7 +120,7 @@ dbRouter.post('/user/:id/theme', async (req, res, next) => {
     try {
         const { theme } = req.body;
         const user = await User.findOne({
-            where: { remote_id: req.params.id },
+            where: { id: req.params.id },
         });
         if (user) {
             user.set('theme', theme);
@@ -127,6 +128,70 @@ dbRouter.post('/user/:id/theme', async (req, res, next) => {
         } else {
             throw new Error('Failed to set theme');
         }
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.get('/user/:id/lang', async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            where: { id: req.params.id },
+        });
+        res.json({ lang: user?.get('lang') });
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.post('/user/:id/lang', async (req, res, next) => {
+    try {
+        const { lang } = req.body;
+        const user = await User.findOne({
+            where: { id: req.params.id },
+        });
+        if (user) {
+            user.set('lang', lang);
+            res.status(201).json(await user.save());
+        } else {
+            throw new Error('Failed to set lang');
+        }
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.post(LEADER_BOARD_ROUTES.ADD, async (req, res, next) => {
+    try {
+        const { data: { userId, tankpoints } } = req.body;
+        const user = await User.findOne({
+            where: { id: userId },
+        });
+        if (user) {
+            user.set('tankpoints', tankpoints);
+            await user.save();
+            const { name, tankpoints: points } = user;
+            res.status(200).json({ name, points });
+        } else {
+            throw new Error(`Failed to find user ${userId as number}`);
+        }
+    } catch (e) {
+        next(e);
+    }
+});
+
+dbRouter.post(LEADER_BOARD_ROUTES.GET_ALL, async (req, res, next) => {
+    try {
+        const { limit } = req.body;
+        const leaders = await User.findAll({
+            limit: limit || 10,
+            order: [['tankpoints', 'DESC']],
+        });
+        res.status(200).json(
+            leaders
+                .filter((leader) => leader.get('tankpoints'))
+                .map((leader) => ({ data: { name: leader.get('name'), tankpoints: leader.get('tankpoints') } })),
+        );
     } catch (e) {
         next(e);
     }

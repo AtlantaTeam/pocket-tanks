@@ -5,7 +5,8 @@ import { Image } from 'components/components/Image/Image';
 import gamePlayMusic from 'audio/gameplay.mp3';
 import imgAvatarPlaceHolder from 'images/avatar-placeholder.svg';
 import imgBotAvatar from 'images/bot.jpg';
-import { floor, rotateFigure } from 'utils/canvas';
+import { useTranslation } from 'i18n';
+import { floor } from 'utils/canvas';
 import { SoundButton } from 'components/components/SoundButton/SoundButton';
 import { addUserResults } from '../../../controllers/leaderboard-controller';
 import { avatarFulfilled } from '../../../redux/actions/user-state/get-avatar';
@@ -15,7 +16,7 @@ import { Button } from '../../components/Button/Button';
 import { Counter } from '../../components/Counter/Counter';
 import { Bullet } from './Bullet';
 import { GameOver } from '../../components/GameOver/GameOver';
-import { WeaponSelect } from '../../components/WeaponSelect/WeaponSelect';
+import { DropDown } from '../../components/DropDown/DropDown';
 import { Weapon } from './types';
 import {
     getAngle,
@@ -40,9 +41,7 @@ import {
     setWeapons,
 } from '../../../redux/actions/game-state';
 import {
-    getUserAvatar,
-    getUserAvatarResourse,
-    getUserNickname,
+    getUserAvatar, getUserAvatarResourse, getUserId, getUserNickname,
 } from '../../../redux/selectors/user-state';
 import { getUserAvatar as getUserAvatarController } from '../../../controllers/user-controller';
 
@@ -69,6 +68,7 @@ let isImagesLoaded = false;
 let canPointsSentToLeaderBoard = false;
 
 const Game = () => {
+    const { t } = useTranslation();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [isStart, setIsStart] = useState(true);
     const [isGameOver, setIsGameOver] = useState(false);
@@ -81,10 +81,11 @@ const Game = () => {
     const moves = useSelector(getMoves);
     const playerPoints = useSelector(getPlayerPoints);
     const enemyPoints = useSelector(getEnemyPoints);
+    const userId = useSelector(getUserId);
     const userName = useSelector(getUserNickname) || 'Player';
     const avatar = useSelector(getUserAvatar);
     const userAvatarResourse = useSelector(getUserAvatarResourse);
-    const avatarPath = avatar ? `${avatar}` : imgAvatarPlaceHolder;
+    const avatarPath = avatar && avatar.indexOf('DOCTYPE') === -1 ? `${avatar}` : imgAvatarPlaceHolder;
     if (game?.leftTank && game?.rightTank) {
         const [activeTank] = game.getActiveAndTargetTanks(game.leftTank, game.rightTank);
         activeTank.power = power;
@@ -111,8 +112,10 @@ const Game = () => {
         if (!avatar && userAvatarResourse) {
             getUserAvatarController()
                 .then((data) => {
-                    setAvatarImg({ img: data });
-                    dispatch(avatarFulfilled(data));
+                    if (data.indexOf('DOCTYPE') === -1) {
+                        setAvatarImg({ img: data });
+                        dispatch(avatarFulfilled(data));
+                    }
                     return data;
                 })
                 .catch((err) => {
@@ -304,7 +307,7 @@ const Game = () => {
                         <div className="control_counter_group">
                             <Counter
                                 className="control_counter"
-                                label="Мощность"
+                                label={t('power')}
                                 value={power}
                                 leftStepHandler={() => {
                                     isUserTankActive && game?.changeTankPower(-1, dispatch);
@@ -314,7 +317,7 @@ const Game = () => {
                                 }}
                             />
                             <Counter
-                                label="Наклон"
+                                label={t('angle')}
                                 value={floor(((angle < 0 ? -angle : 2 * Math.PI - angle) * 180) / Math.PI)}
                                 leftStepHandler={() => {
                                     isUserTankActive && dispatch(increaseAngle(Math.PI / 180));
@@ -325,17 +328,18 @@ const Game = () => {
                             />
                         </div>
                         <div className="control_counter_group">
-                            <WeaponSelect
-                                selectedWeapon={selectedWeapon}
-                                weapons={weapons}
+                            <DropDown
+                                selectedValue={selectedWeapon}
+                                values={weapons}
                                 onChange={(value: Weapon) => {
                                     isUserTankActive && dispatch(selectWeapon(value));
                                 }}
-                                label="Оружие"
+                                label={t('weapon')}
                                 listPosition="top"
+                                isBoldBorders
                             />
                             <Counter
-                                label="Движение"
+                                label={t('moves')}
                                 value={moves}
                                 leftStepHandler={() => {
                                     if (moves > 0 && isUserTankActive) {
@@ -354,7 +358,7 @@ const Game = () => {
                             className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
                             type="button"
                             onClick={fire}
-                            label="Огонь"
+                            label={t('fire')}
                         />
                     </div>
                     <div className="avatar_group-right">
@@ -371,13 +375,13 @@ const Game = () => {
                     setIsStart(true);
                 }}
                 winner={() => {
-                    let winnerText = 'Похоже Ничья!';
+                    let winnerText = t('draw');
                     if (isGameOver) {
                         if (playerPoints > enemyPoints) {
-                            winnerText = userName || 'Конечно же ты! Так держать!';
-                            if (canPointsSentToLeaderBoard) {
+                            winnerText = userName || t('youAreWinner');
+                            if (canPointsSentToLeaderBoard && userId) {
                                 canPointsSentToLeaderBoard = false;
-                                addUserResults(userName, playerPoints)
+                                addUserResults(userId, playerPoints)
                                     .then(() => {
                                         console.log('Results successfully sent to LeaderBoard!');
                                         return true;

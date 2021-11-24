@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ThreadAttributes } from 'db/models/Thread';
 
+import { useTranslation } from 'i18n';
 import { MessageAttributes } from 'db/models/Message';
 import { forumAPI } from 'api/forum-api';
 import { NewSimpleModal } from 'components/components/Forum/NewSimpleModal/NewSimpleModal';
 import { useSelector } from 'react-redux';
-import { Tabs } from 'components/components/Tabs/Tabs';
 import { Spinner } from 'components/Pages/Profile/Profile';
 import { getUserNickname } from '../../../redux/selectors/user-state';
 import { Page } from '../components/Page/Page';
 import { Title } from '../../components/Title/Title';
 import { Button } from '../../components/Button/Button';
+
 import { Thread } from '../../components/Forum/Thread/Thread';
 
 import { sendNotificationDefault } from '../../../modules/notifications/notifications';
-
 import './Forum.css';
 
 export type ForumModalState = null | 'thread' | 'message';
@@ -27,6 +27,7 @@ export const Forum = () => {
     const [threadList, setThreadList] = useState<ThreadAttributes[]>([]);
     const [currentThread, setCurrentThread] = useState<RepliedThread>(null);
     const userName = useSelector(getUserNickname) || '';
+    const { t } = useTranslation();
 
     useEffect(() => {
         forumAPI.getAllThreads()
@@ -60,12 +61,12 @@ export const Forum = () => {
             case 'thread':
                 return (
                     <NewSimpleModal
-                        name="Новая тема"
-                        title="Тема"
-                        buttonText="Создать"
+                        name={t('newTopic')}
+                        title={t('topic')}
+                        buttonText={t('create')}
                         action={(title: string, text: string) => {
                             if (!title || !text) {
-                                sendNotificationDefault('Укажите Название и Сообщение для новой темы');
+                                sendNotificationDefault(t('notificationSpecifyTopicAndMessage'));
                                 return;
                             }
                             forumAPI.createThread({
@@ -78,11 +79,11 @@ export const Forum = () => {
                                     parent_id: null,
                                 }],
                             }).then((response) => {
-                                sendNotificationDefault('Новая тема создана');
+                                sendNotificationDefault(t('newTopicCreated'));
                                 setThreadList([...threadList, response.data]);
                                 return true;
                             }).catch(() => {
-                                sendNotificationDefault('Ошибка');
+                                sendNotificationDefault(t('error'));
                             });
                         }}
                         onCrossPress={dismissModal}
@@ -91,12 +92,12 @@ export const Forum = () => {
             case 'message':
                 return (
                     <NewSimpleModal
-                        name="Новое сообщение"
-                        title="Заголовок"
-                        buttonText="Отправить"
+                        name={t('newMessage')}
+                        title={t('msgTitle')}
+                        buttonText={t('send')}
                         action={(title: string, text: string) => {
                             if (!text) {
-                                sendNotificationDefault('Укажите текст сообщения!');
+                                sendNotificationDefault(t('notificationSpecifyMessage'));
                                 return;
                             }
                             if (repliedMessage) {
@@ -114,10 +115,10 @@ export const Forum = () => {
                                     setCurrentThread({ ...curThread });
                                     return true;
                                 }).catch(() => {
-                                    sendNotificationDefault('Ошибка создания сообщения');
+                                    sendNotificationDefault(t('notificationCreateMsgError'));
                                 });
                             } else {
-                                sendNotificationDefault('Ошибка: не выбрано сообщение');
+                                sendNotificationDefault(t('notificationNoMsgError'));
                             }
                         }}
                         onCrossPress={() => {
@@ -136,7 +137,7 @@ export const Forum = () => {
             <div className="forum">
                 <Title
                     className="title title_middle"
-                    text="Форум"
+                    text={t('forum')}
                 />
                 <div className="forum__content">
                     <div className="forum__threads-container">
@@ -159,7 +160,7 @@ export const Forum = () => {
                 <Button
                     className="button button_orange"
                     type="button"
-                    text="Новая тема"
+                    text={t('newTopic')}
                     onClick={pushThreadModal}
                 />
                 {renderModal(modalState)}

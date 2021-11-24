@@ -10,7 +10,10 @@ import { SagaMiddleware } from 'redux-saga';
 
 import { ROUTES } from 'utils/constants/routes';
 import { App } from 'components/App/App';
-import { fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
+import { User } from 'db/models/User';
+import { ErrorResponse, UserInfoResponse } from 'api/types';
+import { i18n } from 'i18n';
+import { fetchUserInfoFailed, fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
 import { loginFulfilled } from '../../redux/actions/user-state/login';
 import { initializeStore } from '../../redux/store';
 import { getInitialState } from '../../redux/reducers/getInitalState';
@@ -29,6 +32,8 @@ export const serverRenderMiddleware = (
 ) => {
     const location = req.url;
     const context: StaticRouterContext = {};
+    let userInfo: UserInfoResponse | null = null;
+    let user: User | null = null;
 
     const { store } = initializeStore(
         getInitialState(location),
@@ -36,7 +41,7 @@ export const serverRenderMiddleware = (
     );
 
     if (isUserAuth(res)) {
-        const userInfo = getUserInfo(res);
+        userInfo = getUserInfo(res);
         store.dispatch(loginFulfilled());
         store.dispatch(fetchUserInfoFulfilled(userInfo));
         const { authCookieForAuth, uuidForAuth } = req.cookies;
@@ -44,9 +49,13 @@ export const serverRenderMiddleware = (
             const cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
             store.dispatch(setAuthCookie(cookie));
         }
+    } else if (res.locals.error) {
+        store.dispatch(fetchUserInfoFailed(res.locals.error));
     }
 
     const renderApp = () => {
+        const userLang = user?.get('lang') || i18n.resolvedLanguage || i18n.language;
+        const userTheme = user?.get('theme');
         const jsx = (
             <Provider store={store}>
                 <StaticRouter
@@ -66,12 +75,23 @@ export const serverRenderMiddleware = (
         }
         res
             .status(context.statusCode || 200)
-            .send(getHtml(reactHtml, reduxState));
+            .send(getHtml(reactHtml, reduxState, userLang, userTheme));
     };
 
     store
         .runSaga(rootSaga)
         .toPromise()
+        .then(() => (userInfo ? User.findOne({
+            where: { id: userInfo.localId },
+        }) : null))
+        .then((userFromDB) => {
+            if (userFromDB) {
+                user = userFromDB;
+                const userLang = user.get('lang') || i18n.resolvedLanguage || i18n.language;
+                return i18n.changeLanguage(userLang?.toLowerCase() || 'en');
+            }
+            return null;
+        })
         .then(() => renderApp())
         .catch((err) => next(err));
 
@@ -105,28 +125,26 @@ export const serverRenderMiddleware = (
         .catch((err) => next(err));
 };
 
-function getHtml(reactHtml: string, reduxState = {}) {
+function getHtml(reactHtml: string, reduxState = {}, lang: string | undefined, theme: string | undefined) {
     return `
         <!DOCTYPE html>
-        <html lang="en">
+        <html lang="${lang || 'en'}">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <meta name="description" content="Игра Pocket Tanks.
-            Проектная работа студентов курса Yandex Praktikum Middle Frontend Developer">
+            <meta name="description" content="Game Pocket Tanks.
+            Graduation project for Yandex Praktikum Middle Frontend Developer course">
             <title>Pocket-Tanks || SSR</title>
             <link rel="icon" type="image/svg+xml" href="favicon.svg">
             <link href="css/style.css" rel="stylesheet">
         </head>
-        <body>
+        <body data-theme="${theme || 'night'}">
             <div id="root">${reactHtml}</div>
             <script>
                 // Записываем состояние редакса, сформированное на стороне сервера в window
                 // На стороне клиента применим это состояние при старте
-                window.__INITIAL_STATE__ = ${JSON.stringify(
-        reduxState,
-    )}
+                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
             </script>
             <script defer src="/main.js"></script>
         </body>

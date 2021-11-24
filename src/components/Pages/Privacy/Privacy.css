@@ -1,0 +1,27 @@
+.privacy-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 150px 100px 0;
+}
+
+.privacy-text {
+    color: var(--foreground);
+    font-family: Play,sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 28px;
+}
+
+.privacy-link {
+    color: var(--main);
+}
+
+.privacy-content__left-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 200px;
+}
+

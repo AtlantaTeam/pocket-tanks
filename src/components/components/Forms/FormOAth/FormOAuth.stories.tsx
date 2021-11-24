@@ -5,16 +5,16 @@ import {
 } from '@storybook/react';
 
 import { WrapperCenter } from '../../WrapperCenter/WrapperCenter';
-import { FormOAuth } from './FormOAuth';
+import { FormOAuthYandex } from './FormOAuthYandex';
 
 export default {
     title: 'POCKET-TANKS/components/Forms/FormOAuth',
-    component: FormOAuth,
-} as ComponentMeta<typeof FormOAuth>;
+    component: FormOAuthYandex,
+} as ComponentMeta<typeof FormOAuthYandex>;
 
-const Template: ComponentStory<typeof FormOAuth> = () => (
+const Template: ComponentStory<typeof FormOAuthYandex> = () => (
     <WrapperCenter className="wrapper-center wrapper-center_full-screen-black">
-        <FormOAuth />
+        <FormOAuthYandex />
     </WrapperCenter>
 );
 

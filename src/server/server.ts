@@ -69,6 +69,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
     .use('/', authRouter)
     .use('/', userRouter)
     .use('/', dbRouter)
+    .use(errorsMiddleware)
     .get(
         '/*',
         [
@@ -77,8 +78,7 @@ app.use(express.static(path.resolve(rootDir, 'dist')))
         serverRenderMiddleware,
     )
     .use(csp)
-    .use(compression)
-    .use(errorsMiddleware);
+    .use(compression);
 
 let serverApp = http.createServer(app);
 if (IS_DEV) {

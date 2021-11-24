@@ -117,7 +117,7 @@
     justify-content: space-around;
     cursor: pointer;
     margin: 0;
-    max-width: 120px;
+    max-width: 150px;
     transition: transform .2s linear;
     text-decoration: none;
 }

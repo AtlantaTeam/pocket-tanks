@@ -17,5 +17,4 @@ const Root = () => (
         </ConnectedRouter>
     </ReduxProvider>
 );
-
 ReactDOM.hydrate(<Root />, document.getElementById('root'));

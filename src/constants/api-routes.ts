@@ -1,13 +1,19 @@
 export const BASE_URL = 'https://ya-praktikum.tech/api/v2';
-
 export const RESOURCES_BASE_URL = 'https://ya-praktikum.tech/api/v2/resources/';
-export const OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
+
+export const YANDEX_OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
+export const YANDEX_OAUTH_TOKEN = 'https://oauth.yandex.ru/token?grant_type=authorization_code';
+export const YANDEX_OAUTH_CLIENT_ID = '887cdbde4dde4d469bb5b47a2f128288';
+export const YANDEX_OAUTH_CLIENT_SECRET = '45b387d786eb45438b7758f0e601571f';
+export const YANDEX_OAUTH_USER_INFO = 'https://login.yandex.ru/info';
+export const YANDEX_OAUTH_AVATAR = 'https://avatars.yandex.net/get-yapic/:avatarId/islands-200';
 
 const IS_DEV = process.env.NODE_ENV === 'development';
-export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'atlanta-pocketanks-07.ya-praktikum.tech';
-export const SERVER_URL = `https://${SERVER_DOMAIN}/`;
+export const SERVER_DOMAIN = IS_DEV ? 'localhost:5000' : 'pocketanks.ru';
+export const SERVER_URL = `https://${SERVER_DOMAIN}`;
+export const YANDEX_REDIRECT_URI = `${SERVER_URL}/oauth/yandex`;
 
-export const AUTH_ROUTES = {
+export const PRAKTIKUM_AUTH_ROUTES = {
     GET_USER_INFO: '/auth/user',
     LOGIN: '/auth/signin',
     SIGNUP: '/auth/signup',
@@ -16,7 +22,7 @@ export const AUTH_ROUTES = {
     OAUTH_LOGIN: '/oauth/yandex',
 } as const;
 
-export type AuthRoute = typeof AUTH_ROUTES[keyof typeof AUTH_ROUTES];
+export type AuthRoute = typeof PRAKTIKUM_AUTH_ROUTES[keyof typeof PRAKTIKUM_AUTH_ROUTES];
 
 export const USER_ROUTES = {
     CHANGE_PROFILE: '/user/profile',
@@ -24,6 +30,7 @@ export const USER_ROUTES = {
     CHANGE_PASSWORD: '/user/password',
     GET_AVATAR: '/user/avatar',
     THEME: (id: number) => (`/user/${id}/theme`),
+    LANG: (id: number) => (`/user/${id}/lang`),
 } as const;
 
 export type UserRoute = typeof USER_ROUTES[keyof typeof USER_ROUTES];

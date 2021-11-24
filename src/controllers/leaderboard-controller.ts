@@ -1,10 +1,10 @@
 import { leaderboadAPI } from '../api/leaderboard-api';
 
-export const addUserResults = async (name: string, tankpoints: number) => {
+export const addUserResults = async (userId: number, tankpoints: number) => {
     const response = await leaderboadAPI.add({
         data: {
             tankpoints,
-            name,
+            userId,
         },
         ratingFieldName: 'tankpoints',
     });

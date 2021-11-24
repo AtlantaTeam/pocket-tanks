@@ -1,18 +1,19 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Formik, Form } from 'formik';
+import { useTranslation } from 'i18n';
+import { Form, Formik } from 'formik';
+
 import * as Yup from 'yup';
 
 import { ERRORS } from 'utils/constants/errorsForms';
 
 import { FieldSet } from '../components/FieldSet/FieldSet';
-
 import '../Forms.css';
 import { Title } from '../../Title/Title';
-import { ButtonSubmit } from '../../Button/Button';
 
+import { ButtonSubmit } from '../../Button/Button';
 import { getUserLoaderState } from '../../../../redux/selectors/user-state';
 import { loginRequested } from '../../../../redux/actions/user-state/login';
 
@@ -29,6 +30,7 @@ export const SignInSchema = Yup.object().shape({
 
 export const FormSignIn = () => {
     const isLoading = useSelector(getUserLoaderState);
+    const { t } = useTranslation();
 
     const dispatch = useDispatch();
 
@@ -36,7 +38,7 @@ export const FormSignIn = () => {
         <div className="form-wrapper">
             <Title
                 className="title title_middle-form"
-                text="Войти в игру"
+                text={t('enterGame')}
             />
             <Formik
                 initialValues={{
@@ -54,28 +56,28 @@ export const FormSignIn = () => {
                     <Form name="signin" className="form">
                         <FieldSet
                             className="input input_normal"
-                            placeholder="Ваш логин"
+                            placeholder={t('yourLogin')}
                             name="login"
                             id="login"
                             type="text"
-                            labelText="Логин"
+                            labelText={t('login')}
                             errorText={errors.login}
                             viewError={errors.login && touched.login}
                         />
                         <FieldSet
                             className="input input_normal"
-                            placeholder="Ваш пароль"
+                            placeholder={t('yourPassword')}
                             name="password"
                             id="password"
                             type="password"
-                            labelText="Пароль"
+                            labelText={t('password')}
                             errorText={errors.password}
                             viewError={errors.password && touched.password}
                         />
                         <div className="form__button-wrapper">
                             <ButtonSubmit
                                 type="submit"
-                                text="Войти"
+                                text={t('enter')}
                                 className="button button_orange"
                                 isLoading={isLoading}
                             />
@@ -83,7 +85,7 @@ export const FormSignIn = () => {
                                 to="/signup"
                                 className="button-link button-link_margin"
                             >
-                                Нет аккаунта? Зарегистрироваться
+                                {t('newUserRegister')}
                             </Link>
                         </div>
                     </Form>

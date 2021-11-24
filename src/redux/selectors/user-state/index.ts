@@ -9,10 +9,18 @@ export const getErrorText = (state: State) => getUserState(state).error;
 
 export const getUserId = (state: State) => {
     const userProfile = getUserProfile(state);
-    if (!userProfile || !('id' in userProfile)) {
+    if (!userProfile || (!('id' in userProfile) && !('localId' in userProfile))) {
         return null;
     }
-    return userProfile.id;
+    return userProfile.localId || userProfile.id;
+};
+
+export const getUserProvider = (state: State) => {
+    const userProfile = getUserProfile(state);
+    if (!userProfile || !('userProvider' in userProfile)) {
+        return null;
+    }
+    return userProfile.userProvider;
 };
 
 export const getUserNickname = (state: State) => {
@@ -21,6 +29,14 @@ export const getUserNickname = (state: State) => {
         return null;
     }
     return userProfile.displayName || userProfile.firstName;
+};
+
+export const getUserLang = (state: State) => {
+    const userProfile = getUserProfile(state);
+    if (!userProfile || !('language' in userProfile)) {
+        return null;
+    }
+    return userProfile.language;
 };
 
 export const getUserAvatarResourse = (state: State) => {

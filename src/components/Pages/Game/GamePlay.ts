@@ -67,7 +67,7 @@ export class GamePlay {
 
     maxGameDifficulty = 5;
 
-    gameDifficulty = 1; // 1 - легко; 5 - сложно
+    gameDifficulty = 1; // 1 - easy; 5 - hard
 
     ground: Ground | undefined;
 

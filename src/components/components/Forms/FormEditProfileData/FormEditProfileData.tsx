@@ -1,22 +1,21 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Formik, Form } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { ERRORS } from 'utils/constants/errorsForms';
-
 import { PATTERNS } from 'utils/constants/regex';
-
 import { sendNotificationDefault } from 'modules/notifications/notifications';
+
+import { LangSwitch } from 'components/components/LangSwitch/LangSwitch';
+import { useTranslation } from 'i18n';
+
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
-
-import { getUserProfile, getUserLoaderState } from '../../../../redux/selectors/user-state';
+import { getUserLoaderState, getUserProfile } from '../../../../redux/selectors/user-state';
 import { changeProfileRequested } from '../../../../redux/actions/user-state/change-profile';
-
 import type { UserInfoResponse } from '../../../../api/types';
-
 import '../Forms.css';
 
 export const FormEditDataSchema = Yup.object().shape({
@@ -40,17 +39,18 @@ export const FormEditDataSchema = Yup.object().shape({
         .min(2, ERRORS.ERROR_TEXT)
         .max(50, ERRORS.ERROR_TEXT)
         .required(ERRORS.ERROR_REQUIRED_FIELD),
-    phone: Yup.string()
-        .matches(new RegExp(PATTERNS.PATTERN_PHONE),
-            { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+    // phone: Yup.string()
+    //     .matches(new RegExp(PATTERNS.PATTERN_PHONE),
+    //         { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
+    //     .required(ERRORS.ERROR_REQUIRED_FIELD),
 });
 
 export const FormEditProfileData = () => {
     const userProfile = useSelector(getUserProfile) as UserInfoResponse;
+    const { userProvider } = userProfile;
     const isLoading = useSelector(getUserLoaderState);
-
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     return (
         <Formik
@@ -60,14 +60,14 @@ export const FormEditProfileData = () => {
                 login: userProfile.login ?? '',
                 first_name: userProfile.firstName ?? '',
                 second_name: userProfile.secondName ?? '',
-                phone: userProfile.phone ?? '',
+                // phone: userProfile.phone ?? '',
             }}
             validationSchema={FormEditDataSchema}
             onSubmit={(values) => {
                 const formData = new FormData();
                 Object.keys(values).forEach((key) => formData.append(key, values[key]));
                 dispatch(changeProfileRequested(formData));
-                sendNotificationDefault('Данные изменены!');
+                sendNotificationDefault(t('updated'));
             }}
         >
             {({ errors, touched }) => (
@@ -77,75 +77,81 @@ export const FormEditProfileData = () => {
                             <div className="form-tab__block">
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Ваше имя в игре"
+                                    placeholder={t('yourDisplayName')}
                                     name="display_name"
                                     id="display_name"
                                     type="text"
-                                    labelText="Имя в игре"
+                                    labelText={t('displayName')}
                                     errorText={errors.display_name}
                                     viewError={errors.display_name && touched.display_name}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Ваш e-mail"
+                                    placeholder={t('yourEmail')}
                                     name="email"
                                     id="email"
                                     type="email"
-                                    labelText="Почта"
+                                    labelText={t('email')}
                                     errorText={errors.email}
                                     viewError={errors.email && touched.email}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Ваш логин"
+                                    placeholder={t('yourLogin')}
                                     name="login"
                                     id="login"
                                     type="text"
-                                    labelText="Логин"
+                                    labelText={t('login')}
                                     errorText={errors.login}
                                     viewError={errors.login && touched.login}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Ваше имя"
+                                    placeholder={t('yourFirstName')}
                                     name="first_name"
                                     id="first_name"
                                     type="text"
-                                    labelText="Имя"
+                                    labelText={t('firstName')}
                                     errorText={errors.first_name}
                                     viewError={errors.first_name && touched.first_name}
+                                    isReadOnly={!!userProvider}
                                 />
                                 <FieldSet
                                     className="input input_inverted"
-                                    placeholder="Ваша фамилия"
+                                    placeholder={t('yourSecondName')}
                                     name="second_name"
                                     id="second_name"
                                     type="text"
-                                    labelText="Фамилия"
+                                    labelText={t('secondName')}
                                     errorText={errors.second_name}
                                     viewError={errors.second_name && touched.second_name}
+                                    isReadOnly={!!userProvider}
                                 />
-                                <FieldSet
-                                    className="input input_inverted"
-                                    placeholder="Ваш телефон"
-                                    name="phone"
-                                    id="phone"
-                                    type="phone"
-                                    labelText="Телефон"
-                                    errorText={errors.phone}
-                                    viewError={errors.phone && touched.phone}
-                                />
+                                <div className="form__fields-group">
+                                    <LangSwitch />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <ButtonSubmit
-                            className="button button_orange"
-                            type="submit"
-                            text="Изменить"
-                            isLoading={isLoading}
-                        />
-                    </div>
+                    {
+                        userProvider
+                            ? (
+                                <div className="no-button" />
+                            )
+                            : (
+                                <div>
+                                    <ButtonSubmit
+                                        className="button button_orange"
+                                        type="submit"
+                                        text={t('update')}
+                                        isLoading={isLoading}
+                                    />
+                                </div>
+                            )
+                    }
                 </Form>
             )}
         </Formik>

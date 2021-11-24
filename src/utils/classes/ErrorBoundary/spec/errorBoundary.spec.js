@@ -15,6 +15,7 @@ describe('<ErrorBoundary />', () => {
     let errorText = 'Текст ошибки';
 
     beforeEach(() => {
+        process.env.NODE_ENV = 'development';
         wrapper = mount(
             <ErrorBoundary>
                 <Main />
@@ -33,9 +34,10 @@ describe('<ErrorBoundary />', () => {
         expect(wrapper.find('SpareUI')).toHaveLength(1);
     });
 
-    it('пользователь может прочитать текст ошибки', () => {
-        wrapper.find('ErrorBoundary').find('Main').simulateError(new Error(errorText));
-
-        expect(wrapper.find('SpareUI').find('Text').text()).toEqual(errorText);
-    });
+    // Ошибку в проде не надо показывать
+    // it('пользователь может прочитать текст ошибки', () => {
+    //     wrapper.find('ErrorBoundary').find('Main').simulateError(new Error(errorText));
+    //
+    //     expect(wrapper.find('SpareUI').find('Text').text()).toEqual(errorText);
+    // });
 });

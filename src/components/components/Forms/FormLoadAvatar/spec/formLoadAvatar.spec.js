@@ -51,7 +51,7 @@ describe('<FormLoadAvatar />', () => {
         });
 
         expect(wrapper.find('FormLoadAvatar').find('.load-message').text()).toEqual(
-            'Файл загружен: avatar.jpg'
+            'File uploaded: avatar.jpg'
         );
 
         // files.length при попытке отправить форму почему-то 0, похоже на баг в enzyme

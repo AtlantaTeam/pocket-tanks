@@ -33,34 +33,34 @@ const TemplateWithLabel: ComponentStory<
             <div className="form__fields-group">
                 <Input
                     className="input input_normal"
-                    placeholder="Ваш логин"
+                    placeholder="Login"
                     name="login"
                 />
                 <Label
                     className="label"
                     inputName="login"
-                    text="Логин"
+                    text="Login"
                 />
                 <ErrorLabel
                     className="error-label"
-                    text="Текст ошибки"
+                    text="Error message"
                 />
             </div>
             <div className="form__fields-group">
                 <Input
                     className="input input_normal"
-                    placeholder="Ваш пароль"
+                    placeholder="Password"
                     name="password"
                 />
                 <Label
                     className="label"
                     inputName="password"
-                    text="Пароль"
+                    text="password"
                 />
             </div>
             <ErrorLabel
                 className="error-label"
-                text="Текст ошибки"
+                text="Error message"
             />
         </form>
     </WrapperCenter>
@@ -71,7 +71,7 @@ InputWhite.args = {
     className: 'input input_normal',
     placeholder: 'Pocket Tanks',
     type: 'text',
-    defaultValue: 'Ввод',
+    defaultValue: 'something',
 };
 
 export const InputTransparent = Template.bind({});
@@ -85,6 +85,6 @@ InputWithLabels.args = {
     className: 'input input_normal',
     placeholder: 'Pocket Tanks',
     type: 'text',
-    defaultValue: 'Ввод',
-    labelText: 'Имя',
+    defaultValue: 'something',
+    labelText: 'Name',
 };

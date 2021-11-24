@@ -18,11 +18,11 @@ export const populateDB = async () => {
 
     const threadBatman = await Thread.create({
         author: batman.get('name'),
-        title: 'Хочу поменять танк на Бэтмобиль!',
+        title: 'Want Bat-mobile!',
         messages: [{
             author: batman.get('name'),
-            title: 'Бэтмобиль',
-            text: 'Как тут поменять танк на Бэтмобиль?',
+            title: 'Bat-mobile',
+            text: 'How can I change my tank on Bat-mobile?',
             parent_id: null,
         }],
     }, {
@@ -32,11 +32,11 @@ export const populateDB = async () => {
 
     const threadSuperman = await Thread.create({
         author: superman.get('name'),
-        title: 'Как тут летать?',
+        title: 'How to fly?',
         messages: [{
             author: superman.get('name'),
-            title: 'Хочу летать!',
-            text: 'Как летать? Плащ есть!',
+            title: 'Wonna fly!',
+            text: 'How to fly? I have a cape!',
             parent_id: null,
         }],
     }, {
@@ -45,11 +45,11 @@ export const populateDB = async () => {
 
     const threadSpiderman = await Thread.create({
         author: spiderman.get('name'),
-        title: 'А паутиной стрелять можно?',
+        title: 'Can I shoot with spider web?',
         messages: [{
             author: spiderman.get('name'),
-            title: 'Паутина',
-            text: 'Как тут переключить на паутину?',
+            title: 'Spider web',
+            text: 'How Can I shoot with spider web?',
             parent_id: null,
         }],
     }, {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'i18n';
 import imageFullscreenOnButton from 'images/fullscreenOn.svg';
 import imageFullscreenOffButton from 'images/fullscreenOff.svg';
 import { Button } from '../Button/Button';
@@ -7,12 +8,13 @@ import './FullscreenButton.css';
 
 export const FullscreenButton = () => {
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const { t } = useTranslation();
 
     return (
         <Button
             type="button"
             className="button_fullscreen"
-            label="На весь экран"
+            label={t('fullscreen')}
             onClick={() => {
                 if (!document) {
                     return;

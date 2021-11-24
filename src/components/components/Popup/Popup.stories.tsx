@@ -14,9 +14,9 @@ export default {
 const Template: ComponentStory<typeof Popup> = () => (
     <Popup
         isOpen
-        title="Внимание"
-        textContent="Текст сообщения для пользователя"
-        buttonText="Закрыть"
+        title="Warning"
+        textContent="Message text"
+        buttonText="Close"
         overlayType="warning"
         action={() => {}}
     />

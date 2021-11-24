@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useTranslation } from 'i18n';
 import { useSelector } from 'react-redux';
 import { forumAPI } from 'api/forum-api';
 import { getUserId } from '../../../../redux/selectors/user-state';
@@ -19,6 +20,7 @@ export interface MessageProps {
 export const Message = (props: MessageProps) => {
     const [rating, setRating] = useState<number>(props.rating || 0);
     const userId = useSelector(getUserId) || null;
+    const { t } = useTranslation();
 
     const vote = (msgId: number, voteValue: number) => {
         if (msgId) {
@@ -28,14 +30,14 @@ export const Message = (props: MessageProps) => {
             }).then((response) => {
                 if (rating !== response.data?.rating) {
                     setRating(response.data?.rating);
-                    sendNotificationDefault('Ваш голос засчитан');
+                    sendNotificationDefault(t('voteCounted'));
                 }
                 return true;
             }).catch(() => {
-                sendNotificationDefault(`Ошибка: Не удалось проголосовать за сообщение id:${msgId}`);
+                sendNotificationDefault(t('errorVoteNotCounted'));
             });
         } else {
-            sendNotificationDefault('Ошибка: Не удалось проголосовать! Пустое сообщение ');
+            sendNotificationDefault(t('errorVoteMsgIsEmpty'));
         }
     };
 
@@ -46,7 +48,7 @@ export const Message = (props: MessageProps) => {
         >
             <div className="message__names">
                 <span className="message__author">{props.author}</span>
-                <span className="message__title">{` : ${props.title || 'Всем'}`}</span>
+                <span className="message__title">{` : ${props.title || t('toEveryOne') || ''}`}</span>
             </div>
             <div className="message__date">
                 {new Date(props.date).toLocaleString()}
@@ -60,7 +62,7 @@ export const Message = (props: MessageProps) => {
                     aria-hidden="true"
                     onClick={props.reply}
                 >
-                    Ответить
+                    {t('respond')}
                 </span>
                 <span
                     className="message__vote message__vote_up"
