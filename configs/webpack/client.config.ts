@@ -65,10 +65,10 @@ export const clientConfig: Configuration = {
         }),
         new webpack.EnvironmentPlugin({
             NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined
-            GOOGLE_CLIENT_ID,
-            GOOGLE_CLIENT_SECRET,
-            YANDEX_CLIENT_ID,
-            YANDEX_CLIENT_SECRET,
+            GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID || '',
+            GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET || '',
+            YANDEX_CLIENT_ID: YANDEX_CLIENT_ID || '',
+            YANDEX_CLIENT_SECRET: YANDEX_CLIENT_SECRET || '',
         }),
         //
         // new webpack.DefinePlugin({
