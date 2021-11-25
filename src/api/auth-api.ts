@@ -1,14 +1,20 @@
 import axios from 'axios';
 import { HTTPService, httpToAPI, httpToServer } from '../modules/http-service/http-service';
 import {
-    GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, GOOGLE_OAUTH_TOKEN, GOOGLE_OAUTH_USER_INFO, GOOGLE_REDIRECT_URI,
+    GOOGLE_OAUTH_TOKEN,
+    GOOGLE_OAUTH_USER_INFO,
+    GOOGLE_REDIRECT_URI,
     PRAKTIKUM_AUTH_ROUTES,
-    YANDEX_OAUTH_CLIENT_ID,
-    YANDEX_OAUTH_CLIENT_SECRET,
-    YANDEX_OAUTH_TOKEN, YANDEX_OAUTH_USER_INFO,
+    YANDEX_OAUTH_TOKEN,
+    YANDEX_OAUTH_USER_INFO,
+    YANDEX_REDIRECT_URI,
 } from '../constants/api-routes';
 import type {
-    EmptyResponse, GoogleUserInfoResponse, IDResponse, OAuthServiceIdResponse, UserInfoResponse,
+    EmptyResponse,
+    GoogleUserInfoResponse,
+    IDResponse,
+    OAuthServiceIdResponse,
+    UserInfoResponse,
 } from './types';
 import { OAuthData, OAuthTokenResponse, YandexUserInfoResponse } from './types';
 
@@ -46,8 +52,10 @@ export class AuthAPI {
     getOAuthGoogleToken(code: string) {
         return axios.post<OAuthTokenResponse>(
             GOOGLE_OAUTH_TOKEN,
-            (new URLSearchParams(`grant_type=authorization_code&code=${code}&client_id=${GOOGLE_OAUTH_CLIENT_ID}`
-                + `&client_secret=${GOOGLE_OAUTH_CLIENT_SECRET}&redirect_uri=${GOOGLE_REDIRECT_URI}`)),
+            (new URLSearchParams(`grant_type=authorization_code&code=${code}`
+                + `&client_id=${process.env.GOOGLE_CLIENT_ID || ''}`
+                + `&client_secret=${process.env.GOOGLE_CLIENT_SECRET || ''}`
+                + `&redirect_uri=${GOOGLE_REDIRECT_URI}`)),
             {
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',
@@ -71,8 +79,10 @@ export class AuthAPI {
     getOAuthYandexToken(code: string) {
         return axios.post<OAuthTokenResponse>(
             YANDEX_OAUTH_TOKEN,
-            (new URLSearchParams(`grant_type=authorization_code&code=${code}&client_id=${YANDEX_OAUTH_CLIENT_ID}`
-                + `&client_secret=${YANDEX_OAUTH_CLIENT_SECRET}`)),
+            (new URLSearchParams(`grant_type=authorization_code&code=${code}`
+                + `&client_id=${process.env.YANDEX_CLIENT_ID || ''}`
+                + `&client_secret=${process.env.YANDEX_CLIENT_SECRET || ''}`
+                + `&redirect_uri=${YANDEX_REDIRECT_URI}`)),
             {
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded',

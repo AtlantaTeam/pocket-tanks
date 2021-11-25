@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'i18n';
 import {
     GOOGLE_OAUTH_AUTHORIZE_URL,
-    GOOGLE_OAUTH_CLIENT_ID,
     GOOGLE_REDIRECT_URI,
     YANDEX_OAUTH_AUTHORIZE_URL,
-    YANDEX_OAUTH_CLIENT_ID,
     YANDEX_REDIRECT_URI,
 } from 'constants/api-routes';
 
 import { Button } from '../../Button/Button';
 import { Image } from '../../Image/Image';
+import { Text } from '../../Text/Text';
 import imageYandexLogo from '../../../../../static/images/yandex-logo-black.svg';
 import imageGoogleLogo from '../../../../../static/images/google-logo-full.svg';
 import './FormOAuth.css';
+
+const YANDEX_OAUTH_CLIENT_ID = process.env.YANDEX_CLIENT_ID || '';
+const GOOGLE_OAUTH_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 
 export const FormOAuth = () => {
     const { t } = useTranslation();
 
     return (
         <form className="form-oauth">
+            <Text className="text" text={t('enterWith')} />
 
             <div className="social-button-wrapper">
                 <a

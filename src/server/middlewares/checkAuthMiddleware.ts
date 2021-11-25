@@ -40,11 +40,11 @@ export const checkAuth = () => (
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);
                 setUserInfo(res, objectToCamel(userInfo.data));
-                const userData = objectToCamel(userInfo.data);
+                const userData = getUserInfo(res);
                 return User.findOrCreate({
-                    where: { remote_id: userData.id },
+                    where: { remote_id: `${userData.id}` },
                     defaults: {
-                        remote_id: userData.id,
+                        remote_id: `${userData.id}`,
                         name: userData.displayName || `${userData.firstName} ${userData.secondName}`,
                     },
                 });

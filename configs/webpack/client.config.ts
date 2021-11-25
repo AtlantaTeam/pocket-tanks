@@ -4,6 +4,7 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
+import Dotenv from 'dotenv-webpack';
 import {
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
@@ -19,8 +20,6 @@ import { cssLoaders } from './loaders/cssLoaders';
 import { tsLoaders } from './loaders/tsLoaders';
 
 const rootDir = process.cwd();
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Dotenv = require('dotenv-webpack');
 
 export const clientConfig: Configuration = {
     target: 'web',
@@ -54,9 +53,9 @@ export const clientConfig: Configuration = {
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
     },
     plugins: [
-        // new Dotenv({
-        //     path: !IS_DEV && 'stage/dev.env',
-        // }),
+        new Dotenv({
+            path: IS_DEV ? 'stage/dev.env' : '', // deploy_files/prod.env
+        }),
         new webpack.EnvironmentPlugin({
             NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined
             GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID || '',

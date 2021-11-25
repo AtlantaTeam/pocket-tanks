@@ -7,14 +7,10 @@ export const SERVER_URL = `https://${SERVER_DOMAIN}`;
 
 export const YANDEX_OAUTH_AUTHORIZE_URL = 'https://oauth.yandex.ru/authorize?response_type=code';
 export const YANDEX_OAUTH_TOKEN = 'https://oauth.yandex.ru/token?grant_type=authorization_code';
-export const YANDEX_OAUTH_CLIENT_ID = process.env.YANDEX_CLIENT_ID || '';
-export const YANDEX_OAUTH_CLIENT_SECRET = process.env.YANDEX_CLIENT_SECRET || '';
 export const YANDEX_OAUTH_USER_INFO = 'https://login.yandex.ru/info';
 export const YANDEX_OAUTH_AVATAR = 'https://avatars.yandex.net/get-yapic/:avatarId/islands-200';
 export const YANDEX_REDIRECT_URI = `${SERVER_URL}/oauth/yandex`;
 
-export const GOOGLE_OAUTH_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-export const GOOGLE_OAUTH_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 export const GOOGLE_OAUTH_AUTHORIZE_URL = 'https://accounts.google.com/o/oauth2/v2/auth?'
     + 'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+'
     + 'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&'
