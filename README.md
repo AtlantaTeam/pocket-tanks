@@ -1,11 +1,15 @@
-# Игра Pocket Tanks
-### [Открыть игру](https://pocketanks.ru)
+# Game Pocket Tanks
+### [Open the game](https://pocketanks.ru)
 
-## Дизайн
-### [Дизайн в Фигме](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
+## Design
+### [Open in Figma](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
 
-## Установка
-Убедиться, что у вас установлены docker и docker-compose. 
+## Installation
+Make sure you have docker and docker-compose installed. 
+
+Create environment files at stage/env/dev.env and deploy_files/env/prod.env .
+
+You can use stage/dev.env.example file as an example.
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
@@ -16,16 +20,16 @@ npm install
 npm run docker:stage
 ```
 
-Игра запустится на https://localhost:5000
+The game will be launched at https://localhost:5000
 
-## Тестирование + Линтеры
+## Testing + Linting
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
 npm run validate
 ```
 
-## Отдельно Тестирование
+## Testing
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
@@ -33,16 +37,16 @@ npm run test
 ```
 
 
-## Отдельно Линтеры
+## Linting
 <a name="install"></a>
 <a name="installstart"></a>
 ```sh
 npm run lint:all
 ```
 
-## Разработчики
+## Developers
 <a name="developers"></a>
 
-- [Кирилл Калинин](https://github.com/kirill-kalinin)
-- [Дмитрий Ляпин](https://github.com/Pelmenya)
-- [Андрей Коротаев](https://github.com/a-k-kord)
+- [Kirill Kalinin](https://github.com/kirill-kalinin)
+- [Dmitriy Lyapin](https://github.com/Pelmenya)
+- [Andrey Korotayev](https://github.com/a-k-kord)
