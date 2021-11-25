@@ -168,8 +168,10 @@ dbRouter.post(LEADER_BOARD_ROUTES.ADD, async (req, res, next) => {
             where: { id: userId },
         });
         if (user) {
-            user.set('tankpoints', tankpoints);
-            await user.save();
+            if (tankpoints > user.get('tankpoints')) {
+                user.set('tankpoints', tankpoints);
+                await user.save();
+            }
             const { name, tankpoints: points } = user;
             res.status(200).json({ name, points });
         } else {
