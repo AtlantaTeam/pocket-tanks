@@ -3,14 +3,13 @@ version: "3"
 
 services:
     app:
-#        image: akkord/pocketanks:POCKET-TANKS-52---1505121791
         build:
-            context: ../.
+            context: .
         # Зависимость от сервиса postgres
         depends_on:
             - postgres
         env_file:
-            - env/prod.env
+            - deploy_files/env/prod.env
         # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
         ports:
             - "5000:5000"
@@ -33,43 +32,9 @@ services:
 #            - ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
         restart: always
         env_file:
-            - env/prod.env
+            - deploy_files/env/prod.env
         networks:
             - awesome
-
-#    webserver:
-#        image: nginx:mainline-alpine
-#        container_name: webserver
-#        restart: unless-stopped
-#        ports:
-#            - "80:80"
-#        volumes:
-##            - web-root:/var/www
-#            - ./nginx-conf:/etc/nginx/conf.d
-#            - certbot-etc:/etc/letsencrypt
-#            - certbot-var:/var/lib/letsencrypt
-#        depends_on:
-#            - app
-#        networks:
-#            - awesome
-
-#    certbot:
-#        image: certbot/certbot
-#        container_name: certbot
-#        volumes:
-#            - certbot-etc:/etc/letsencrypt
-#            - certbot-var:/var/lib/letsencrypt
-#        depends_on:
-#            - webserver
-#        command: certonly --webroot --webroot-path=/var/www --email andyshart@yandex.ru --agree-tos --no-eff-email --staging -d pocketanks.ru
-#        networks:
-#            - awesome
-
-#volumes:
-#    certbot-etc:
-#    certbot-var:
-#    web-root:
-
 
 # Настройки созданной сети между сервисами
 networks:

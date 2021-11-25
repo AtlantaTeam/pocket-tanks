@@ -1,4 +1,5 @@
 import path from 'path';
+import { existsSync } from 'fs';
 import webpack, { Configuration, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -20,6 +21,8 @@ import { cssLoaders } from './loaders/cssLoaders';
 import { tsLoaders } from './loaders/tsLoaders';
 
 const rootDir = process.cwd();
+const prodEnvFile = existsSync('env/prod.env') ? 'env/prod.env' : 'deploy_files/env/prod.env';
+console.log('prodEnvFile:', prodEnvFile);
 
 export const clientConfig: Configuration = {
     target: 'web',
@@ -54,7 +57,7 @@ export const clientConfig: Configuration = {
     },
     plugins: [
         new Dotenv({
-            path: IS_DEV ? 'stage/env/dev.env' : '', // deploy_files/prod.env
+            path: IS_DEV ? 'stage/env/dev.env' : prodEnvFile, // deploy_files/prod.env
         }),
         new webpack.EnvironmentPlugin({
             NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined

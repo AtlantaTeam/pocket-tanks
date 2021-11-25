@@ -19,7 +19,7 @@
         "start:server": "nodemon --inspect index.js --watch dist/server.js",
         "start": "cross-env NODE_ENV=development npm-run-all --print-label --parallel start:*",
         "server": "node index.js",
-        "docker:prod": "npm run build && docker-compose -f deploy_files/docker-compose.yml up --build",
+        "docker:localprod": "npm run build && docker-compose -f docker-compose.localprod.yml up --build",
         "db": "cd stage && docker-compose up --build",
         "docker:stage": "npm-run-all --print-label --parallel db start",
         "build-bundle": "webpack --mode production",
