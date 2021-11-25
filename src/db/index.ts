@@ -6,7 +6,7 @@ import { UserVotes } from 'db/models/UserVotes';
 import { config } from 'dotenv';
 
 if (process.env.NODE_ENV === 'development') {
-    config({ path: './stage/dev.env' });
+    config({ path: './stage/env/dev.env' });
 }
 const {
     POSTGRES_DB,

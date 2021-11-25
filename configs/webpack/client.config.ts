@@ -54,7 +54,7 @@ export const clientConfig: Configuration = {
     },
     plugins: [
         new Dotenv({
-            path: IS_DEV ? 'stage/dev.env' : '', // deploy_files/prod.env
+            path: IS_DEV ? 'stage/env/dev.env' : '', // deploy_files/prod.env
         }),
         new webpack.EnvironmentPlugin({
             NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined
