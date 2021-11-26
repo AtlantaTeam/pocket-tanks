@@ -26,7 +26,7 @@ export const RU = {
     phone: 'Телефон',
     language: 'Язык',
     loadAvatar: 'Загрузите аватар',
-    enterWith: 'Войти с помощью',
+    enterWith: 'Или войти с помощью',
     enterWithYandex: 'Войти через Яндекс',
     enterGame: 'Войти в игру',
     yourPassword: 'Ваш пароль',

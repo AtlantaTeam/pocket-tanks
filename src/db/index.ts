@@ -3,10 +3,10 @@ import { User } from 'db/models/User';
 import { Message } from 'db/models/Message';
 import { Thread } from 'db/models/Thread';
 import { UserVotes } from 'db/models/UserVotes';
+import { config } from 'dotenv';
 
 if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,global-require
-    require('dotenv').config({ path: './stage/dev.env' });
+    config({ path: './stage/env/dev.env' });
 }
 const {
     POSTGRES_DB,

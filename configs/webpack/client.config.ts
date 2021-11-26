@@ -1,10 +1,20 @@
 import path from 'path';
+import { existsSync } from 'fs';
 import webpack, { Configuration, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 
-import { IS_DEV, SRC_DIR, STATIC_DIR } from './env';
+import Dotenv from 'dotenv-webpack';
+import {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    IS_DEV,
+    SRC_DIR,
+    STATIC_DIR,
+    YANDEX_CLIENT_ID,
+    YANDEX_CLIENT_SECRET,
+} from './env';
 
 import { fileLoaders } from './loaders/fileLoaders';
 import { cssLoaders } from './loaders/cssLoaders';
@@ -44,10 +54,15 @@ export const clientConfig: Configuration = {
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: IS_DEV ? '"development"' : '"production"',
-            },
+        new Dotenv({
+            path: IS_DEV ? 'stage/env/dev.env' : 'deploy_files/env/prod.env',
+        }),
+        new webpack.EnvironmentPlugin({
+            NODE_ENV: IS_DEV ? 'development' : 'production', // use 'development' unless process.env.NODE_ENV is defined
+            GOOGLE_CLIENT_ID: GOOGLE_CLIENT_ID || '',
+            GOOGLE_CLIENT_SECRET: GOOGLE_CLIENT_SECRET || '',
+            YANDEX_CLIENT_ID: YANDEX_CLIENT_ID || '',
+            YANDEX_CLIENT_SECRET: YANDEX_CLIENT_SECRET || '',
         }),
         new MiniCssExtractPlugin({
             filename: 'css/style.css',

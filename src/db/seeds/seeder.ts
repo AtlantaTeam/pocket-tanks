@@ -4,15 +4,15 @@ import { User } from 'db/models/User';
 
 export const populateDB = async () => {
     const batman = await User.create({
-        remote_id: 1,
+        remote_id: '1',
         name: 'Batman',
     });
     const superman = await User.create({
-        remote_id: 2,
+        remote_id: '2',
         name: 'Superman',
     });
     const spiderman = await User.create({
-        remote_id: 3,
+        remote_id: '3',
         name: 'Spiderman',
     });
 

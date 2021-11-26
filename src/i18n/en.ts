@@ -26,7 +26,7 @@ export const EN = {
     phone: 'Phone',
     language: 'Language',
     loadAvatar: 'Upload Avatar',
-    enterWith: 'Enter with',
+    enterWith: 'Or enter with',
     enterWithYandex: 'Enter with Yandex',
     enterGame: 'Enter the Game',
     yourPassword: 'Your password',

@@ -11,7 +11,7 @@ import { SagaMiddleware } from 'redux-saga';
 import { ROUTES } from 'utils/constants/routes';
 import { App } from 'components/App/App';
 import { User } from 'db/models/User';
-import { ErrorResponse, UserInfoResponse } from 'api/types';
+import { UserInfoResponse } from 'api/types';
 import { i18n } from 'i18n';
 import { fetchUserInfoFailed, fetchUserInfoFulfilled } from '../../redux/actions/user-state/user-info';
 import { loginFulfilled } from '../../redux/actions/user-state/login';

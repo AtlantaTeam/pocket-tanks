@@ -110,10 +110,15 @@ export const getUserAvatarController = (
     next: NextFunction,
 ) => {
     const userInfo = getUserInfo(res);
-    const { authCookieForAuth, uuidForAuth, yandexToken } = req.cookies;
-    const avatarURL = yandexToken
-        ? `${YANDEX_OAUTH_AVATAR.replace(':avatarId', userInfo.defaultAvatarId)}`
-        : `${RESOURCES_BASE_URL}${encodeURIComponent(userInfo.avatar)}`;
+    const {
+        authCookieForAuth, uuidForAuth, yandexToken, googleToken,
+    } = req.cookies;
+    let avatarURL = `${RESOURCES_BASE_URL}${encodeURIComponent(userInfo.avatar)}`;
+    if (yandexToken) {
+        avatarURL = `${YANDEX_OAUTH_AVATAR.replace(':avatarId', userInfo.defaultAvatarId)}`;
+    } else if (googleToken) {
+        avatarURL = userInfo.avatar;
+    }
     axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
 
     if (userInfo && 'avatar' in userInfo) {

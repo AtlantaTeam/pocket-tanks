@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UserAPI } from 'api/user-api';
 import { setUserServerToAPI } from 'server/utils/userServerToAPILocals';
 import {
-    getUserInfo, setUserAuth, setUserInfo, setYandexUserInfo,
+    getUserInfo, setGoogleUserInfo, setUserAuth, setUserInfo, setYandexUserInfo,
 } from 'server/utils/userLocals';
 import { objectToCamel } from 'ts-case-convert';
 import { User } from 'db/models/User';
@@ -25,7 +25,9 @@ export const checkAuth = () => (
     res: Response,
     next: NextFunction,
 ) => {
-    const { authCookieForAuth, uuidForAuth, yandexToken } = req.cookies;
+    const {
+        authCookieForAuth, uuidForAuth, yandexToken, googleToken,
+    } = req.cookies;
     const authServerToAPI = new AuthAPI(httpToAPI);
     const userServerToAPI = new UserAPI(httpToAPI);
     if (authCookieForAuth && uuidForAuth) {
@@ -38,11 +40,11 @@ export const checkAuth = () => (
                 setAuthServerToAPI(res, authServerToAPI);
                 setUserServerToAPI(res, userServerToAPI);
                 setUserInfo(res, objectToCamel(userInfo.data));
-                const userData = objectToCamel(userInfo.data);
+                const userData = getUserInfo(res);
                 return User.findOrCreate({
-                    where: { remote_id: userData.id },
+                    where: { remote_id: `${userData.id}` },
                     defaults: {
-                        remote_id: userData.id,
+                        remote_id: `${userData.id}`,
                         name: userData.displayName || `${userData.firstName} ${userData.secondName}`,
                     },
                 });
@@ -84,6 +86,36 @@ export const checkAuth = () => (
                         localId: user.id,
                         avatar: YANDEX_OAUTH_AVATAR.replace(':avatarId', userInfo.defaultAvatarId),
                         userProvider: 'yandex',
+                    }),
+                );
+                setUserAuth(res);
+                next();
+                return true;
+            })
+            .catch((err) => clearCookiesAndSendErr(err, res, next));
+    } else if (googleToken) {
+        authServerToAPI.getOAuthGoogleUserInfo(googleToken)
+            .then((userInfo) => {
+                setAuthServerToAPI(res, authServerToAPI);
+                setUserServerToAPI(res, userServerToAPI);
+                setGoogleUserInfo(res, objectToCamel(userInfo.data));
+                const userData = objectToCamel(userInfo.data);
+                return User.findOrCreate({
+                    where: { google_id: userData?.id },
+                    defaults: {
+                        google_id: userData?.id,
+                        google_token: googleToken || '',
+                        name: userData?.name || `${userData?.givenName} ${userData?.familyName}`,
+                    },
+                });
+            }).then(([user]) => {
+                const userInfo = getUserInfo(res);
+                setUserInfo(
+                    res,
+                    objectToCamel({
+                        ...userInfo,
+                        localId: user.id,
+                        userProvider: 'google',
                     }),
                 );
                 setUserAuth(res);
