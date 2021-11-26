@@ -2,13 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-
-import { ERRORS } from 'utils/constants/errorsForms';
 import { PATTERNS } from 'utils/constants/regex';
 import { sendNotificationDefault } from 'modules/notifications/notifications';
 
 import { LangSwitch } from 'components/components/LangSwitch/LangSwitch';
-import { useTranslation } from 'i18n';
+import { i18n, useTranslation } from 'i18n';
 
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
@@ -20,29 +18,25 @@ import '../Forms.css';
 
 export const FormEditDataSchema = Yup.object().shape({
     display_name: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     email: Yup.string()
         .matches(new RegExp(PATTERNS.PATTERN_EMAIL),
-            { message: ERRORS.ERROR_EMAIL, excludeEmptyString: true })
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+            { message: i18n.t('ERROR_EMAIL'), excludeEmptyString: true })
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     login: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     first_name: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     second_name: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
-    // phone: Yup.string()
-    //     .matches(new RegExp(PATTERNS.PATTERN_PHONE),
-    //         { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
-    //     .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
 });
 
 export const FormEditProfileData = () => {
@@ -148,6 +142,7 @@ export const FormEditProfileData = () => {
                                         type="submit"
                                         text={t('update')}
                                         isLoading={isLoading}
+                                        disabled={!!Object.keys(errors).length}
                                     />
                                 </div>
                             )

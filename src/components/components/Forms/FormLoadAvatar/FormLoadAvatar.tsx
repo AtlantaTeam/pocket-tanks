@@ -47,7 +47,7 @@ export const FormLoadAvatar = () => {
                         setState({
                             message: avatar ? t('newAvatarIsEmpty') : t('avatarIsEmpty'),
                             className: 'load-message',
-                            img: data,
+                            img: data.substring(0, 6) === 'data:' ? data : userAvatarResourse,
                         });
                         dispatch(avatarFulfilled(data));
                     }

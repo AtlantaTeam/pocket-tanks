@@ -27,7 +27,7 @@ export const Main = () => {
                             />
                             <Text
                                 className="text text_main"
-                                text="for Yandex Praktikum Middle Frontend Developer course"
+                                text={t('yandexCourse')}
                             />
                         </div>
                         <div>

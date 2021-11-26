@@ -57,6 +57,7 @@ export const RU = {
     fire: 'Огонь',
     bestOfTheBest: 'Лучшие стрелки',
     graduationProject: 'Проектная работа студентов курса',
+    yandexCourse: 'Yandex Praktikum Middle Frontend Developer',
     tanksBattle: 'Битва двух танков в жаркой пустыне!',
     mayTheBestTankWin: 'Победи своего противника!',
     areYouASharpShooter: 'Целься точнее!',
@@ -114,4 +115,10 @@ export const RU = {
     bullet: 'Ядро',
     nothing: 'Пока пусто',
     privacyPage: 'Конфиденциальность',
+
+    ERROR_TEXT: 'Должно быть от 2 до 50 символов',
+    ERROR_EMAIL: 'Неправильный формат email',
+    ERROR_PASSWORD: 'Пароль должен быть не меньше 6 символов',
+    ERROR_PASSWORDS: 'Пароли не совпадают',
+    ERROR_REQUIRED_FIELD: 'Это обязательное поле',
 };

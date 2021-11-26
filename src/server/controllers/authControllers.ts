@@ -3,19 +3,12 @@ import type { NextFunction, Request, Response } from 'express';
 
 import { getUserInfoRequest } from 'server/utils/getUserInfoRequest';
 import { SERVER_URL, YANDEX_REDIRECT_URI } from 'constants/api-routes';
-import {
-    OAuthData, UserInfoResponse, OAuthTokenResponse, YandexUserInfoResponse,
-} from 'api/types';
-import { LeaderBoardAPI } from 'api/leaderboard-api';
-import { User } from 'db/models/User';
+import { OAuthData } from 'api/types';
 import { objectToCamel } from 'ts-case-convert';
-import { ObjectToCamel } from 'ts-case-convert/lib/caseConvert';
 import { httpToAPI } from '../../modules/http-service/http-service';
 import { AuthAPI } from '../../api/auth-api';
 
-import {
-    deleteUserAuth, getUserInfo, setUserAuth, setYandexUserInfo,
-} from '../utils/userLocals';
+import { deleteUserAuth, getUserInfo } from '../utils/userLocals';
 import { deleteAuthServerToAPI, getAuthServerToAPI, setAuthServerToAPI } from '../utils/authServerToAPILocals';
 import { cookieParser } from '../utils/cookieParser';
 
@@ -42,41 +35,6 @@ export const loginController = (req: Request, res: Response, next: NextFunction)
             }
         });
 };
-
-// Praktikum LeaderBoard API
-// export const addUserResultsController = (req: Request, res: Response, next: NextFunction) => {
-//     const { authCookieForAuth, uuidForAuth } = req.cookies;
-//     if (authCookieForAuth && uuidForAuth) {
-//         httpToAPI
-//             .httpTransport
-//             .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
-//         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
-//         leaderboadAPIDirectToAPI.addUserResults(req.body)
-//             .then((response) => {
-//                 const { data } = response;
-//                 res.status(200).send(data);
-//                 return true;
-//             })
-//             .catch((err) => next(err));
-//     }
-// };
-//
-// export const getAllLeaderboardController = (req: Request, res: Response, next: NextFunction) => {
-//     const { authCookieForAuth, uuidForAuth } = req.cookies;
-//     if (authCookieForAuth && uuidForAuth) {
-//         httpToAPI
-//             .httpTransport
-//             .defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
-//         const leaderboadAPIDirectToAPI = new LeaderBoardAPI(httpToAPI);
-//         leaderboadAPIDirectToAPI.getLeaderBoard(req.body)
-//             .then((response) => {
-//                 const { data } = response;
-//                 res.status(200).send(data);
-//                 return true;
-//             })
-//             .catch((err) => next(err));
-//     }
-// };
 
 export const loginWithOAuthController = (req: Request, res: Response, next: NextFunction) => {
     if (req.query.code) {
@@ -175,7 +133,7 @@ export const loginWithOAuthGoogleController = (req: Request, res: Response, next
 
 export const signUpController = (req: Request, res: Response, next: NextFunction) => {
     const authServerToAPI = getAuthServerToAPI(res);
-    authServerToAPI.signup(req.body)
+    authServerToAPI.signup({ ...req.body, phone: '+7 (111) 111-11-11' })
         .then((response: AxiosResponse) => {
             cookieParser(res, response);
             res.status(200);

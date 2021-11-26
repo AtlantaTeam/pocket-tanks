@@ -1,12 +1,10 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Formik, Form } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { ERRORS } from 'utils/constants/errorsForms';
-
 import { sendNotificationDefault } from 'modules/notifications/notifications';
-import { useTranslation } from 'i18n';
+import { i18n, useTranslation } from 'i18n';
 import { FieldSet } from '../components/FieldSet/FieldSet';
 
 import { ButtonSubmit } from '../../Button/Button';
@@ -18,17 +16,20 @@ import '../Forms.css';
 
 export const FormEditPasswordSchema = Yup.object().shape({
     oldPassword: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     newPassword: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     secondNewPassword: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD'))
+        .test('passwords-match', i18n.t('ERROR_PASSWORDS'), function (value) {
+            return this.parent.newPassword === value;
+        }),
 });
 
 export const FormEditPassword = () => {
@@ -114,6 +115,7 @@ export const FormEditPassword = () => {
                                             type="submit"
                                             text={t('update')}
                                             isLoading={isLoading}
+                                            disabled={!!Object.keys(errors).length}
                                         />
                                     </div>
                                 </Form>

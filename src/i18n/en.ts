@@ -57,6 +57,7 @@ export const EN = {
     fire: 'Fire',
     bestOfTheBest: 'Best of the best',
     graduationProject: 'Graduation project',
+    yandexCourse: 'for Yandex Praktikum Middle Frontend Developer course',
     tanksBattle: 'Tanks battle in hot desert!',
     mayTheBestTankWin: 'May the best tank Win!',
     areYouASharpShooter: 'Are you a sharp shooter?!',
@@ -114,4 +115,10 @@ export const EN = {
     bullet: 'Bullet',
     nothing: 'Nothing here',
     privacyPage: 'Privacy Policy',
+
+    ERROR_TEXT: 'Not valid characters amount. (min=2, max=50)',
+    ERROR_EMAIL: 'Not valid email format',
+    ERROR_PASSWORD: 'Minimum characters amount is 6',
+    ERROR_PASSWORDS: 'Passwords not match',
+    ERROR_REQUIRED_FIELD: 'Field is required',
 };

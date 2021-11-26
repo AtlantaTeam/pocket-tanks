@@ -12,6 +12,7 @@ export interface ButtonProps {
     isLoading?: boolean;
     onClick?: () => void;
     onSubmit?: () => void;
+    disabled?: boolean;
 }
 
 export const Button = (props: ButtonProps) => (
@@ -21,6 +22,7 @@ export const Button = (props: ButtonProps) => (
         onSubmit={props.onSubmit}
         className={props.className}
         aria-label={props.label || props.text}
+        disabled={props.isLoading || props.disabled}
     >
         {props.text}
         {props.children}
@@ -34,7 +36,7 @@ export const ButtonSubmit = (props: ButtonProps) => (
         onClick={props.onClick}
         onSubmit={props.onSubmit}
         className={props.className}
-        disabled={props.isLoading}
+        disabled={props.isLoading || props.disabled}
     >
         {props.text}
         {props.children}

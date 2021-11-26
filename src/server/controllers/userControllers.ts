@@ -118,8 +118,9 @@ export const getUserAvatarController = (
         avatarURL = `${YANDEX_OAUTH_AVATAR.replace(':avatarId', userInfo.defaultAvatarId)}`;
     } else if (googleToken) {
         avatarURL = userInfo.avatar;
+    } else {
+        axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
     }
-    axios.defaults.headers.Cookie = `authCookie=${authCookieForAuth as string}; uuid=${uuidForAuth as string}`;
 
     if (userInfo && 'avatar' in userInfo) {
         axios.defaults.withCredentials = true;

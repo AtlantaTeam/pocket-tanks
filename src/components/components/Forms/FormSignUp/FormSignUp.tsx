@@ -1,13 +1,12 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { useTranslation } from 'i18n';
+import { i18n, useTranslation } from 'i18n';
 import { PATTERNS } from 'utils/constants/regex';
-import { ERRORS } from 'utils/constants/errorsForms';
 
 import { FieldSet } from '../components/FieldSet/FieldSet';
 import '../Forms.css';
@@ -20,32 +19,28 @@ import { signupRequested } from '../../../../redux/actions/user-state/signup';
 export const SignUpSchema = Yup.object().shape({
     email: Yup.string()
         .matches(new RegExp(PATTERNS.PATTERN_EMAIL),
-            { message: ERRORS.ERROR_EMAIL, excludeEmptyString: true })
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+            { message: i18n.t('ERROR_EMAIL'), excludeEmptyString: true })
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     login: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     first_name: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     second_name: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
-    // phone: Yup.string()
-    //     .matches(new RegExp(PATTERNS.PATTERN_PHONE),
-    //         { message: ERRORS.ERROR_PHONE, excludeEmptyString: true })
-    //     .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     password: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     password_again: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
 });
 
 export const FormSignUp = () => {
@@ -145,6 +140,7 @@ export const FormSignUp = () => {
                                 text={t('register')}
                                 className="button button_orange"
                                 isLoading={isLoading}
+                                disabled={!!Object.keys(errors).length}
                             />
 
                             <Link

@@ -2,12 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { useTranslation } from 'i18n';
+import { i18n, useTranslation } from 'i18n';
 import { Form, Formik } from 'formik';
 
 import * as Yup from 'yup';
-
-import { ERRORS } from 'utils/constants/errorsForms';
 
 import { FieldSet } from '../components/FieldSet/FieldSet';
 import '../Forms.css';
@@ -19,13 +17,13 @@ import { loginRequested } from '../../../../redux/actions/user-state/login';
 
 export const SignInSchema = Yup.object().shape({
     login: Yup.string()
-        .min(2, ERRORS.ERROR_TEXT)
-        .max(50, ERRORS.ERROR_TEXT)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(2, i18n.t('ERROR_TEXT'))
+        .max(50, i18n.t('ERROR_TEXT'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
     password: Yup.string()
-        .min(6, ERRORS.ERROR_PASSWORD)
-        .max(50, ERRORS.ERROR_PASSWORD)
-        .required(ERRORS.ERROR_REQUIRED_FIELD),
+        .min(6, i18n.t('ERROR_PASSWORD'))
+        .max(50, i18n.t('ERROR_PASSWORD'))
+        .required(i18n.t('ERROR_REQUIRED_FIELD')),
 });
 
 export const FormSignIn = () => {
@@ -80,6 +78,7 @@ export const FormSignIn = () => {
                                 text={t('enter')}
                                 className="button button_orange"
                                 isLoading={isLoading}
+                                disabled={!!Object.keys(errors).length}
                             />
                             <Link
                                 to="/signup"
