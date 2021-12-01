@@ -186,6 +186,11 @@ dbRouter.post(LEADER_BOARD_ROUTES.GET_ALL, async (req, res, next) => {
     try {
         const { limit } = req.body;
         const leaders = await User.findAll({
+            where: {
+                tankpoints: {
+                    [Op.gt]: 0,
+                },
+            },
             limit: limit || 10,
             order: [['tankpoints', 'DESC']],
         });
