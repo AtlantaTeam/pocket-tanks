@@ -16,47 +16,49 @@ export const Main = () => {
 
     return (
         <Page>
-            <div className="main-content">
-                <div className="main-content__left-container">
-                    <Title className="title title_big" text="Pocket Tanks" />
-                    <div className="main-text">
-                        <div>
-                            <Text
-                                className="text text_main"
-                                text={t('graduationProject')}
-                            />
-                            <Text
-                                className="text text_main"
-                                text={t('yandexCourse')}
-                            />
+            <>
+                <div className="main-content">
+                    <div className="main-content__left-container">
+                        <Title className="title title_big" text="Pocket Tanks" />
+                        <div className="main-text">
+                            <div>
+                                <Text
+                                    className="text text_main"
+                                    text={t('graduationProject')}
+                                />
+                                <Text
+                                    className="text text_main"
+                                    text={t('yandexCourse')}
+                                />
+                            </div>
+                            <div>
+                                <Text
+                                    className="text text_main"
+                                    text={t('tanksBattle')}
+                                />
+                                <Text
+                                    className="text text_main"
+                                    text={t('mayTheBestTankWin')}
+                                />
+                                <Text
+                                    className="text text_main"
+                                    text={t('areYouASharpShooter')}
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <Text
-                                className="text text_main"
-                                text={t('tanksBattle')}
-                            />
-                            <Text
-                                className="text text_main"
-                                text={t('mayTheBestTankWin')}
-                            />
-                            <Text
-                                className="text text_main"
-                                text={t('areYouASharpShooter')}
-                            />
-                        </div>
+                        <Link
+                            to="/game"
+                            className="button button_orange button_orange_link"
+                        >
+                            {t('letsGo')}
+                        </Link>
                     </div>
-                    <Link
-                        to="/game"
-                        className="button button_orange button_orange_link"
-                    >
-                        {t('letsGo')}
-                    </Link>
+                    <Image
+                        className="image_logo image_icon"
+                        imagePath={imgLogo}
+                    />
                 </div>
-                <Image
-                    className="image_logo image_icon"
-                    imagePath={imgLogo}
-                />
-            </div>
+            </>
         </Page>
     );
 };

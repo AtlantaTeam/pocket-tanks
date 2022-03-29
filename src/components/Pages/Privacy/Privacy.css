@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 150px 100px 0;
+    max-width: 600px;
 }
 
 .privacy-text {
@@ -22,6 +22,5 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-right: 200px;
 }
 

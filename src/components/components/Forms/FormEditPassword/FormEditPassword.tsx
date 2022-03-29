@@ -44,7 +44,7 @@ export const FormEditPassword = () => {
                 userProvider
                     ? (
                         <div className="form form-tab">
-                            <div className="form-tab__container form-tab__container_edit">
+                            <div className="form-tab__container">
                                 <div className="form-tab__wrap form-tab__wrap_password">
                                     <div className="form-tab__block no-password-message">
                                         {`${userProvider.toUpperCase()} ${t('noPasswordToChange')} `
@@ -73,7 +73,7 @@ export const FormEditPassword = () => {
                         >
                             {({ errors, touched }) => (
                                 <Form name="edit_profile" className="form form-tab">
-                                    <div className="form-tab__container form-tab__container_edit">
+                                    <div className="form-tab__container">
                                         <div className="form-tab__wrap form-tab__wrap_password">
                                             <div className="form-tab__block">
                                                 <FieldSet
