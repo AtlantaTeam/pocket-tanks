@@ -107,9 +107,10 @@ export class Tank {
 
     // Вычисляем координаты старта снаряда
     calcBulletStartPos() {
+        const { y: scrollY } = document.querySelector('.canvas')?.getBoundingClientRect() || { y: 0 };
         return {
             x: this.gunpointX + this.gunpointWidth * Math.cos(this.gunpointAngle),
-            y: this.gunpointY + this.gunpointWidth * Math.sin(this.gunpointAngle),
+            y: this.gunpointY - scrollY + this.gunpointWidth * Math.sin(this.gunpointAngle),
         };
     }
 
@@ -301,8 +302,16 @@ export class Tank {
             rotateFigureByAngle(ctx, this.gunpointAngle, this.gunpointX, this.gunpointY);
         }
         if (this.gunpointImg) {
-            ctx.drawImage(this.gunpointImg, this.gunpointX, this.gunpointY, this.gunpointWidth, this.gunpointHeight);
+            ctx.drawImage(
+                this.gunpointImg,
+                this.gunpointX,
+                this.gunpointY,
+                this.gunpointWidth,
+                this.gunpointHeight,
+            );
         }
         ctx.restore();
+        const { y: scrollY } = document.querySelector('.canvas')?.getBoundingClientRect() || { y: 0 };
+        this.gunpointY += scrollY;
     }
 }

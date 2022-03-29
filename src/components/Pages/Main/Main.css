@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap-reverse;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin: 100px 0;
 }
 
@@ -21,8 +21,18 @@
     /*height: 500px;*/
 }
 
+@media (max-width: 950px) {
+    .main-content {
+        margin: 0;
+    }
+    .button_orange_link {
+        margin: 15px auto;
+    }
+}
+
 @media (max-width: 520px) {
     .main-content {
         margin: -90px 0 100px 0;
     }
 }
+

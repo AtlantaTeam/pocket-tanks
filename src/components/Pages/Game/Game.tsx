@@ -270,7 +270,10 @@ const Game = () => {
         };
 
         const onResize = () => {
-            setIsStart(true);
+            const { width } = canvasRef.current?.getBoundingClientRect() || { width: 0 };
+            if (!width || width > 610) {
+                setIsStart(true);
+            }
         };
 
         window.addEventListener('keydown', onKeyDown);
@@ -279,7 +282,7 @@ const Game = () => {
             window.removeEventListener('keydown', onKeyDown);
             window.removeEventListener('resize', onResize);
         };
-    }, [selectedWeapon, moves]);
+    }, [selectedWeapon, moves, isUserTankActive]);
 
     return (
         <>

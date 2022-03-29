@@ -112,8 +112,8 @@ export class GamePlay {
         this.isGameOver = isGameOver;
         this.calcPoints = calcPoints;
         const { width, height } = canvasRef?.current?.getBoundingClientRect() || { width: 1000, height: 700 };
-        this.innerWidth = width - 150;
-        this.innerHeight = height - 300;
+        this.innerWidth = width; // - 150;
+        this.innerHeight = height; // - 300;
         this.damageAmount = 0;
     }
 

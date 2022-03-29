@@ -8,7 +8,8 @@
 }
 
 .canvas {
-    height: calc(100vh - 300px);
+    /*height: calc(100vh - 300px);*/
+    flex: 1 1 0;
     width: calc(100vw - 150px);
     margin: 0 auto;
     background: var(--game_background);

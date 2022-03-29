@@ -52,7 +52,7 @@ input:focus ~ label {
 
 .form-tab__container {
     width: 100%;
-    height: 650px;
+    height: 600px;
     border: 3px solid var(--foreground);
     box-sizing: border-box;
     border-radius: 5px;
