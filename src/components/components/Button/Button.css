@@ -37,6 +37,7 @@
 .button_orange_link {
     max-width: 140px;
     text-decoration: none;
+    margin-top: 15px;
 }
 
 .button_orange:hover {
@@ -184,23 +185,23 @@
     transform: translate(-50%, -50%);
     content: "";
     display: block;
-    height: 150px;
-    width: 150px;
+    height: 140px;
+    width: 140px;
     border-radius: 50%;
 }
 
 /*noinspection ALL*/
 .big_red_button {
     position: relative;
-    height: 200px;
-    width: 200px;
+    height: 180px;
+    width: 180px;
     border-radius: 50%;
 
     border: none;
     outline: none;
     cursor: pointer;
     box-shadow: inset -2px -2px 2px #666666;
-    margin: auto 30px;
+    margin: 30px;
     background-color: #aaaaaa;
     background-image:
         -webkit-radial-gradient(50% 0%, 15% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%),
@@ -230,15 +231,15 @@
 /*noinspection ALL*/
 .big_red_button_disabled {
     position: relative;
-    height: 200px;
-    width: 200px;
+    height: 180px;
+    width: 180px;
     border-radius: 50%;
 
     border: none;
     outline: none;
     cursor: pointer;
     box-shadow: inset -2px -2px 2px #666666;
-    margin: auto 30px;
+    margin: 30px;
     background-color: #aaaaaa;
     background-image:
         -webkit-radial-gradient(50% 0%, 15% 50%, hsla(0,0%,100%,.5) 0%, hsla(0,0%,100%,0) 100%),

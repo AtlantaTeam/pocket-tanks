@@ -8,7 +8,7 @@
 .field-select--game {
     width: 200px;
     height: 100px;
-    margin: 10px;
+    margin: 0 10px;
 }
 
 .field-select__wrap {
@@ -21,6 +21,7 @@
     width: 100%;
     background-color: var(--background);
     cursor: pointer;
+    margin: 10px;
 }
 
 .field-select__wrap--game {
@@ -32,7 +33,7 @@
     font-size: 24px;
     color: var(--main);
     width: 100%;
-    line-height: 50px;
+    /*line-height: 50px;*/
     text-align: center;
     margin: 0;
     padding: 0;

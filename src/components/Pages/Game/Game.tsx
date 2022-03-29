@@ -139,10 +139,14 @@ const Game = () => {
             dispatch(changeEnemyPoints(0));
             canPointsSentToLeaderBoard = true;
             const canvas = canvasRef.current;
-            const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
             if (canvas) {
-                canvas.width = width - 2 * canvas.offsetLeft;
-                canvas.height = height - (canvas.nextSibling as HTMLBaseElement)?.offsetHeight;
+                const { width, height } = document?.body.getBoundingClientRect() || { width: 1000, height: 700 };
+                canvas.width = canvas.offsetWidth > 300
+                    ? canvas.offsetWidth - canvas.offsetLeft
+                    : width - 2 * canvas.offsetLeft;
+                canvas.height = canvas.offsetHeight > 150
+                    ? canvas.offsetHeight - canvas.offsetTop
+                    : height - (canvas.nextSibling as HTMLBaseElement)?.offsetHeight;
             }
 
             game = new GamePlay(
@@ -304,63 +308,65 @@ const Game = () => {
                         <div className="player_points">{playerPoints}</div>
                     </div>
                     <div className="control_buttons">
-                        <div className="control_counter_group">
-                            <Counter
-                                className="control_counter"
-                                label={t('power')}
-                                value={power}
-                                leftStepHandler={() => {
-                                    isUserTankActive && game?.changeTankPower(-1, dispatch);
-                                }}
-                                rightStepHandler={() => {
-                                    isUserTankActive && game?.changeTankPower(1, dispatch);
-                                }}
-                            />
-                            <Counter
-                                label={t('angle')}
-                                value={floor(((angle < 0 ? -angle : 2 * Math.PI - angle) * 180) / Math.PI)}
-                                leftStepHandler={() => {
-                                    isUserTankActive && dispatch(increaseAngle(Math.PI / 180));
-                                }}
-                                rightStepHandler={() => {
-                                    isUserTankActive && dispatch(increaseAngle(-Math.PI / 180));
-                                }}
-                            />
-                        </div>
-                        <div className="control_counter_group">
-                            <DropDown
-                                selectedValue={selectedWeapon}
-                                values={weapons}
-                                onChange={(value: Weapon) => {
-                                    isUserTankActive && dispatch(selectWeapon(value));
-                                }}
-                                label={t('weapon')}
-                                listPosition="top"
-                                isBoldBorders
-                            />
-                            <Counter
-                                label={t('moves')}
-                                value={moves}
-                                leftStepHandler={() => {
-                                    if (moves > 0 && isUserTankActive) {
-                                        game?.changeTankPosition(-150, dispatch);
-                                    }
-                                }}
-                                rightStepHandler={() => {
-                                    if (moves > 0 && isUserTankActive) {
-                                        game?.changeTankPosition(150, dispatch);
-                                    }
-                                }}
-                            />
+                        <div className="control_counter_group_container">
+                            <div className="control_counter_group">
+                                <Counter
+                                    className="control_counter"
+                                    label={t('power')}
+                                    value={power}
+                                    leftStepHandler={() => {
+                                        isUserTankActive && game?.changeTankPower(-1, dispatch);
+                                    }}
+                                    rightStepHandler={() => {
+                                        isUserTankActive && game?.changeTankPower(1, dispatch);
+                                    }}
+                                />
+                                <Counter
+                                    label={t('angle')}
+                                    value={floor(((angle < 0 ? -angle : 2 * Math.PI - angle) * 180) / Math.PI)}
+                                    leftStepHandler={() => {
+                                        isUserTankActive && dispatch(increaseAngle(Math.PI / 180));
+                                    }}
+                                    rightStepHandler={() => {
+                                        isUserTankActive && dispatch(increaseAngle(-Math.PI / 180));
+                                    }}
+                                />
+                            </div>
+                            <div className="control_counter_group">
+                                <DropDown
+                                    selectedValue={selectedWeapon}
+                                    values={weapons}
+                                    onChange={(value: Weapon) => {
+                                        isUserTankActive && dispatch(selectWeapon(value));
+                                    }}
+                                    label={t('weapon')}
+                                    listPosition="top"
+                                    isBoldBorders
+                                />
+                                <Counter
+                                    label={t('moves')}
+                                    value={moves}
+                                    leftStepHandler={() => {
+                                        if (moves > 0 && isUserTankActive) {
+                                            game?.changeTankPosition(-150, dispatch);
+                                        }
+                                    }}
+                                    rightStepHandler={() => {
+                                        if (moves > 0 && isUserTankActive) {
+                                            game?.changeTankPosition(150, dispatch);
+                                        }
+                                    }}
+                                />
 
+                            </div>
                         </div>
-                        <Button
-                            className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
-                            type="button"
-                            onClick={fire}
-                            label={t('fire')}
-                        />
                     </div>
+                    <Button
+                        className={isUserTankActive ? 'big_red_button' : 'big_red_button_disabled'}
+                        type="button"
+                        onClick={fire}
+                        label={t('fire')}
+                    />
                     <div className="avatar_group-right">
                         <div className="player_name color-accent">Terminator</div>
                         <Image className="image_avatar" imagePath={imgBotAvatar} />

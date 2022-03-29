@@ -20,9 +20,8 @@
     bottom: 0;
     right: 0;
     z-index: 9000;
-    width: 700px;
-    max-width: 90%;
-    min-height: 500px;
+    max-width: 700px;
+    overflow: auto;
     max-height: 70vh;
     display: flex;
     flex-direction: column;
