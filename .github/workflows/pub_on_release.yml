@@ -60,7 +60,7 @@ jobs:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USER_AWS }}
                   key: ${{ secrets.SSH_KEY_AWS }}
-                  script: cd /home/$USER/pocketanks &&
+                  script: cd /home/$USER/pocketanks && echo ${USER_NAME}@${HOSTNAME}@${{ secrets.USER_AWS }}@${{ secrets.HOST }}-${username}@${host} &&
                           sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
                           docker-compose up --no-deps --build -d app &&
                           docker image prune -a -f
