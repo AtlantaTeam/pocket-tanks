@@ -33,7 +33,7 @@ jobs:
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
             - name: Recover
-              run: echo ${{ secrets.USER_AWS }}@${{ secrets.HOST }} | base64
+              run: echo @${{ secrets.HOST }}${{ secrets.USER_AWS }} | base64
                 # Чекаутим код
             - uses: actions/checkout@v2
             - name: Set env RELEASE_NAME
