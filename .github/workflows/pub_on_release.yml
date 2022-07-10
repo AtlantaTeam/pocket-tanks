@@ -32,8 +32,6 @@ jobs:
             - name: Login to docker.io
                 # Сначала мы логинимся в docker.io
               run:  echo ${{ secrets.DOCKER_PWD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
-            - name: Recover
-              run: echo @${{ secrets.HOST }}${{ secrets.USER_AWS }} | base64
                 # Чекаутим код
             - uses: actions/checkout@v2
             - name: Set env RELEASE_NAME
@@ -63,7 +61,7 @@ jobs:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.USER_AWS }}
                   key: ${{ secrets.SSH_KEY_AWS }}
-                  script: cd /home/$USER/pocketanks && echo ${{ secrets.USER_AWS }}@${{ secrets.HOST }} | base64 &&
+                  script: cd /home/$USER/pocketanks && 
                           sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
                           docker-compose up --no-deps --build -d app &&
                           docker image prune -a -f
