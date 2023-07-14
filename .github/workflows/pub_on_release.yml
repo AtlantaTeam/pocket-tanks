@@ -26,7 +26,7 @@ jobs:
         env:
             LOGIN: ${{ secrets.DOCKER_LOGIN }}
             NAME: ${{ secrets.DOCKER_NAME }}
-            USER: ${{ secrets.USER_AWS }}
+            USER: ${{ secrets.USER }}
             HOST: ${{ secrets.HOST }}
         steps:
             - name: Login to docker.io
@@ -59,11 +59,11 @@ jobs:
               uses: appleboy/ssh-action@master
               with:
                   host: ${{ secrets.HOST }}
-                  username: ${{ secrets.USER_AWS }}
-                  key: ${{ secrets.SSH_KEY_AWS }}
+                  username: ${{ secrets.USER }}
+                  key: ${{ secrets.SSH_KEY }}
                   script: cd /home/$USER/pocketanks && 
                           sed -i -E 's/:[^\/]+---[0-9]+$/:${{ env.RELEASE_VERSION }}---${{ github.run_id }}/' docker-compose.yml &&
-                          docker-compose up --no-deps --build -d app &&
+                          docker compose up --no-deps --build -d app &&
                           docker image prune -a -f
 
 
