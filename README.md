@@ -1,5 +1,5 @@
 # Game Pocket Tanks
-### [Open the game](https://pocketanks.ru)
+### [Open the game](https://pocketanks.westeurope.cloudapp.azure.com)
 
 ## Design
 ### [Open in Figma](https://www.figma.com/file/VQfJFBznJXtKE6i0qTMfLe/Layout?node-id=0%3A1)
